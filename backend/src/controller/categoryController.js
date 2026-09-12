@@ -112,7 +112,7 @@ export async function updateCategory(req, res) {
                 message: "Category name contain letters"
             })
         }
-
+ 
         if (!image.trim()) {
             return res.status(400).json({
                 message: "Enter category imageURL"
