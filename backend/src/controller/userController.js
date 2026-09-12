@@ -61,13 +61,13 @@ export async function createUser(req, res) {
             ]
         });
 
-        if (alreadyExists) {
+        if (alreadyExists.length > 0) {
             return res.status(409).json({
                 message: "User already exists"
             })
         }
 
-        const hashPassword = await bcrypt.hashPassword(password, 10);
+        const hashPassword = await bcrypt.hash(password, 10);
 
         const user = await userModel.create({
             username,

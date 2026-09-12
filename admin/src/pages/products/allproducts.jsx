@@ -48,7 +48,7 @@ export default function Allproducts() {
                         <th className="p-2 text-left">Image</th>
                         <th className="p-2 text-left">Name</th>
                         <th className="p-2 text-left">Price</th>
-                        <th className="p-2 ">Description</th>
+                        <th className="p-2 md:text-left">Description</th>
                         <th className="p-2">Edit</th>
                         <th className="p-2">Delete</th>
                     </tr>
@@ -59,7 +59,7 @@ export default function Allproducts() {
                         <tr key={product._id}
                             className="border-b border-gray-200 font-semibold"
                         >
-                            <td> <img src={product.image} alt={product.name} className="w-25 h-18 object-cover rounded my-4" /></td>
+                            <td> <img src={product.image} alt={product.name} className="w-25 h-18 object-cover rounded my-4 ml-2" /></td>
                             <td className="p-3 align-middle">{product.name}</td>
                             <td className="p-3 align-middle">{product.price}</td>
                             <td className="p-3 align-middle break-words">{product.description}</td>

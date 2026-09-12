@@ -54,7 +54,7 @@ export default function Allcategories() {
                     {category.map((cat) => (
                         <tr key={cat._id} className="font-semibold border-b border-gray-200">
                             <td>
-                                <img src={cat.image} alt={cat.name} className="w-25 h-18 object-cover rounded my-4 ml-35" />
+                                <img src={cat.image} alt={cat.name} className="w-25 h-18 object-cover rounded my-4 md:ml-20 2xl:ml-35" />
                             </td>
                             <td className="p-3 text-center ml-35 ">{cat.name}</td>
                             <td className="p-3 align-middle text-center">
