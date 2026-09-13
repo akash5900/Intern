@@ -1,18 +1,65 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+
+  const [formdata, setFormdata] = useState({
+    username: "",
+    email: "",
+    mobilenumber: "",
+    password: "",
+  });
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:3000/api/user/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formdata),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.log(data.message);
+        return;
+      }
+
+      alert(data.message);
+
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+
+    setFormdata((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
 
   return (
     <div className="flex items-center justify-center md:mt-[50px] 2xl:mt-[100px]">
       <div className="w-[400px] flex flex-col gap-[20px] p-5">
-        <form className="border border-blue-200 rounded-lg flex flex-col justify-center items-center gap-5 px-4 py-10 bg-gray-50 hover:shadow-xl">
+        <form
+          onSubmit={handleSubmit}
+          className="border border-blue-200 rounded-lg flex flex-col justify-center items-center gap-5 px-4 py-10 bg-gray-50 hover:shadow-xl"
+        >
           <h1 className="text-xl font-semibold pb-3">Create Account</h1>
 
           <input
             type="text"
-            name="name"
+            name="username"
+            value={formdata.username}
+            onChange={handleChange}
             required
             placeholder="Enter name"
             className="w-full bg-white border border-gray-400 rounded-lg p-2"
@@ -21,6 +68,8 @@ export default function Signup() {
           <input
             type="email"
             name="email"
+            value={formdata.email}
+            onChange={handleChange}
             required
             placeholder="Enter email"
             className="w-full bg-white border border-gray-400 rounded-lg p-2"
@@ -29,6 +78,8 @@ export default function Signup() {
           <input
             type="tel"
             name="mobilenumber"
+            value={formdata.mobilenumber}
+            onChange={handleChange}
             required
             placeholder="Enter mobile number"
             className="w-full bg-white border border-gray-400 rounded-lg p-2"
@@ -38,6 +89,8 @@ export default function Signup() {
             <input
               type={showPassword ? "text" : "password"}
               name="password"
+              value={formdata.password}
+              onChange={handleChange}
               required
               placeholder="Enter password"
               className="w-full bg-white border border-gray-400 rounded-lg p-2 pr-10"

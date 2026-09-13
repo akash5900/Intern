@@ -1,5 +1,6 @@
 import userModel from "../model/userModel.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export async function userSignup(req, res) {
   try {
@@ -53,11 +54,9 @@ export async function userSignup(req, res) {
       });
     }
 
-    const alreadyExists = await userModel.find({
-      $or: [{ email }, { mobilenumber }],
-    });
+    const alreadyExists = await userModel.findOne({ email });
 
-    if (alreadyExists.length > 0) {
+    if (alreadyExists) {
       return res.status(409).json({
         message: "User already exists",
       });
@@ -73,13 +72,22 @@ export async function userSignup(req, res) {
       role: "user",
     });
 
+    const token = jwt.sign(
+      {
+        id: user._id,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+    );
+
     return res.status(201).json({
       statusCode: 201,
-      message: "User created",
+      message: "Signup Successfully",
+      Token: token,
       user: {
-        name: user.username,
+        username: user.username,
         email: user.email,
-        mobileNumber: user.mobilenumber,
+        mobilenumber: user.mobilenumber,
         role: user.role,
       },
     });
@@ -94,19 +102,50 @@ export async function userSignup(req, res) {
 
 export async function userLogin(req, res) {
   try {
-    const { id } = req.params;
+    const { email, mobilenumber, password } = req.body;
 
-    const user = await userModel.findById(id);
-
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
+    if (!email && !mobilenumber) {
+      return res.status(400).json({
+        message: "Email or mobile number is required",
       });
     }
 
+    if (!password) {
+      return res.status(400).json({
+        message: "Password is required",
+      });
+    }
+
+    const user = await userModel.findOne({
+      $or: [{ email }, { mobilenumber }],
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "Invalid user",
+      });
+    }
+
+    const isPassworValid = await bcrypt.compare(password, user.password);
+
+    if (!isPassworValid) {
+      return res.status(404).json({
+        message: "Invalid assword",
+      });
+    }
+
+    const token = jwt.sign(
+      {
+        id: user._id,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+    );
+
     return res.status(200).json({
       statuscode: "200",
-      message: "user fetched",
+      message: "User Login Successfully",
+      Token: token,
       user,
     });
   } catch (error) {
