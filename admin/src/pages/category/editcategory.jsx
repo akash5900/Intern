@@ -46,7 +46,7 @@ function Updatecategory() {
             }
 
             alert(data.message);
-            navigate("/");
+            navigate("/allcategories");
         } catch (error) {
             console.log(error);
         }

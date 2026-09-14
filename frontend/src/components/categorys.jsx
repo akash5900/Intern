@@ -51,7 +51,7 @@ export default function Category() {
               }}
               className="flex flex-col items-center gap-3 "
             >
-              <img className="object-cover rounded" src={cat.image} />
+              <img className="object-cover rounded h-29" src={cat.image} />
               <h1 className="text-lg font-semibold">{cat.name}</h1>
             </div>
           </div>

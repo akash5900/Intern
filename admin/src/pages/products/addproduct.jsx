@@ -48,7 +48,7 @@ function Addproducts() {
             }
 
             alert(data.message);
-            navigate("/");
+            navigate("/allproducts");
 
         }
         catch (error) {
