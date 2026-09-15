@@ -26,7 +26,7 @@ const Login = () => {
         return;
       }
 
-      localStorage.setItem("AdminToken", data.AdminToken);
+      localStorage.setItem("Admintoken", data.AdminToken);
       localStorage.setItem("user", JSON.stringify(data.user));
 
       alert(data.message);

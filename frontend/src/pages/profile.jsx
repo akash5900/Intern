@@ -1,9 +1,36 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-export default async function Profile() {
+export default function Profile() {
   const navigate = useNavigate();
 
-  const user = await JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    async function getUser() {
+      try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          return;
+        }
+
+        const res = await fetch("http://localhost:3000/api/user/profile", {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("Res", res);
+
+        const data = await res.json();
+        console.log("Data", data);
+        setUser(data.user);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getUser();
+  }, []);
 
   if (!user) {
     return (

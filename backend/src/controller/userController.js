@@ -84,7 +84,7 @@ export async function userSignup(req, res) {
       statusCode: 201,
       message: "Signup Successfully",
       Token: token,
-      user: user
+      user: user,
     });
   } catch (error) {
     console.log(error);
@@ -234,7 +234,7 @@ export async function adminSignup(req, res) {
       statusCode: 201,
       message: "Signup Successfully",
       AdminToken: token,
-      user: admin
+      user: admin,
     });
   } catch (error) {
     console.log(error);
@@ -314,6 +314,28 @@ export async function allUsers(req, res) {
       statuscode: "200",
       message: "users fetched successfully",
       users,
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      message: "Server error",
+    });
+  }
+}
+
+export async function getProfie(req, res) {
+  try {
+    const user = await userModel.findById(req.user.id).select("-password");
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      user,
     });
   } catch (error) {
     console.log(error);
