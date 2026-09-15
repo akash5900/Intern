@@ -1,28 +1,22 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [emailOrMobile, setEmailOrMobile] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   async function userLogin(e) {
     e.preventDefault();
 
     try {
-      const isEmail = emailOrMobile.includes("@");
-
-      const body = isEmail
-        ? { email: emailOrMobile, password }
-        : { mobilenumber: emailOrMobile, password };
-
-      const res = await fetch("http://localhost:3000/api/user/login", {
+      const res = await fetch("http://localhost:3000/api/user/adminlogin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await res.json();
@@ -32,11 +26,11 @@ const Login = () => {
         return;
       }
 
-      localStorage.setItem("Token", data.Token);
+      localStorage.setItem("AdminToken", data.AdminToken);
       localStorage.setItem("user", JSON.stringify(data.user));
 
       alert(data.message);
-      navigate("/");
+      navigate("/admin", { replace: true });
     } catch (error) {
       console.log(error);
     }
@@ -47,17 +41,17 @@ const Login = () => {
       <div className="w-[400px] flex flex-col gap-[20px] p-5">
         <form
           onSubmit={userLogin}
-          className="border border-blue-200 rounded-lg flex flex-col justify-center items-center gap-5 px-4 pt-10 bg-gray-50 hover:shadow-xl"
+          className="border border-blue-200 rounded-lg flex flex-col justify-center items-center gap-5 px-4 py-10 bg-gray-50 hover:shadow-xl"
         >
-          <h1 className="text-xl font-semibold pb-3">Login</h1>
+          <h1 className="text-xl font-semibold pb-3">Admin Login</h1>
 
           <input
-            type="text"
-            name="emailOrMobile"
-            value={emailOrMobile}
-            onChange={(e) => setEmailOrMobile(e.target.value)}
+            type="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
-            placeholder="Enter email or mobile number"
+            placeholder="Enter email "
             className="w-full bg-white border border-gray-400 rounded-lg p-2"
           />
 
@@ -89,10 +83,6 @@ const Login = () => {
           >
             Login
           </button>
-          <div className="flex ml-48 gap-1">
-            <h1>New User?</h1>
-            <Link to={"/signup"} className="cursor-pointer text-red-500">Signup</Link>
-          </div>
         </form>
 
 

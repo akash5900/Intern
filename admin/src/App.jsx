@@ -1,5 +1,7 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Adminlayout from "./components/adminlayout";
+import AdminProtectedRoute from "./adminProtectedRoute";
+import Login from "./pages/login";
 
 import Addproducts from "./pages/products/addproduct";
 import Allproducts from "./pages/products/allproducts";
@@ -13,15 +15,23 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Adminlayout />}>
-                    <Route path="/addproduct" element={<Addproducts />} />
-                    <Route path="/allproducts" element={<Allproducts />} />
-                    <Route path="/updateproduct/:id" element={<Updateproduct />} />
+                <Route
+                    path="/"
+                    element={<Navigate to="/admin/login" replace />}
+                />
 
-                    <Route path="/addcategory" element={<Addcategory />} />
-                    <Route path="/allcategories" element={<Allcategories />} />
-                    <Route path="/updatecategory/:id" element={<Updatecategory />} />
+                <Route path="/admin/login" element={<Login />} />
+
+                <Route path="/admin" element={<AdminProtectedRoute> <Adminlayout /></AdminProtectedRoute>}>
+                    <Route path="addproduct" element={<Addproducts />} />
+                    <Route path="allproducts" element={<Allproducts />} />
+                    <Route path="updateproduct/:id" element={<Updateproduct />} />
+
+                    <Route path="addcategory" element={<Addcategory />} />
+                    <Route path="allcategories" element={<Allcategories />} />
+                    <Route path="updatecategory/:id" element={<Updatecategory />} />
                 </Route>
+
 
 
             </Routes>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export default function Signup() {
       const data = await res.json();
 
       if (!res.ok) {
-        console.log(data.message);
+        alert(data.message);
         return;
       }
 
@@ -51,7 +51,7 @@ export default function Signup() {
       <div className="w-[400px] flex flex-col gap-[20px] p-5">
         <form
           onSubmit={handleSubmit}
-          className="border border-blue-200 rounded-lg flex flex-col justify-center items-center gap-5 px-4 py-10 bg-gray-50 hover:shadow-xl"
+          className="border border-blue-200 rounded-lg flex flex-col justify-center items-center gap-5 px-4 pt-10 bg-gray-50 hover:shadow-xl"
         >
           <h1 className="text-xl font-semibold pb-3">Create Account</h1>
 
@@ -111,6 +111,10 @@ export default function Signup() {
           >
             Sign Up
           </button>
+          <div className="flex ml-40 gap-1">
+            <h1>Have Account?</h1>
+            <Link to={"/login"} className="cursor-pointer text-red-500">Login</Link>
+          </div>
         </form>
       </div>
     </div>
