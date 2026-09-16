@@ -1,42 +1,29 @@
 import { useState } from "react";
 import { FaSearch, FaFilter } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 export default function Header() {
+  const [, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState("");
   const [minprice, setMinprice] = useState("");
   const [maxprice, setMaxprice] = useState("");
 
   async function searchProducts() {
-    try {
-      const params = new URLSearchParams();
+    const params = {};
 
-      if (search.trim() !== "") {
-        params.append("search", search.trim());
-      }
-
-      if (minprice !== "") {
-        params.append("minPrice", minprice);
-      }
-
-      if (maxprice !== "") {
-        params.append("maxPrice", maxprice);
-      }
-
-      if (params.toString() === "") {
-        getProducts();
-        return;
-      }
-
-      const res = await fetch(
-        `http://localhost:3000/api/products/search?${params.toString()}`,
-      );
-
-      const data = await res.json();
-      setProducts(data.products);
-    } catch (error) {
-      console.log(error);
+    if (search.trim() !== "") {
+      params.search = search.trim();
     }
+
+    if (minprice !== "") {
+      params.minPrice = minprice;
+    }
+
+    if (maxprice !== "") {
+      params.maxPrice = maxprice;
+    }
+
+    setSearchParams(params);
   }
 
   function clearFilter() {
@@ -44,7 +31,7 @@ export default function Header() {
     setMaxprice("");
     setMinprice("");
 
-    getProducts();
+    setSearchParams({});
   }
 
   return (
@@ -68,7 +55,6 @@ export default function Header() {
                 if (e.key === "Enter") {
                   searchProducts();
                 }
-                
               }}
               className="border border-gray-300 w-full rounded-lg py-2 pl-9 pr-3 outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
             />
