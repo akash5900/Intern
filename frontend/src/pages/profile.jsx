@@ -9,21 +9,13 @@ export default function Profile() {
   useEffect(() => {
     async function getUser() {
       try {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-          return;
-        }
 
         const res = await fetch("http://localhost:3000/api/user/profile", {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
+          credentials: "include"
         });
-        console.log("Res", res);
 
         const data = await res.json();
-        console.log("Data", data);
+
         setUser(data.user);
       } catch (error) {
         console.log(error);

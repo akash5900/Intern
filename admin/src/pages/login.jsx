@@ -16,6 +16,7 @@ const Login = () => {
       const res = await fetch("http://localhost:3000/api/user/adminlogin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
 
@@ -25,9 +26,6 @@ const Login = () => {
         alert(data.message);
         return;
       }
-
-      localStorage.setItem("Admintoken", data.AdminToken);
-      localStorage.setItem("user", JSON.stringify(data.user));
 
       alert(data.message);
       navigate("/admin", { replace: true });

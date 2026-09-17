@@ -7,7 +7,7 @@ import {
   adminSignup,
   getProfie,
 } from "../controller/userController.js";
-
+import AdminAuthMiddleware from "../middlewares/adminMiddleware.js";
 import Authmiddleware from "../middlewares/authMiddleware.js";
 import express from "express";
 

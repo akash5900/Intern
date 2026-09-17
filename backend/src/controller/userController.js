@@ -137,10 +137,16 @@ export async function userLogin(req, res) {
       process.env.JWT_SECRET,
     );
 
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000,
+    })
+
     return res.status(200).json({
       statuscode: "200",
       message: "User Login Successfully",
-      Token: token,
       user,
     });
   } catch (error) {
@@ -291,10 +297,16 @@ export async function adminLogin(req, res) {
       process.env.JWT_SECRET,
     );
 
+    res.cookie("AdminToken", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000,
+    })
+
     return res.status(200).json({
       statuscode: "200",
       message: "Admin Login Successfully",
-      AdminToken: token,
       admin,
     });
   } catch (error) {

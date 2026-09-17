@@ -47,7 +47,7 @@ function Products() {
         <h1 className="text-xl font-semibold">All Products</h1>
       </div>
 
-      <div className="grid 2xl:grid-cols-6 md:grid-cols-4 gap-8">
+      <div className="grid 2xl:grid-cols-5 2xl:mx-8 md:grid-cols-4 gap-8 2xl:gap-14">
         {products.map((product) => (
           <div
             className="w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl p-4"
