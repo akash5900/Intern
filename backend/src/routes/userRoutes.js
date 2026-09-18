@@ -25,6 +25,14 @@ router.post("/adminsignup", adminSignup);
 
 router.post("/adminlogin", adminLogin);
 
+router.get("/admin/me", AdminAuthMiddleware, (req, res) => {
+  return res.status(200).json({
+    authenticated: true,
+    user: req.user,
+  });
+});
+
+
 router.delete("/:id", deleteUser);
 
 export default router;

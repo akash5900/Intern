@@ -1,10 +1,33 @@
 import { Navigate } from "react-router-dom";
-export default function AdminProtectedRoute({ children }) {
+import { useEffect, useState } from "react";
 
-    const isAdmin = ;
+export default function AdminProtectedRoute({ children }) {
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+        async function checkAdmin() {
+            try {
+                const res = await fetch("http://localhost:3000/api/user/admin/me", {
+                    credentials: "include",
+                });
+
+                if (res.ok) {
+                    setIsAdmin(true);
+                } else {
+                    setIsAdmin(false);
+                }
+            } catch (error) {
+                console.error(error);
+                setIsAdmin(false);
+            }
+        }
+
+        checkAdmin();
+    }, []);
+
 
     if (!isAdmin) {
-        return <Navigate to="/admin/login" />
+        return <Navigate to="/admin/login" replace />;
     }
 
     return children;

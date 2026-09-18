@@ -142,7 +142,9 @@ export async function userLogin(req, res) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       maxAge: 24 * 60 * 60 * 1000,
-    })
+    });
+
+    console.log(process.env.NODE_ENV);
 
     return res.status(200).json({
       statuscode: "200",
@@ -299,7 +301,7 @@ export async function adminLogin(req, res) {
 
     res.cookie("AdminToken", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
       sameSite: "lax",
       maxAge: 24 * 60 * 60 * 1000,
     })
