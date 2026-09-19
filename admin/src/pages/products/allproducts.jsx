@@ -4,21 +4,39 @@ import { useState, useEffect } from "react"
 export default function Allproducts() {
 
     const [products, setProducts] = useState([]);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
 
-
-    async function getProducts() {
+    async function getProducts(pageNumber) {
         try {
-            const res = await fetch("http://localhost:3000/api/products/allproducts");
-            const data = await res.json()
-            setProducts(data.products);
+            const res = await fetch(
+                `http://localhost:3000/api/products/allproducts?page=${pageNumber}&limit=12`
+            );
+
+            const data = await res.json();
+
+            setProducts((prevProducts) => [
+                ...prevProducts,
+                ...data.products,
+            ]);
+
+            setHasMore(data.hasMore);
+
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 
     useEffect(() => {
-        getProducts()
+        getProducts(1)
     }, [])
+
+    function handleLoadMore() {
+        const nextPage = page + 1;
+
+        setPage(nextPage);
+        getProducts(nextPage);
+    }
 
     async function dltProduct(id) {
         try {
@@ -29,7 +47,12 @@ export default function Allproducts() {
             const data = await res.json();
             console.log(data);
             alert("Product deleted")
-            getProducts();
+
+            setProducts([]);
+            setPage(1);
+            setHasMore(true);
+
+            getProducts(1);
 
         } catch (error) {
             console.log(error)
@@ -79,5 +102,22 @@ export default function Allproducts() {
                 </tbody>
             </table>
         </div>
+        {hasMore && (
+            <div className="flex justify-center mt-6">
+                <button
+                    onClick={handleLoadMore}
+                    className="px-6 py-2 bg-black text-white rounded hover:bg-gray-800 disabled:bg-gray-400"
+                >
+                    Load More
+                </button>
+            </div>
+        )}
+
+        {!hasMore && products.length > 0 && (
+            <p className="text-center text-gray-500 mt-6">
+                No more products
+            </p>
+        )}
+
     </div>
 }

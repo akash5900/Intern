@@ -28,6 +28,7 @@ const Login = () => {
       }
 
       alert(data.message);
+
       navigate("/admin", { replace: true });
     } catch (error) {
       console.log(error);

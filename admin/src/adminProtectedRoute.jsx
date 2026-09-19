@@ -2,7 +2,7 @@ import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export default function AdminProtectedRoute({ children }) {
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(null);
 
     useEffect(() => {
         async function checkAdmin() {
@@ -10,6 +10,7 @@ export default function AdminProtectedRoute({ children }) {
                 const res = await fetch("http://localhost:3000/api/user/admin/me", {
                     credentials: "include",
                 });
+
 
                 if (res.ok) {
                     setIsAdmin(true);
@@ -25,6 +26,9 @@ export default function AdminProtectedRoute({ children }) {
         checkAdmin();
     }, []);
 
+    if (isAdmin === null) {
+        return <p>Checking authentication...</p>;
+    }
 
     if (!isAdmin) {
         return <Navigate to="/admin/login" replace />;

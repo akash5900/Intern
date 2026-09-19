@@ -64,7 +64,7 @@ export async function createProduct(req, res) {
 
 export async function getProducts(req, res) {
   try {
-    const { search, minPrice, maxPrice } = req.query;
+    const { search, minPrice, maxPrice, page = 1, limit = 15 } = req.query;
 
     const query = {};
 
@@ -95,11 +95,21 @@ export async function getProducts(req, res) {
       }
     }
 
-    const products = await productModel.find(query).populate("category");
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
+
+    const skip = (pageNumber - 1) * limitNumber;
+
+    const products = await productModel.find(query).populate("category").skip(skip).limit(limitNumber);
+
+    const totalProducts = await productModel.countDocuments(query);
+
+    const hasMore = skip + products.length < totalProducts;
 
     return res.status(200).json({
       message: "Products Fetched Successfully",
       products,
+      hasMore
     });
   } catch (error) {
     console.log(error);
