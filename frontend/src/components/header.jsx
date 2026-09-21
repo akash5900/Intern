@@ -1,19 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaSearch, FaFilter } from "react-icons/fa";
 import { Link, useSearchParams } from "react-router-dom";
 
 export default function Header() {
   const [, setSearchParams] = useSearchParams();
+
   const [search, setSearch] = useState("");
   const [minprice, setMinprice] = useState("");
   const [maxprice, setMaxprice] = useState("");
 
-  async function searchProducts() {
-    const params = {};
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const params = {};
 
-    if (search.trim() !== "") {
-      params.search = search.trim();
-    }
+      if (search.trim() !== "") {
+        params.search = search.trim();
+      }
+
+      setSearchParams(params);
+    }, 600)
+
+    return () => clearTimeout(timer);
+  }, [search])
+
+  async function applyFilter() {
+    const params = {};
 
     if (minprice !== "") {
       params.minPrice = minprice;
@@ -51,21 +62,16 @@ export default function Header() {
               placeholder="Search Product..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  searchProducts();
-                }
-              }}
               className="border border-gray-300 w-full rounded-lg py-2 pl-9 pr-3 outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
             />
           </div>
 
-          <button
-            onClick={searchProducts}
+          {/* <button
+            onClick={applyFilter}
             className="bg-blue-500 text-white border border-blue-500 rounded-lg px-4 py-2 cursor-pointer hover:bg-blue-600"
           >
             Search
-          </button>
+          </button> */}
         </div>
 
         <Link
@@ -113,7 +119,7 @@ export default function Header() {
           </div>
 
           <button
-            onClick={searchProducts}
+            onClick={applyFilter}
             className="bg-blue-500 text-white rounded-lg px-5 py-2 cursor-pointer hover:bg-blue-600"
           >
             Apply Filter
