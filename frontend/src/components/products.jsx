@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef  } from "react";
 import { useSearchParams } from "react-router-dom";
 
 function Products() {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false)
 
   const [searchParams] = useSearchParams();
 
@@ -12,8 +13,15 @@ function Products() {
   const minPrice = searchParams.get("minPrice") || "";
   const maxPrice = searchParams.get("maxPrice") || "";
 
+  const loadMoreRef = useRef(null);
+
+
   async function getProducts(pageNumber, reset = false) {
+    if (loading && !reset) return;
+
     try {
+      setLoading(true)
+
       const params = new URLSearchParams();
 
       if (search) {
@@ -50,6 +58,8 @@ function Products() {
       setHasMore(data.hasMore)
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -61,13 +71,39 @@ function Products() {
     getProducts(1, true);
   }, [search, minPrice, maxPrice]);
 
-  function handleLoadMore() {
-    const nextPage = page + 1;
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const firstEntry = entries[0];
 
-    setPage(nextPage);
-    getProducts(nextPage);
-  }
+        if (
+          firstEntry.isIntersecting &&
+          hasMore &&
+          !loading
+        ) {
+          const nextPage = page + 1;
 
+          setPage(nextPage);
+          getProducts(nextPage);
+        }
+      },
+      {
+        rootMargin: "300px",
+      }
+    );
+
+    const currentRef = loadMoreRef.current;
+
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [page, hasMore, loading]);
   return (
     <div className="p-4 flex flex-col md:gap-6 2xl:gap-8">
       <div className="flex justify-between">
@@ -106,13 +142,15 @@ function Products() {
       </div>
 
       {hasMore && (
-        <div className="flex justify-center mt-8">
-          <button
-            onClick={handleLoadMore}
-            className="px-6 py-3 bg-black text-white rounded hover:bg-gray-800 disabled:bg-gray-400"
-          >
-            Load More
-          </button>
+        <div
+          ref={loadMoreRef}
+          className="flex justify-center mt-8 h-10"
+        >
+          {loading && (
+            <p className="text-gray-500">
+              Loading more products...
+            </p>
+          )}
         </div>
       )}
 

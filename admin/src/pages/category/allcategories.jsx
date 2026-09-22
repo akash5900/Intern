@@ -36,7 +36,7 @@ export default function Allcategories() {
     return <div className="space-y-4 text-gray-900">
         <div className="flex justify-between text-xl font-semibold">
             <h1>All Categories</h1>
-            <Link to={"/addcategory"} className="cursor-pointer" >+Add Category</Link>
+            <Link to={"/admin/addcategory"} className="cursor-pointer" >+Add Category</Link>
         </div>
 
         <div className="w-full overflow-x-auto">
@@ -58,7 +58,7 @@ export default function Allcategories() {
                             </td>
                             <td className="p-3 text-center ml-35 ">{cat.name}</td>
                             <td className="p-3 align-middle text-center">
-                                <Link to={`/updatecategory/${cat._id}`} className="border border-gray-800 px-2 rounded hover:bg-blue-300 cursor-pointer">
+                                <Link to={`/admin/updatecategory/${cat._id}`} className="border border-gray-800 px-2 rounded hover:bg-blue-300 cursor-pointer">
                                     Edit
                                 </Link>
                             </td>
