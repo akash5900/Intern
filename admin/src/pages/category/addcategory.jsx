@@ -28,7 +28,7 @@ function Addcategory() {
             }
 
             alert(data.message);
-            navigate("/allcategories")
+            navigate("/admin/allcategories")
 
         } catch (error) {
             console.log(error);

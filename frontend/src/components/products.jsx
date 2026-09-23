@@ -1,5 +1,30 @@
-import { useState, useEffect, useRef  } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
+
+function ProductSkeleton() {
+  return (
+    <div className="w-[300px] border border-gray-200 flex flex-col gap-2 p-4">
+
+      <div className="flex justify-center">
+        <div className="w-full h-[180px] rounded bg-gray-200 shimmer" />
+      </div>
+
+      <section className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3">
+          <div className="h-6 w-3/4 rounded bg-gray-200 shimmer" />
+
+          <div className="h-5 w-1/3 rounded bg-gray-200 shimmer" />
+
+          <div className="h-4 w-full rounded bg-gray-200 shimmer" />
+
+          <div className="h-4 w-5/6 rounded bg-gray-200 shimmer" />
+
+          <div className="h-4 w-2/3 rounded bg-gray-200 shimmer" />
+        </div>
+      </section>
+    </div>
+  );
+}
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -111,35 +136,46 @@ function Products() {
       </div>
 
       <div className="grid 2xl:grid-cols-5 2xl:mx-8 md:grid-cols-4 gap-8 2xl:gap-14">
-        {products.map((product) => (
-          <div
-            className="w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl p-4"
-            key={product._id}
-          >
-            <div className="flex justify-center">
-              <img
-                src={product.image}
-                alt={product.name}
-                className=" h-[180px] object-cover rounded "
-              />
-            </div>
-
-            <section className="flex flex-col gap-4">
-              <div className="flex flex-col gap-3">
-                <h1 className="text-xl font-semibold text-gray-900">
-                  Name: {product.name}
-                </h1>
-                <h2 className="text-lg font-semibold text-gray-800">
-                  Price: {product.price}
-                </h2>
-                <h2 className="text-md font-semibold text-gray-700">
-                  Description: {product.description}
-                </h2>
+        {loading && products.length === 0 ?
+          Array.from({ length: 15 }).map((_, index) => (
+            <ProductSkeleton key={index} />
+          )) : products.map((product) => (
+            <div
+              className="w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl p-4"
+              key={product._id}
+            >
+              <div className="flex justify-center">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className=" h-[180px] object-cover rounded "
+                />
               </div>
-            </section>
-          </div>
-        ))}
+
+              <section className="flex flex-col gap-4">
+                <div className="flex flex-col gap-3">
+                  <h1 className="text-xl font-semibold text-gray-900">
+                    Name: {product.name}
+                  </h1>
+                  <h2 className="text-lg font-semibold text-gray-800">
+                    Price: {product.price}
+                  </h2>
+                  <h2 className="text-md font-semibold text-gray-700">
+                    Description: {product.description}
+                  </h2>
+                </div>
+              </section>
+            </div>
+          ))}
+
+        {loading &&
+          products.length > 0 &&
+          Array.from({ length: 5 }).map((_, index) => (
+            <ProductSkeleton key={`loading-${index}`} />
+          ))}
       </div>
+
+
 
       {hasMore && (
         <div

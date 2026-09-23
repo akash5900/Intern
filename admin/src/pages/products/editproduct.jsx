@@ -66,7 +66,7 @@ function Updateproduct() {
       }
 
       alert(data.message);
-      navigate("/allproducts");
+      navigate("/admin/allproducts");
     } catch (error) {
       console.log(error);
     }
