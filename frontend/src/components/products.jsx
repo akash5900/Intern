@@ -3,10 +3,10 @@ import { useSearchParams } from "react-router-dom";
 
 function ProductSkeleton() {
   return (
-    <div className="w-[300px] border border-gray-200 flex flex-col gap-2 p-4">
+    <div className="md:w-[170px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 p-4">
 
       <div className="flex justify-center">
-        <div className="w-full h-[180px] rounded bg-gray-200 shimmer" />
+        <div className="w-full md:h-[150px] 2xl:h-[180px] rounded bg-gray-200 shimmer" />
       </div>
 
       <section className="flex flex-col gap-4">
@@ -141,26 +141,26 @@ function Products() {
             <ProductSkeleton key={index} />
           )) : products.map((product) => (
             <div
-              className="w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl p-4"
+              className=" md:w-[270px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl p-4"
               key={product._id}
             >
               <div className="flex justify-center">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className=" h-[180px] object-cover rounded "
+                  className="md:h-[150px] 2xl:h-[180px] w-full object-cover rounded "
                 />
               </div>
 
               <section className="flex flex-col gap-4">
                 <div className="flex flex-col gap-3">
-                  <h1 className="text-xl font-semibold text-gray-900">
+                  <h1 className="md:text-lg 2xl:text-xl font-semibold text-gray-900">
                     Name: {product.name}
                   </h1>
-                  <h2 className="text-lg font-semibold text-gray-800">
+                  <h2 className="md:text-md 2xl:text-lg font-semibold text-gray-800">
                     Price: {product.price}
                   </h2>
-                  <h2 className="text-md font-semibold text-gray-700">
+                  <h2 className="md:text-sm 2xl:text-md font-semibold text-gray-700">
                     Description: {product.description}
                   </h2>
                 </div>
