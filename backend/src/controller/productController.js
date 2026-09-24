@@ -2,7 +2,7 @@ import productModel from "../model/product.js";
 
 export async function createProduct(req, res) {
   try {
-    const { name, price, description, category = "Product", image } = req.body;
+    const { name, price, description, category = "Product", image, ratings } = req.body;
 
     if (!name || !name.trim()) {
       return res.status(400).json({
@@ -22,7 +22,7 @@ export async function createProduct(req, res) {
       });
     }
 
-    if (!description.trim()) {
+    if (!description || !description.trim()) {
       return res.status(400).json({
         message: "Enter the product description",
       });
@@ -34,11 +34,13 @@ export async function createProduct(req, res) {
       });
     }
 
-    if (!image.trim()) {
+    if (!image || !image.trim()) {
       return res.status(400).json({
         message: "Enter product imageURL",
       });
     }
+
+    const variants = req.body.variants || "[]";
 
     const product = await productModel.create({
       name,
@@ -46,6 +48,8 @@ export async function createProduct(req, res) {
       description,
       category,
       image,
+      variants,
+      ratings
     });
 
     return res.status(201).json({

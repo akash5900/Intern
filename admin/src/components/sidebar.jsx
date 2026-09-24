@@ -8,6 +8,7 @@ export default function Sidebar() {
 
     const [openproduct, setOpenproduct] = useState(false);
     const [opencategory, setOpencategory] = useState(false);
+    const [openuser, setOpenUser] = useState(false)
 
     function handleLogout() {
         localStorage.removeItem("AdminToken");
@@ -18,6 +19,21 @@ export default function Sidebar() {
     return <div className="p-3">
         <h1 className="text-2xl font-semibold mb-4 text-gray-900">Admin Panel</h1>
         <ul className="space-y-2 ml-2">
+
+            <li>
+                <div onClick={() => { setOpenUser(!openuser) }} className="flex items-center gap-1 cursor-pointer text-blue-900">
+                    <h1 className="text-lg font-semibold">Users</h1>
+                    <BiSolidDownArrow size={14} />
+                </div>
+                {openuser && (
+                    <ul className="ml-4 mt-2 space-y-1 text-gray-900">
+                        <li>
+                            <Link to={"/admin/allusers"} className="cursor-pointer font-semibold">All Users</Link>
+                        </li>
+                    </ul>
+                )}
+            </li>
+
             <li>
                 <div onClick={() => setOpenproduct(!openproduct)} className="flex items-center gap-1 cursor-pointer text-blue-900">
                     <h1 className="text-lg font-semibold ">Products</h1>
@@ -53,6 +69,7 @@ export default function Sidebar() {
                     </ul>
                 )}
             </li>
+
             <li>
                 <button onClick={handleLogout} className=" border px-2 m-2 rounded hover:bg-gray-400 cursor-pointer text-blue-900 text-lg font-semibold">Logout</button>
             </li>

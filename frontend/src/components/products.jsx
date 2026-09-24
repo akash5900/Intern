@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { BiRupee } from "react-icons/bi";
+import { FaStar } from "react-icons/fa";
+
 
 function ProductSkeleton() {
   return (
@@ -39,6 +42,8 @@ function Products() {
   const maxPrice = searchParams.get("maxPrice") || "";
 
   const loadMoreRef = useRef(null);
+
+  const navigate = useNavigate();
 
 
   async function getProducts(pageNumber, reset = false) {
@@ -141,8 +146,9 @@ function Products() {
             <ProductSkeleton key={index} />
           )) : products.map((product) => (
             <div
-              className=" md:w-[270px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl p-4"
+              className=" md:w-[270px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl p-4 cursor-pointer"
               key={product._id}
+              onClick={() => navigate(`/productdetail/${product._id}`)}
             >
               <div className="flex justify-center">
                 <img
@@ -152,17 +158,21 @@ function Products() {
                 />
               </div>
 
-              <section className="flex flex-col gap-4">
-                <div className="flex flex-col gap-3">
-                  <h1 className="md:text-lg 2xl:text-xl font-semibold text-gray-900">
-                    Name: {product.name}
-                  </h1>
-                  <h2 className="md:text-md 2xl:text-lg font-semibold text-gray-800">
-                    Price: {product.price}
+              <section className="flex flex-col gap-2">
+                <h1 className="md:text-md 2xl:text-lg font-semibold text-gray-700">
+                  {product.name}
+                </h1>
+
+                <div className="flex items-center mb-1">
+                  <BiRupee />
+                  <h2 className="md:text-lg 2xl:text-xl font-semibold text-gray-800">
+                    {product.price}
                   </h2>
-                  <h2 className="md:text-sm 2xl:text-md font-semibold text-gray-700">
-                    Description: {product.description}
-                  </h2>
+                </div>
+
+                <div className="w-11 rounded flex gap-1 px-1 items-center bg-green-500">
+                  <p>{product.ratings}</p>
+                  <FaStar />
                 </div>
               </section>
             </div>

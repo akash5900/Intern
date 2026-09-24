@@ -4,6 +4,7 @@ import Categoryproducts from "./pages/categoryProducts";
 import Signup from "./pages/signUp";
 import Login from "./pages/login";
 import Profile from "./pages/profile";
+import ProductDetail from "./pages/productDetail";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/productdetail/:id" element={<ProductDetail />} />
 
         <Route path="/categoryproducts/:id" element={<Categoryproducts />} />
       </Routes>

@@ -10,8 +10,18 @@ function Addproducts() {
         price: "",
         description: "",
         category: "",
-        image: ""
+        image: "",
+        ratings: "",
+        variants: []
     });
+
+    const [variant, setVariant] = useState({
+        size: "",
+        price: "",
+        color: "",
+        stock: ""
+    });
+
 
     const [category, setCategory] = useState([]);
 
@@ -48,7 +58,7 @@ function Addproducts() {
             }
 
             alert(data.message);
-            navigate("/admin/allproducts");
+            navigate("/");
 
         }
         catch (error) {
@@ -64,9 +74,35 @@ function Addproducts() {
         }))
     }
 
+    function addVariant() {
+        setFormdata((prev) => ({
+            ...prev,
+            variants: [
+                ...prev.variants,
+                variant
+            ]
+        }));
+
+        setVariant({
+            size: "",
+            price: "",
+            color: "",
+            stock: ""
+        });
+    }
+
+    function handleVariantChange(e) {
+        const { name, value } = e.target;
+
+        setVariant((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    }
 
 
-    return <div className="flex items-center justify-center lg:mt-[20px] 2xl:mt-[100px]">
+
+    return <div className="flex items-center justify-center md:mt-[50px] 2xl:mt-[100px]">
         <div className="w-[400px] flex flex-col gap-[20px] p-5">
             <form className="border border-blue-200 rounded-lg flex flex-col justify-center items-center gap-5 px-4 py-10 bg-gray-50 hover:shadow-xl" onSubmit={handleSubmit}>
                 <h1 className="text-xl font-semibold pb-3">Add Products</h1>
@@ -88,8 +124,66 @@ function Addproducts() {
                         </option>
                     ))}
                 </select>
-
+                <input type="number" name="ratings" required value={formdata.ratings} onChange={handleChange} placeholder="Enter ratings" className="w-full  bg-white border border-gray-400  rounded-lg p-2 " />
                 <input type="text" name="image" required value={formdata.image} onChange={handleChange} placeholder="Enter imageURL" className="w-full  bg-white border border-gray-400  rounded-lg p-2 " />
+                <div className="w-full border border-gray-300 rounded-lg p-3">
+                    <h1 className="font-semibold mb-3">Variants</h1>
+
+                    <div className="flex flex-col gap-3">
+                        <input
+                            type="text"
+                            name="size"
+                            value={variant.size}
+                            onChange={handleVariantChange}
+                            placeholder="Size (S, M, L)"
+                            className="w-full bg-white border border-gray-400 rounded-lg p-2"
+                        />
+
+                        <input
+                            type="number"
+                            name="price"
+                            value={variant.price}
+                            onChange={handleVariantChange}
+                            placeholder="Variant price"
+                            className="w-full bg-white border border-gray-400 rounded-lg p-2"
+                        />
+
+                        <input
+                            type="text"
+                            name="color"
+                            value={variant.color}
+                            onChange={handleVariantChange}
+                            placeholder="Color"
+                            className="w-full bg-white border border-gray-400 rounded-lg p-2"
+                        />
+
+                        <input
+                            type="number"
+                            name="stock"
+                            value={variant.stock}
+                            onChange={handleVariantChange}
+                            placeholder="Stock"
+                            className="w-full bg-white border border-gray-400 rounded-lg p-2"
+                        />
+
+                        <button
+                            type="button"
+                            onClick={addVariant}
+                            className="border border-blue-500 rounded-md p-2 bg-blue-100"
+                        >
+                            Add Variant
+                        </button>
+                    </div>
+
+                    {formdata.variants.map((item, index) => (
+                        <div key={index} className="mt-3 p-2 bg-gray-100 rounded">
+                            <p>
+                                {item.size} - {item.color} - ₹{item.price} - Stock: {item.stock}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+
                 <button className="border border-gray-500  rounded-md bg-white p-2 cursor-pointer hover:bg-blue-100 w-[200px] " type="submit">Submit</button>
             </form>
         </div>

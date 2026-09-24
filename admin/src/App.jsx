@@ -3,6 +3,8 @@ import Adminlayout from "./components/adminlayout";
 import AdminProtectedRoute from "./adminProtectedRoute";
 import Login from "./pages/login";
 
+import Allusers from "./pages/users/allusers";
+
 import Addproducts from "./pages/products/addproduct";
 import Allproducts from "./pages/products/allproducts";
 import Updateproduct from "./pages/products/editproduct";
@@ -23,6 +25,9 @@ function App() {
                 <Route path="/admin/login" element={<Login />} />
 
                 <Route path="/admin" element={<AdminProtectedRoute> <Adminlayout /></AdminProtectedRoute>}>
+
+                    <Route path="allusers" element={<Allusers />} />X
+
                     <Route path="addproduct" element={<Addproducts />} />
                     <Route path="allproducts" element={<Allproducts />} />
                     <Route path="updateproduct/:id" element={<Updateproduct />} />
