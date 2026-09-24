@@ -368,7 +368,7 @@ export async function deleteUser(req, res) {
 
     return res.status(200).json({
       statuscode: "200",
-      message: "user delted",
+      message: "User Deleted",
       user,
     });
   } catch (error) {
