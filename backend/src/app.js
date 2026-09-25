@@ -2,6 +2,7 @@ import express from "express";
 import productRouter from "./routes/product.js";
 import categoryRouter from "./routes/categoryRoutes.js";
 import userRouter from "./routes/userRoutes.js"
+import orderRouter from "./routes/orderRoutes.js"
 import cookieParser from "cookie-parser"
 import cors from "cors"
 
@@ -16,5 +17,6 @@ app.use(cookieParser())
 app.use("/api/products", productRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/user", userRouter);
+app.use("/api/order", orderRouter)
 
 export default app;

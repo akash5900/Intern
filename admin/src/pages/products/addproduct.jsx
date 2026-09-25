@@ -58,7 +58,7 @@ function Addproducts() {
             }
 
             alert(data.message);
-            navigate("/");
+            navigate("/admin/allproducts");
 
         }
         catch (error) {

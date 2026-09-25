@@ -170,16 +170,26 @@ export async function getProductsByCategory(req, res) {
   }
 }
 
+import mongoose from "mongoose";
+
 export async function updateProduct(req, res) {
   try {
     const { id } = req.params;
-    const { name, price, description, category, image } = req.body;
 
-    const product = await productModel.findById(id).populate("category");
+    const {
+      name,
+      price,
+      description,
+      category,
+      image,
+      ratings,
+      variants,
+    } = req.body;
 
-    if (!product) {
-      return res.status(404).json({
-        message: "Product not found",
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        message: "Invalid product ID",
       });
     }
 
@@ -189,19 +199,19 @@ export async function updateProduct(req, res) {
       });
     }
 
-    if (/^\d+$/.test(name)) {
+    if (/^\d+$/.test(name.trim())) {
       return res.status(400).json({
         message: "Name cannot contain only numbers",
       });
     }
 
-    if (!price || Number(price) <= 50) {
+    if (price === undefined || price === null || Number(price) <= 50) {
       return res.status(400).json({
         message: "Enter valid price",
       });
     }
 
-    if (!description.trim()) {
+    if (!description || !description.trim()) {
       return res.status(400).json({
         message: "Enter the product description",
       });
@@ -213,37 +223,97 @@ export async function updateProduct(req, res) {
       });
     }
 
-    if (!image.trim()) {
+    if (!mongoose.Types.ObjectId.isValid(category)) {
+      return res.status(400).json({
+        message: "Invalid category",
+      });
+    }
+
+    if (!image || !image.trim()) {
       return res.status(400).json({
         message: "Enter product imageURL",
       });
     }
 
+    if (
+      ratings !== undefined &&
+      (Number(ratings) < 0 || Number(ratings) > 5)
+    ) {
+      return res.status(400).json({
+        message: "Rating must be between 0 and 5",
+      });
+    }
+
+    let parsedVariants = [];
+
+    if (variants !== undefined) {
+      try {
+        parsedVariants =
+          typeof variants === "string"
+            ? JSON.parse(variants)
+            : variants;
+
+        if (!Array.isArray(parsedVariants)) {
+          return res.status(400).json({
+            message: "Variants must be an array",
+          });
+        }
+      } catch (error) {
+        return res.status(400).json({
+          message: "Invalid variants format",
+        });
+      }
+    }
+
+    const product = await productModel.findById(id);
+
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
+    }
+
+    const updateData = {
+      name: name.trim(),
+      price: Number(price),
+      description: description.trim(),
+      category,
+      image: image.trim(),
+    };
+
+    if (ratings !== undefined) {
+      updateData.ratings = Number(ratings);
+    }
+
+    if (variants !== undefined) {
+      updateData.variants = parsedVariants;
+    }
+
     const updatedProduct = await productModel
       .findByIdAndUpdate(
         id,
+        updateData,
         {
-          name: req.body.name,
-          price: req.body.price,
-          description: req.body.description,
-          category: req.body.category,
-          image: req.body.image,
-        },
-        { new: true },
+          new: true,
+          runValidators: true,
+        }
       )
       .populate("category");
 
     return res.status(200).json({
-      message: "Product Updated Successfully",
-      updatedProduct,
+      message: "Product updated successfully",
+      product: updatedProduct,
     });
   } catch (error) {
-    console.log(error);
+    console.log("Update product error:", error);
+
     return res.status(500).json({
-      message: "Server error",
+      message: "Internal Server Error",
+      error: error.message,
     });
   }
 }
+
 
 export async function deleteProduct(req, res) {
   try {
