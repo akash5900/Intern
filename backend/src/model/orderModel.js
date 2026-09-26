@@ -11,7 +11,10 @@ const orderSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Product"
         },
-        quantity: Number,
+        quantity: {
+            type: Number,
+            default: 1
+        },
         price: Number
     }],
     totalamount: {
@@ -45,4 +48,4 @@ const orderSchema = new mongoose.Schema({
 
 const orderModel = mongoose.model("order", orderSchema);
 
-export default orderModel ;
+export default orderModel;

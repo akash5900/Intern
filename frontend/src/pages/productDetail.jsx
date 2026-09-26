@@ -204,7 +204,7 @@ export default function ProductDetail() {
                                 </div>
                             </div>
                         )}
-
+{/* 
                         <div>
                             <h2 className="text-lg font-semibold mb-3">
                                 Quantity
@@ -235,7 +235,7 @@ export default function ProductDetail() {
                                     +
                                 </button>
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="flex flex-col sm:flex-row gap-4 pt-3">
                             <button

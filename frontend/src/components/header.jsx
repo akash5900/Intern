@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { FaSearch, FaFilter } from "react-icons/fa";
 import { Link, useSearchParams } from "react-router-dom";
+import { BsPersonCircle } from "react-icons/bs";
+import { IoMdCart } from "react-icons/io";
+import { IoBagHandle } from "react-icons/io5";
 
 export default function Header() {
   const [, setSearchParams] = useSearchParams();
@@ -65,21 +68,25 @@ export default function Header() {
               className="border border-gray-300 w-full rounded-lg py-2 pl-9 pr-3 outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
             />
           </div>
-
-          {/* <button
-            onClick={applyFilter}
-            className="bg-blue-500 text-white border border-blue-500 rounded-lg px-4 py-2 cursor-pointer hover:bg-blue-600"
-          >
-            Search
-          </button> */}
         </div>
 
-        <Link
-          to={"/profile"}
-          className="text-xl hover:text-red-500 cursor-pointer font-semibold pt-1"
-        >
-          Profile
-        </Link>
+        <section className="flex gap-15 text-gray-700 ml-2 ">
+          <div className=" flex items-center gap-1 cursor-pointer hover:text-green-500">
+            <IoBagHandle size={25} />
+            <Link to={"/orders"} className="text-lg  font-semibold pt-1">My Orders</Link>
+          </div>
+
+          <div className=" flex items-center gap-1 cursor-pointer hover:text-blue-500">
+            <IoMdCart size={25} className="mt-1" />
+            <Link to={"/cart"} className="text-lg font-semibold pt-1">Cart</Link>
+          </div>
+
+          <div className=" flex items-center gap-1 cursor-pointer hover:text-red-500 ">
+            <BsPersonCircle size={25} />
+            <Link to={"/profile"} className="text-lg font-semibold pt-1">Profile</Link>
+          </div>
+        </section>
+
       </div>
 
       <div className="w-full border border-gray-200 rounded-xl p-4 bg-gray-50 shadow-sm">
