@@ -8,9 +8,13 @@ export default function Allproducts() {
   const [loading, setLoading] = useState(false);
 
   const loadMoreRef = useRef(null);
+  const loadingRef = useRef(false);
 
   async function getProducts(pageNumber) {
+    if (loadingRef.current) return;
+
     try {
+      loadingRef.current = true;
       setLoading(true);
 
       const res = await fetch(
@@ -25,6 +29,7 @@ export default function Allproducts() {
     } catch (error) {
       console.log(error);
     } finally {
+      loadingRef.current = false;
       setLoading(false);
     }
   }
@@ -40,14 +45,19 @@ export default function Allproducts() {
       });
 
       const data = await res.json();
-      console.log(data);
+
+      if (!res.ok) {
+        alert(data.message);
+        return;
+      }
+
       alert("Product deleted");
 
       setProducts([]);
       setPage(1);
       setHasMore(true);
 
-      getProducts(1);
+      await getProducts(1);
     } catch (error) {
       console.log(error);
     }
@@ -58,7 +68,12 @@ export default function Allproducts() {
       (enteries) => {
         const firstEntry = enteries[0];
 
-        if (firstEntry.isIntersecting && hasMore && !loading) {
+        if (
+          firstEntry.isIntersecting &&
+          hasMore &&
+          !loading &&
+          !loadingRef.current
+        ) {
           const nextPage = page + 1;
 
           setPage(nextPage);
