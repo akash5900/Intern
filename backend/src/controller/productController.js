@@ -170,8 +170,6 @@ export async function getProductsByCategory(req, res) {
   }
 }
 
-import mongoose from "mongoose";
-
 export async function updateProduct(req, res) {
   try {
     const { id } = req.params;
@@ -313,7 +311,6 @@ export async function updateProduct(req, res) {
     });
   }
 }
-
 
 export async function deleteProduct(req, res) {
   try {

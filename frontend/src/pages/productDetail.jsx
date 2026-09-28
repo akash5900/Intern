@@ -204,7 +204,7 @@ export default function ProductDetail() {
                                 </div>
                             </div>
                         )}
-{/* 
+                        {/* 
                         <div>
                             <h2 className="text-lg font-semibold mb-3">
                                 Quantity

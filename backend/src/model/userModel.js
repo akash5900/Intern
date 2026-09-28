@@ -25,6 +25,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["user", "admin"],
         default: "user"
+    },
+    address: {
+        username: String,
+        mobilenumber: Number,
+        housenumber: String,
+        city: String,
+        pincode: Number,
+        state: String
     }
 });
 
