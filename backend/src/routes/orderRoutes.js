@@ -5,9 +5,9 @@ import AdminAuthMiddleware from "../middlewares/adminMiddleware.js";
 
 const router = express.Router();
 
-router.get("/allorders",AdminAuthMiddleware, getOrders);
-router.get("/userorder", Authmiddleware, getUserOrders)
 router.post("/create", Authmiddleware, createOrder);
+router.get("/allorders", AdminAuthMiddleware, getOrders);
+router.get("/userorder", Authmiddleware, getUserOrders)
 router.delete("/:id", deleteOrder)
 
 export default router;

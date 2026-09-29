@@ -14,7 +14,7 @@ export default function Checkout() {
   const [addressForm, setAddressForm] = useState({
     username: "",
     mobilenumber: "",
-    housenumber: "",
+    houseaddress: "",
     city: "",
     pincode: "",
     state: "",
@@ -23,6 +23,18 @@ export default function Checkout() {
   const checkoutProduct = location.state;
 
   async function saveAddress() {
+    if (
+      !addressForm.username ||
+      !addressForm.mobilenumber ||
+      !addressForm.houseaddress ||
+      !addressForm.city ||
+      !addressForm.pincode ||
+      !addressForm.state
+    ) {
+      alert("Please fill all address fields");
+      return;
+    }
+
     try {
       const res = await fetch("http://localhost:3000/api/address/create", {
         method: "POST",
@@ -36,7 +48,7 @@ export default function Checkout() {
       const data = await res.json();
 
       if (!res.ok) {
-        console.log(data.message);
+        alert(data.message);
         return;
       }
 
@@ -51,7 +63,7 @@ export default function Checkout() {
       setAddressForm({
         username: "",
         mobilenumber: "",
-        housenumber: "",
+        houseaddress: "",
         city: "",
         pincode: "",
         state: "",
@@ -114,6 +126,60 @@ export default function Checkout() {
   useEffect(() => {
     getAddresses();
   }, []);
+
+  async function placeOrderCOD() {
+
+    if (!selectedAddress) {
+      alert("Please select a delivery address");
+      return;
+    }
+
+    try {
+
+      const totalamount = Number(checkoutProduct.price) * Number(checkoutProduct.quantity);
+
+      const res = await fetch("http://localhost:3000/api/order/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          products: [
+            {
+              product: checkoutProduct.product._id,
+              quantity: checkoutProduct.quantity,
+              price: checkoutProduct.price,
+            }
+          ],
+          totalamount,
+          address: {
+            username: selectedAddress.username,
+            mobilenumber: selectedAddress.mobilenumber,
+            houseaddress: selectedAddress.houseaddress,
+            city: selectedAddress.city,
+            pincode: selectedAddress.pincode,
+            state: selectedAddress.state,
+          },
+          paymentmethod: "COD"
+        })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message || "Failed to place order");
+        return;
+      }
+
+      alert(data.message);
+
+      navigate("/orders")
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   if (!checkoutProduct) {
     return (
@@ -183,7 +249,7 @@ export default function Checkout() {
 
               <button
                 onClick={() => setShowAddressForm((prev) => !prev)}
-                className="text-blue-600 font-medium"
+                className="cursor-pointer text-blue-600 font-medium"
               >
                 + Add Address
               </button>
@@ -201,6 +267,7 @@ export default function Checkout() {
 
                     <input
                       type="text"
+                      required
                       value={addressForm.username}
                       onChange={(e) =>
                         setAddressForm({
@@ -220,6 +287,7 @@ export default function Checkout() {
 
                     <input
                       type="tel"
+                      required
                       value={addressForm.mobilenumber}
                       onChange={(e) =>
                         setAddressForm({
@@ -234,16 +302,17 @@ export default function Checkout() {
 
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      House Number
+                      House Address
                     </label>
 
                     <input
                       type="text"
-                      value={addressForm.housenumber}
+                      required
+                      value={addressForm.houseaddress}
                       onChange={(e) =>
                         setAddressForm({
                           ...addressForm,
-                          housenumber: e.target.value,
+                          houseaddress: e.target.value,
                         })
                       }
                       placeholder="Enter house number"
@@ -258,6 +327,7 @@ export default function Checkout() {
 
                     <input
                       type="text"
+                      required
                       value={addressForm.city}
                       onChange={(e) =>
                         setAddressForm({
@@ -277,6 +347,7 @@ export default function Checkout() {
 
                     <input
                       type="number"
+                      required
                       value={addressForm.pincode}
                       onChange={(e) =>
                         setAddressForm({
@@ -296,6 +367,7 @@ export default function Checkout() {
 
                     <input
                       type="text"
+                      required
                       value={addressForm.state}
                       onChange={(e) =>
                         setAddressForm({
@@ -311,7 +383,7 @@ export default function Checkout() {
 
                 <button
                   onClick={saveAddress}
-                  className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg"
+                  className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg mb-2"
                 >
                   Save Address
                 </button>
@@ -330,11 +402,10 @@ export default function Checkout() {
                   <div
                     key={address._id}
                     onClick={() => setSelectedAddress(address)}
-                    className={`border rounded-xl p-4 cursor-pointer transition ${
-                      selectedAddress?._id === address._id
-                        ? "border-blue-600 bg-blue-50"
-                        : "border-gray-300 hover:border-blue-400"
-                    }`}
+                    className={`border rounded-xl p-4 cursor-pointer transition ${selectedAddress?._id === address._id
+                      ? "border-blue-600 bg-blue-50"
+                      : "border-gray-300 hover:border-blue-400"
+                      }`}
                   >
                     <div className="flex items-start gap-3">
                       <input
@@ -343,7 +414,7 @@ export default function Checkout() {
                         onChange={() => setSelectedAddress(address)}
                       />
 
-                      <div className="flex items-center gap-55">
+                      <div className="flex  items-start justify-between gap-6 w-full">
                         <div>
                           <p className="font-semibold">{address.username}</p>
 
@@ -352,7 +423,7 @@ export default function Checkout() {
                           </p>
 
                           <p className="text-sm text-gray-600 mt-1">
-                            {address.housenumber}, {address.city},{" "}
+                            {address.houseaddress}, {address.city},{" "}
                             {address.state} - {address.pincode}
                           </p>
                         </div>
@@ -424,6 +495,7 @@ export default function Checkout() {
 
             <button
               disabled={!selectedAddress}
+              onClick={placeOrderCOD}
               className="w-full mt-6 bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold rounded-lg px-6 py-3 transition"
             >
               Place Order

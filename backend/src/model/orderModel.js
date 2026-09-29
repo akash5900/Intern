@@ -24,7 +24,7 @@ const orderSchema = new mongoose.Schema({
     address: {
         username: String,
         mobilenumber: Number,
-        housenumber: String,
+        houseaddress: String,
         city: String,
         pincode: Number,
         state: String

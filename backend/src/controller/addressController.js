@@ -3,13 +3,68 @@ import addressModel from "../model/addressModel.js";
 export async function createAddress(req, res) {
     try {
 
-        const { username, mobilenumber, housenumber, city, pincode, state } = req.body;
+        const { username, mobilenumber, houseaddress, city, pincode, state } = req.body;
+
+        if (!username) {
+            return res.status(400).json({
+                message: "Name is required",
+            });
+        };
+
+        if (!/^[A-Za-z]+(?:\s[A-Za-z]+)*$/.test(username.trim())) {
+            return res.status(400).json({
+                message: "Name can contain only letters and spaces",
+            });
+        };
+
+        if (!mobilenumber) {
+            return res.status(400).json({
+                message: "Mobilenumber is required",
+            });
+        };
+
+        if (!/^[6-9]\d{9}$/.test(mobilenumber.trim())) {
+            return res.status(400).json({
+                message: "Please enter a valid mobile number",
+            });
+        };
+
+        if (!houseaddress) {
+            return res.status(400).json({
+                message: "HouseAddress is required",
+            });
+        };
+
+        if (!city) {
+            return res.status(400).json({
+                message: "City is required",
+            });
+        };
+
+        if (!pincode) {
+            return res.status(400).json({
+                message: "Pincode is required",
+            });
+        }
+
+        if (pincode.length < 6 || pincode.length > 6) {
+            return res.status(400).json({
+                message: "pincode must be 6 characters",
+            });
+        }
+
+        if (!state) {
+            return res.status(400).json({
+                message: "State is required",
+            });
+        };
 
         const Address = await addressModel.create({
             user: req.user.id,
             username,
             mobilenumber,
-            housenumber, city,
+            houseaddress,
+            city,
             pincode,
             state
         });
@@ -23,7 +78,6 @@ export async function createAddress(req, res) {
 
         return res.status(500).json({
             message: "Server Error",
-            error: error.message
         })
     }
 };
@@ -93,7 +147,7 @@ export async function updateAddress(req, res) {
 
         const { id } = req.params;
 
-        const { username, mobilenumber, housenumber, city, pincode, state } = req.body;
+        const { username, mobilenumber, houseaddress, city, pincode, state } = req.body;
 
         const address = await addressModel.findOne({ _id: id, user: req.user.id });
 
@@ -104,7 +158,7 @@ export async function updateAddress(req, res) {
         }
 
 
-        const updateAddress = await addressModel.findByIdAndUpdate(id, { username: username, mobilenumber: mobilenumber, housenumber: housenumber, city: city, pincode: pincode, state: state }, { new: true }).populate("user", "email")
+        const updateAddress = await addressModel.findByIdAndUpdate(id, { username: username, mobilenumber: mobilenumber, houseaddress: houseaddress, city: city, pincode: pincode, state: state }, { new: true }).populate("user", "email")
 
         return res.status(200).json({
             message: "Address updated",
