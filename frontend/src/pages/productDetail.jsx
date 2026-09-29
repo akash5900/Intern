@@ -109,6 +109,32 @@ export default function ProductDetail() {
     });
   }
 
+  async function addToCart() {
+    try {
+      const res = await fetch("http://localhost:3000/api/cart/add", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          product: product._id,
+          quantity,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.log(data.message);
+      }
+
+      alert(data.message);
+
+      navigate("/cart");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const currentPrice = selectedVariant?.price ?? product.price;
 
   return (
@@ -192,46 +218,20 @@ export default function ProductDetail() {
                 </div>
               </div>
             )}
-            {/* 
-                        <div>
-                            <h2 className="text-lg font-semibold mb-3">
-                                Quantity
-                            </h2>
-
-                            <div className="flex items-center border border-gray-300 rounded-lg w-fit">
-                                <button
-                                    onClick={() =>
-                                        setQuantity((prev) =>
-                                            Math.max(1, prev - 1)
-                                        )
-                                    }
-                                    className="px-4 py-2 text-lg hover:bg-gray-100"
-                                >
-                                    -
-                                </button>
-
-                                <span className="px-5 py-2 font-medium">
-                                    {quantity}
-                                </span>
-
-                                <button
-                                    onClick={() =>
-                                        setQuantity((prev) => prev + 1)
-                                    }
-                                    className="px-4 py-2 text-lg hover:bg-gray-100"
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </div> */}
 
             <div className="flex flex-col sm:flex-row gap-4 pt-3">
-              <button onClick={buyNow} className="flex items-center justify-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-lg px-6 py-3 transition">
+              <button
+                onClick={buyNow}
+                className="flex items-center justify-center gap-2 cursor-pointer bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-lg px-6 py-3 transition"
+              >
                 <FaBolt />
                 Buy Now
               </button>
 
-              <button className="flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg px-6 py-3 transition">
+              <button
+                onClick={addToCart}
+                className="flex items-center justify-center gap-2 cursor-pointer bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg px-6 py-3 transition"
+              >
                 <FaShoppingCart />
                 Add To Cart
               </button>
