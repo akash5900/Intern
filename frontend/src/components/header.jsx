@@ -71,20 +71,20 @@ export default function Header() {
         </div>
 
         <section className="flex gap-15 text-gray-700 ml-2 ">
-          <div className=" flex items-center gap-1 cursor-pointer hover:text-green-500">
+          <Link to={"/orders"} className=" flex items-center gap-1 cursor-pointer hover:text-green-500">
             <IoBagHandle size={25} />
-            <Link to={"/orders"} className="text-lg  font-semibold pt-1">My Orders</Link>
-          </div>
+            <h1 className="text-lg  font-semibold pt-1">My Orders</h1>
+          </Link>
 
-          <div className=" flex items-center gap-1 cursor-pointer hover:text-blue-500">
+          <Link to={"/cart"} className=" flex items-center gap-1 cursor-pointer hover:text-blue-500">
             <IoMdCart size={25} className="mt-1" />
-            <Link to={"/cart"} className="text-lg font-semibold pt-1">Cart</Link>
-          </div>
+            <h1 className="text-lg font-semibold pt-1">Cart</h1>
+          </Link>
 
-          <div className=" flex items-center gap-1 cursor-pointer hover:text-red-500 ">
+          <Link to={"/profile"} className=" flex items-center gap-1 cursor-pointer hover:text-red-500 ">
             <BsPersonCircle size={25} />
-            <Link to={"/profile"} className="text-lg font-semibold pt-1">Profile</Link>
-          </div>
+            <h1 className="text-lg font-semibold pt-1">Profile</h1>
+          </Link>
         </section>
 
       </div>

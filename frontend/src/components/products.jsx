@@ -154,18 +154,18 @@ function Products() {
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="md:h-[150px] 2xl:h-[180px] w-full object-cover rounded "
+                  className="md:h-[150px] 2xl:h-[160px] w-full object-cover rounded "
                 />
               </div>
 
               <section className="flex flex-col gap-2">
-                <h1 className="md:text-md 2xl:text-lg font-semibold text-gray-700">
+                <h1 className="md:text-md 2xl:text-[17px] font-semibold text-gray-700">
                   {product.name}
                 </h1>
 
                 <div className="flex items-center mb-1">
                   <BiRupee />
-                  <h2 className="md:text-lg 2xl:text-xl font-semibold text-gray-800">
+                  <h2 className="md:text-lg 2xl:text-lg font-semibold text-gray-800">
                     {product.price}
                   </h2>
                 </div>

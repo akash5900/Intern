@@ -10,7 +10,6 @@ export default function Checkout() {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showAddressForm, setShowAddressForm] = useState(false);
-
   const [addressForm, setAddressForm] = useState({
     username: "",
     mobilenumber: "",
@@ -20,17 +19,31 @@ export default function Checkout() {
     state: "",
   });
 
-  const checkoutProduct = location.state;
+  const checkoutState = location.state;
+
+  const checkoutProduct = Array.isArray(checkoutState?.cartItems)
+    ? checkoutState.cartItems
+    : checkoutState?.product
+      ? [
+        {
+          product: checkoutState.product,
+          quantity: checkoutState.quantity,
+          price: checkoutState.price,
+        },
+      ]
+      : [];
+
+  const totalamount = checkoutProduct.reduce((total, item) => {
+    return (
+      total +
+      Number(item.product?.price ?? item.price ?? 0) *
+      Number(item.quantity ?? 1)
+    );
+  }, 0);
+
 
   async function saveAddress() {
-    if (
-      !addressForm.username ||
-      !addressForm.mobilenumber ||
-      !addressForm.houseaddress ||
-      !addressForm.city ||
-      !addressForm.pincode ||
-      !addressForm.state
-    ) {
+    if (!addressForm.username || !addressForm.mobilenumber || !addressForm.houseaddress || !addressForm.city || !addressForm.pincode || !addressForm.state) {
       alert("Please fill all address fields");
       return;
     }
@@ -48,16 +61,12 @@ export default function Checkout() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.message);
+        alert(data.message || "Failed to save address");
         return;
       }
 
-      console.log("Address added:", data);
-
       setAddresses((prev) => [...prev, data.Address]);
-
       setSelectedAddress(data.Address);
-
       setShowAddressForm(false);
 
       setAddressForm({
@@ -83,17 +92,17 @@ export default function Checkout() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.message);
+        alert(data.message || "Failed to delete address");
         return;
       }
 
-      setAddresses((prev) => prev.filter((address) => address._id !== id));
+      setAddresses((prev) =>
+        prev.filter((address) => address._id !== id)
+      );
 
       if (selectedAddress?._id === id) {
         setSelectedAddress(null);
       }
-
-      console.log(data.message);
     } catch (error) {
       console.log(error);
     }
@@ -105,7 +114,7 @@ export default function Checkout() {
         "http://localhost:3000/api/address/useraddresses",
         {
           credentials: "include",
-        },
+        }
       );
 
       const data = await res.json();
@@ -128,15 +137,22 @@ export default function Checkout() {
   }, []);
 
   async function placeOrderCOD() {
-
     if (!selectedAddress) {
       alert("Please select a delivery address");
       return;
     }
 
-    try {
+    if (checkoutProduct.length === 0) {
+      alert("No product selected for checkout");
+      return;
+    }
 
-      const totalamount = Number(checkoutProduct.price) * Number(checkoutProduct.quantity);
+    try {
+      const products = checkoutProduct.map((item) => ({
+        product: item.product._id,
+        quantity: Number(item.quantity),
+        price: Number(item.product.price ?? item.price),
+      }));
 
       const res = await fetch("http://localhost:3000/api/order/create", {
         method: "POST",
@@ -145,13 +161,7 @@ export default function Checkout() {
         },
         credentials: "include",
         body: JSON.stringify({
-          products: [
-            {
-              product: checkoutProduct.product._id,
-              quantity: checkoutProduct.quantity,
-              price: checkoutProduct.price,
-            }
-          ],
+          products,
           totalamount,
           address: {
             username: selectedAddress.username,
@@ -161,8 +171,8 @@ export default function Checkout() {
             pincode: selectedAddress.pincode,
             state: selectedAddress.state,
           },
-          paymentmethod: "COD"
-        })
+          paymentmethod: "COD",
+        }),
       });
 
       const data = await res.json();
@@ -172,83 +182,128 @@ export default function Checkout() {
         return;
       }
 
-      alert(data.message);
+      alert(data.message || "Order placed successfully");
 
-      navigate("/orders")
-
+      navigate("/orders");
     } catch (error) {
       console.log(error);
+      alert("Something went wrong while placing order");
     }
   }
 
-  if (!checkoutProduct) {
+  if (checkoutProduct.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-500">No product selected for checkout.</p>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <p className="text-gray-500 mb-4">
+            No product selected for checkout.
+          </p>
+
+          <button
+            onClick={() => navigate("/")}
+            className="text-blue-600 font-medium hover:underline"
+          >
+            Continue Shopping
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-8 md:px-10 lg:px-20">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Checkout</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-8">
+        Checkout
+      </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white rounded-xl shadow-sm p-6">
-            <h2 className="text-xl font-semibold mb-5">Product</h2>
+            <h2 className="text-xl font-semibold mb-5">
+              Products
+            </h2>
 
-            <div className="flex gap-5">
-              <img
-                src={checkoutProduct.product.image}
-                alt={checkoutProduct.product.name}
-                className="w-32 h-32 object-contain bg-gray-50 rounded-lg"
-              />
+            <div className="space-y-6">
+              {checkoutProduct.map((item) => {
+                const price = Number(
+                  item.product?.price ?? item.price ?? 0
+                );
 
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold">
-                  {checkoutProduct.product.name}
-                </h3>
+                const quantity = Number(item.quantity ?? 1);
 
-                {checkoutProduct.variant && (
-                  <div className="mt-2 text-sm text-gray-600">
-                    <p>
-                      Size:{" "}
-                      <span className="font-medium">
-                        {checkoutProduct.variant.size}
-                      </span>
-                    </p>
+                return (
+                  <div
+                    key={item._id || item.product?._id}
+                    className="flex gap-5 border-b border-gray-100 pb-6 last:border-b-0 last:pb-0"
+                  >
+                    <div className="w-32 h-32 shrink-0 bg-gray-50 rounded-lg overflow-hidden">
+                      <img
+                        src={item.product?.image}
+                        alt={item.product?.name}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
 
-                    <p>
-                      Color:{" "}
-                      <span className="font-medium">
-                        {checkoutProduct.variant.color}
-                      </span>
-                    </p>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        {item.product?.name}
+                      </h3>
+
+                      {item.variant && (
+                        <div className="mt-2 text-sm text-gray-600">
+                          {item.variant.size && (
+                            <p>
+                              Size:{" "}
+                              <span className="font-medium">
+                                {item.variant.size}
+                              </span>
+                            </p>
+                          )}
+
+                          {item.variant.color && (
+                            <p>
+                              Color:{" "}
+                              <span className="font-medium">
+                                {item.variant.color}
+                              </span>
+                            </p>
+                          )}
+                        </div>
+                      )}
+
+                      <div className="flex items-center mt-3">
+                        <BiRupee />
+
+                        <span className="text-xl font-bold">
+                          {price.toFixed(2)}
+                        </span>
+                      </div>
+
+                      <p className="text-sm text-gray-500 mt-2">
+                        Quantity: {quantity}
+                      </p>
+
+                      <p className="text-sm text-gray-700 mt-2">
+                        Item Total: ₹
+                        {(price * quantity).toFixed(2)}
+                      </p>
+                    </div>
                   </div>
-                )}
-
-                <div className="flex items-center mt-3">
-                  <BiRupee />
-
-                  <span className="text-xl font-bold">
-                    {checkoutProduct.price}
-                  </span>
-                </div>
-
-                <p className="text-sm text-gray-500 mt-2">
-                  Quantity: {checkoutProduct.quantity}
-                </p>
-              </div>
+                );
+              })}
             </div>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm p-6">
             <div className="flex justify-between items-center mb-5">
-              <h2 className="text-xl font-semibold">Delivery Address</h2>
+              <h2 className="text-xl font-semibold">
+                Delivery Address
+              </h2>
 
               <button
-                onClick={() => setShowAddressForm((prev) => !prev)}
+                onClick={() =>
+                  setShowAddressForm((prev) => !prev)
+                }
                 className="cursor-pointer text-blue-600 font-medium"
               >
                 + Add Address
@@ -257,7 +312,9 @@ export default function Checkout() {
 
             {showAddressForm && (
               <div className="mt-6 border-t border-gray-200 pt-6">
-                <h3 className="text-lg font-semibold mb-5">Add New Address</h3>
+                <h3 className="text-lg font-semibold mb-5">
+                  Add New Address
+                </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
@@ -267,7 +324,6 @@ export default function Checkout() {
 
                     <input
                       type="text"
-                      required
                       value={addressForm.username}
                       onChange={(e) =>
                         setAddressForm({
@@ -287,7 +343,6 @@ export default function Checkout() {
 
                     <input
                       type="tel"
-                      required
                       value={addressForm.mobilenumber}
                       onChange={(e) =>
                         setAddressForm({
@@ -307,7 +362,6 @@ export default function Checkout() {
 
                     <input
                       type="text"
-                      required
                       value={addressForm.houseaddress}
                       onChange={(e) =>
                         setAddressForm({
@@ -327,7 +381,6 @@ export default function Checkout() {
 
                     <input
                       type="text"
-                      required
                       value={addressForm.city}
                       onChange={(e) =>
                         setAddressForm({
@@ -346,8 +399,7 @@ export default function Checkout() {
                     </label>
 
                     <input
-                      type="number"
-                      required
+                      type="text"
                       value={addressForm.pincode}
                       onChange={(e) =>
                         setAddressForm({
@@ -367,7 +419,6 @@ export default function Checkout() {
 
                     <input
                       type="text"
-                      required
                       value={addressForm.state}
                       onChange={(e) =>
                         setAddressForm({
@@ -383,7 +434,7 @@ export default function Checkout() {
 
                 <button
                   onClick={saveAddress}
-                  className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg mb-2"
+                  className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg"
                 >
                   Save Address
                 </button>
@@ -391,7 +442,9 @@ export default function Checkout() {
             )}
 
             {loading ? (
-              <p className="text-gray-500">Loading addresses...</p>
+              <p className="text-gray-500">
+                Loading addresses...
+              </p>
             ) : addresses.length === 0 ? (
               <p className="text-gray-500">
                 No address found. Please add an address.
@@ -401,7 +454,9 @@ export default function Checkout() {
                 {addresses.map((address) => (
                   <div
                     key={address._id}
-                    onClick={() => setSelectedAddress(address)}
+                    onClick={() =>
+                      setSelectedAddress(address)
+                    }
                     className={`border rounded-xl p-4 cursor-pointer transition ${selectedAddress?._id === address._id
                       ? "border-blue-600 bg-blue-50"
                       : "border-gray-300 hover:border-blue-400"
@@ -410,26 +465,39 @@ export default function Checkout() {
                     <div className="flex items-start gap-3">
                       <input
                         type="radio"
-                        checked={selectedAddress?._id === address._id}
-                        onChange={() => setSelectedAddress(address)}
+                        checked={
+                          selectedAddress?._id ===
+                          address._id
+                        }
+                        onChange={() =>
+                          setSelectedAddress(address)
+                        }
                       />
 
-                      <div className="flex  items-start justify-between gap-6 w-full">
+                      <div className="flex items-start justify-between gap-6 w-full">
                         <div>
-                          <p className="font-semibold">{address.username}</p>
+                          <p className="font-semibold">
+                            {address.username}
+                          </p>
 
                           <p className="text-sm text-gray-600">
                             {address.mobilenumber}
                           </p>
 
                           <p className="text-sm text-gray-600 mt-1">
-                            {address.houseaddress}, {address.city},{" "}
-                            {address.state} - {address.pincode}
+                            {address.houseaddress},{" "}
+                            {address.city},{" "}
+                            {address.state} -{" "}
+                            {address.pincode}
                           </p>
                         </div>
 
                         <button
-                          onClick={() => deleteAddress(address._id)}
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deleteAddress(address._id);
+                          }}
                           className="cursor-pointer hover:text-red-500"
                         >
                           Delete
@@ -443,14 +511,22 @@ export default function Checkout() {
           </div>
 
           <div className="bg-white rounded-xl shadow-sm p-6">
-            <h2 className="text-xl font-semibold mb-4">Payment Method</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              Payment Method
+            </h2>
 
             <div className="border border-blue-600 bg-blue-50 rounded-xl p-4">
               <div className="flex items-center gap-3">
-                <input type="radio" checked readOnly />
+                <input
+                  type="radio"
+                  checked
+                  readOnly
+                />
 
                 <div>
-                  <p className="font-semibold">Cash on Delivery</p>
+                  <p className="font-semibold">
+                    Cash on Delivery
+                  </p>
 
                   <p className="text-sm text-gray-500">
                     Pay when your order is delivered.
@@ -463,32 +539,55 @@ export default function Checkout() {
 
         <div>
           <div className="bg-white rounded-xl shadow-sm p-6 sticky top-6">
-            <h2 className="text-xl font-semibold mb-6">Order Summary</h2>
+            <h2 className="text-xl font-semibold mb-6">
+              Order Summary
+            </h2>
 
-            <div className="flex justify-between mb-4">
-              <span className="text-gray-600">Product</span>
+            <div className="space-y-4">
+              {checkoutProduct.map((item) => {
+                const price = Number(
+                  item.product?.price ?? item.price ?? 0
+                );
 
-              <span className="font-medium">
-                {checkoutProduct.product.name}
-              </span>
-            </div>
+                const quantity = Number(
+                  item.quantity ?? 1
+                );
 
-            <div className="flex justify-between mb-4">
-              <span className="text-gray-600">Quantity</span>
+                return (
+                  <div
+                    key={item._id || item.product?._id}
+                    className="flex justify-between gap-4"
+                  >
+                    <div>
+                      <p className="font-medium text-gray-900">
+                        {item.product?.name}
+                      </p>
 
-              <span>{checkoutProduct.quantity}</span>
+                      <p className="text-sm text-gray-500">
+                        Quantity: {quantity}
+                      </p>
+                    </div>
+
+                    <span className="font-medium whitespace-nowrap">
+                      ₹{(price * quantity).toFixed(2)}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
 
             <div className="border-t border-gray-200 my-5" />
 
             <div className="flex justify-between">
-              <span className="text-lg font-semibold">Total</span>
+              <span className="text-lg font-semibold">
+                Total
+              </span>
 
               <div className="flex items-center">
                 <BiRupee />
 
                 <span className="text-xl font-bold">
-                  {checkoutProduct.price * checkoutProduct.quantity}
+                  {totalamount.toFixed(2)}
                 </span>
               </div>
             </div>

@@ -33,12 +33,6 @@ export async function getUserOrders(req, res) {
 
         const orders = await orderModel.find({ user: req.user.id }).populate("products.product");
 
-        if (orders.length == 0) {
-            return res.status(400).json({
-                message: "orders not found"
-            })
-        }
-
         return res.status(200).json({
             message: "order fetched",
             orders

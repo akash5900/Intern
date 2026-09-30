@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { ImCross } from "react-icons/im";
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -15,12 +16,6 @@ export default function Cart() {
       });
 
       const data = await res.json();
-
-      if (!res.ok) {
-        console.log(data.message);
-        setCartItems([]);
-        return;
-      }
 
       setCartItems(data.cart || []);
     } catch (error) {
@@ -50,10 +45,28 @@ export default function Cart() {
     );
   }
 
+  async function handleRemove(id) {
+    try {
+
+      const res = await fetch(`http://localhost:3000/api/cart/${id}`, {
+        method: "DELETE"
+      });
+
+      const data = await res.json();
+
+      alert(data.message);
+
+      getCart();
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        {/* Header */}
+
         <div className="mb-8">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
             Shopping Cart
@@ -76,7 +89,7 @@ export default function Cart() {
             </p>
 
             <Link
-              to="/products"
+              to="/"
               className="mt-6 inline-block rounded-xl bg-black px-5 py-3 text-sm font-semibold text-white hover:bg-gray-800"
             >
               Continue Shopping
@@ -84,7 +97,7 @@ export default function Cart() {
           </div>
         ) : (
           <div className="grid gap-8 lg:grid-cols-3">
-            {/* Cart Items */}
+
             <div className="lg:col-span-2">
               <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
                 {cartItems.map((item) => (
@@ -92,16 +105,16 @@ export default function Cart() {
                     key={item._id}
                     className="flex gap-5 border-b border-gray-100 p-5 last:border-b-0"
                   >
-                    {/* Product Image */}
+
                     <div className="h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-gray-100">
                       <img
                         src={item.product.image}
                         alt={item.product.name}
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-cover "
                       />
                     </div>
 
-                    {/* Product Information */}
+
                     <div className="flex min-w-0 flex-1 flex-col">
                       <div className="flex items-start justify-between gap-4">
                         <div>
@@ -113,6 +126,7 @@ export default function Cart() {
                             ₹{item.product.price}
                           </p>
                         </div>
+                        <p onClick={() => handleRemove(item._id)} className="text-red-500 cursor-pointer mt-2"><ImCross size={15} /></p>
                       </div>
 
                       <div className="mt-auto flex items-end justify-between pt-5">
@@ -130,7 +144,7 @@ export default function Cart() {
               </div>
 
               <Link
-                to="/products"
+                to="/"
                 className="mt-5 inline-block text-sm font-medium text-gray-600 hover:text-black"
               >
                 ← Continue Shopping

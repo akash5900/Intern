@@ -64,14 +64,8 @@ export async function removeFromCart(req, res) {
   try {
     const cart = await cartModel.findByIdAndDelete(req.params.id);
 
-    if (cart.length === 0) {
-      return res.status(404).json({
-        message: "Cart is empty",
-      });
-    }
-
     return res.status(200).json({
-      message: "Cart deleted",
+      message: "Product removed from cart",
       cart,
     });
   } catch (error) {
