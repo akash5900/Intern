@@ -1,4 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
+
+:root {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    margin: 0;
+    font-family: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
 
 .shimmer {
     background: linear-gradient(90deg,
