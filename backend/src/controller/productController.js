@@ -184,13 +184,6 @@ export async function updateProduct(req, res) {
       variants,
     } = req.body;
 
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({
-        message: "Invalid product ID",
-      });
-    }
-
     if (!name || !name.trim()) {
       return res.status(400).json({
         message: "Enter the product name",
@@ -218,12 +211,6 @@ export async function updateProduct(req, res) {
     if (!category) {
       return res.status(400).json({
         message: "Select category",
-      });
-    }
-
-    if (!mongoose.Types.ObjectId.isValid(category)) {
-      return res.status(400).json({
-        message: "Invalid category",
       });
     }
 

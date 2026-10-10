@@ -49,9 +49,9 @@ export default function Header() {
   }
 
   return (
-    <div className="px-5 pl-2 py-4 flex flex-col gap-6">
+    <div className="px-8 py-4 flex flex-col gap-6">
       <div className="flex justify-between">
-        <h1 className="text-2xl font-semibold ">Intern</h1>
+        <h1 className="text-2xl text-gray-800 font-semibold mt-1">Shopy</h1>
 
         <div className="w-[450px] flex items-center gap-2">
           <div className="relative w-full">
@@ -65,7 +65,7 @@ export default function Header() {
               placeholder="Search Product..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="border border-gray-300 w-full rounded-lg py-2 pl-9 pr-3 outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
+              className="w-full bg-gray-50 border border-gray-300 rounded-lg py-2 pl-9 pr-3 text-xs outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
             />
           </div>
         </div>
@@ -73,23 +73,22 @@ export default function Header() {
         <section className="flex gap-15 text-gray-700 ml-2 ">
           <Link to={"/orders"} className=" flex items-center gap-1 cursor-pointer hover:text-green-500">
             <IoBagHandle size={25} />
-            <h1 className="text-lg  font-semibold pt-1">My Orders</h1>
+            <h1 className="text-md font-semibold pt-1">Orders</h1>
           </Link>
 
           <Link to={"/cart"} className=" flex items-center gap-1 cursor-pointer hover:text-blue-500">
             <IoMdCart size={25} className="mt-1" />
-            <h1 className="text-lg font-semibold pt-1">Cart</h1>
+            <h1 className="text-md font-semibold pt-1">Cart</h1>
           </Link>
 
           <Link to={"/profile"} className=" flex items-center gap-1 cursor-pointer hover:text-red-500 ">
             <BsPersonCircle size={25} />
-            <h1 className="text-lg font-semibold pt-1">Profile</h1>
+            <h1 className="text-md font-semibold pt-1">Profile</h1>
           </Link>
         </section>
-
       </div>
 
-      <div className="w-full border border-gray-200 rounded-xl p-4 bg-gray-50 shadow-sm">
+      <div className="w-full border border-gray-200 rounded-xl p-4 bg-gray-50 shadow-sm flex gap-20">
         <div className="flex items-center gap-2 mb-4">
           <FaFilter size={15} className="text-gray-600" />
 
@@ -97,33 +96,21 @@ export default function Header() {
         </div>
 
         <div className="flex items-end gap-4">
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-600">
-              Min Price
-            </label>
+          <input
+            type="number"
+            value={minprice}
+            onChange={(e) => setMinprice(e.target.value)}
+            placeholder="₹ Min Price"
+            className="border border-gray-300 rounded-lg p-2 w-[180px] bg-white outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
+          />
 
-            <input
-              type="number"
-              value={minprice}
-              onChange={(e) => setMinprice(e.target.value)}
-              placeholder="₹ 0"
-              className="border border-gray-300 rounded-lg p-2 w-[180px] bg-white outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-600">
-              Max Price
-            </label>
-
-            <input
-              type="number"
-              value={maxprice}
-              onChange={(e) => setMaxprice(e.target.value)}
-              placeholder="₹ 0"
-              className="border border-gray-300 rounded-lg p-2 w-[180px] bg-white outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
-            />
-          </div>
+          <input
+            type="number"
+            value={maxprice}
+            onChange={(e) => setMaxprice(e.target.value)}
+            placeholder="₹  Max Price"
+            className="border border-gray-300 rounded-lg p-2 w-[180px] bg-white outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
+          />
 
           <button
             onClick={applyFilter}
