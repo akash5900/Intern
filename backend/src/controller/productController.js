@@ -2,9 +2,16 @@ import productModel from "../model/product.js";
 
 export async function createProduct(req, res) {
   try {
-    const { name, price, description, category = "Product", image, ratings } = req.body;
+    const {
+      name,
+      price,
+      description,
+      category = "Product",
+      image,
+      ratings,
+    } = req.body;
 
-    if (!name || !name.trim()) {
+    if (!name || !name.trim()) { 
       return res.status(400).json({
         message: "Enter the product name",
       });
@@ -49,7 +56,7 @@ export async function createProduct(req, res) {
       category,
       image,
       variants,
-      ratings
+      ratings,
     });
 
     return res.status(201).json({
@@ -104,7 +111,11 @@ export async function getProducts(req, res) {
 
     const skip = (pageNumber - 1) * limitNumber;
 
-    const products = await productModel.find(query).populate("category").skip(skip).limit(limitNumber);
+    const products = await productModel
+      .find(query)
+      .populate("category")
+      .skip(skip)
+      .limit(limitNumber);
 
     const totalProducts = await productModel.countDocuments(query);
 
@@ -113,7 +124,7 @@ export async function getProducts(req, res) {
     return res.status(200).json({
       message: "Products Fetched Successfully",
       products,
-      hasMore
+      hasMore,
     });
   } catch (error) {
     console.log(error);
@@ -174,16 +185,8 @@ export async function updateProduct(req, res) {
   try {
     const { id } = req.params;
 
-    const {
-      name,
-      price,
-      description,
-      category,
-      image,
-      ratings,
-      variants,
-    } = req.body;
-
+    const { name, price, description, category, image, ratings, variants } =
+      req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
@@ -233,10 +236,7 @@ export async function updateProduct(req, res) {
       });
     }
 
-    if (
-      ratings !== undefined &&
-      (Number(ratings) < 0 || Number(ratings) > 5)
-    ) {
+    if (ratings !== undefined && (Number(ratings) < 0 || Number(ratings) > 5)) {
       return res.status(400).json({
         message: "Rating must be between 0 and 5",
       });
@@ -247,9 +247,7 @@ export async function updateProduct(req, res) {
     if (variants !== undefined) {
       try {
         parsedVariants =
-          typeof variants === "string"
-            ? JSON.parse(variants)
-            : variants;
+          typeof variants === "string" ? JSON.parse(variants) : variants;
 
         if (!Array.isArray(parsedVariants)) {
           return res.status(400).json({
@@ -288,14 +286,10 @@ export async function updateProduct(req, res) {
     }
 
     const updatedProduct = await productModel
-      .findByIdAndUpdate(
-        id,
-        updateData,
-        {
-          new: true,
-          runValidators: true,
-        }
-      )
+      .findByIdAndUpdate(id, updateData, {
+        new: true,
+        runValidators: true,
+      })
       .populate("category");
 
     return res.status(200).json({

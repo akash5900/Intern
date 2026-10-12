@@ -33,9 +33,7 @@ export default function Cart() {
     return total + item.product.price * item.quantity;
   }, 0);
 
-  const shipping = 0;
-
-  const total = subtotal + shipping;
+  const total = subtotal;
 
   if (loading) {
     return (
@@ -47,9 +45,8 @@ export default function Cart() {
 
   async function handleRemove(id) {
     try {
-
       const res = await fetch(`http://localhost:3000/api/cart/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
       });
 
       const data = await res.json();
@@ -57,7 +54,6 @@ export default function Cart() {
       alert(data.message);
 
       getCart();
-
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +62,6 @@ export default function Cart() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-
         <div className="mb-8">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
             Shopping Cart
@@ -97,7 +92,6 @@ export default function Cart() {
           </div>
         ) : (
           <div className="grid gap-8 lg:grid-cols-3">
-
             <div className="lg:col-span-2">
               <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
                 {cartItems.map((item) => (
@@ -105,7 +99,6 @@ export default function Cart() {
                     key={item._id}
                     className="flex gap-5 border-b border-gray-100 p-5 last:border-b-0"
                   >
-
                     <div className="h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-gray-100">
                       <img
                         src={item.product.image}
@@ -113,7 +106,6 @@ export default function Cart() {
                         className="h-full w-full object-cover "
                       />
                     </div>
-
 
                     <div className="flex min-w-0 flex-1 flex-col">
                       <div className="flex items-start justify-between gap-4">
@@ -126,7 +118,12 @@ export default function Cart() {
                             ₹{item.product.price}
                           </p>
                         </div>
-                        <p onClick={() => handleRemove(item._id)} className="text-red-500 cursor-pointer mt-2"><ImCross size={15} /></p>
+                        <p
+                          onClick={() => handleRemove(item._id)}
+                          className="text-red-500 cursor-pointer mt-2"
+                        >
+                          <ImCross size={15} />
+                        </p>
                       </div>
 
                       <div className="mt-auto flex items-end justify-between pt-5">
