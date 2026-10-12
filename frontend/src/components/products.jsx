@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { BiRupee } from "react-icons/bi";
 import { FaStar } from "react-icons/fa";
-
+import { FaArrowRotateLeft } from "react-icons/fa6";
 
 function ProductSkeleton() {
   return (
@@ -135,18 +135,18 @@ function Products() {
     };
   }, [page, hasMore, loading]);
   return (
-    <div className="p-4 flex flex-col md:gap-6 2xl:gap-8">
+    <div className="flex flex-col md:gap-6 2xl:gap-8 px-8 py-4 ">
       <div className="flex justify-between">
-        <h1 className="text-xl font-semibold">All Products</h1>
+        <h1 className="text-2xl text-gray-800 font-semibold">Products For You</h1>
       </div>
 
-      <div className="grid 2xl:grid-cols-5 2xl:mx-8 md:grid-cols-4 gap-8 2xl:gap-14">
+      <div className="grid 2xl:grid-cols-5 md:grid-cols-4 gap-8 2xl:gap-15">
         {loading && products.length === 0 ?
           Array.from({ length: 15 }).map((_, index) => (
             <ProductSkeleton key={index} />
           )) : products.map((product) => (
             <div
-              className=" md:w-[270px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl p-4 cursor-pointer"
+              className=" md:w-[270px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl px-4 pt-4 pb-2 cursor-pointer"
               key={product._id}
               onClick={() => navigate(`/productdetail/${product._id}`)}
             >
@@ -154,25 +154,38 @@ function Products() {
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="md:h-[150px] 2xl:h-[160px] w-full object-cover rounded "
+                  className="md:h-[150px] 2xl:h-[210px] w-full object-cover rounded "
                 />
               </div>
 
-              <section className="flex flex-col gap-2">
-                <h1 className="md:text-md 2xl:text-[17px] font-semibold text-gray-700">
-                  {product.name}
-                </h1>
+              <section className="flex flex-col gap-2 text-gray-700">
+                <div className="flex justify-between">
+                  <h1 className="md:text-md 2xl:text-[15px] font-semibold ">
+                    {product.name}
+                  </h1>
 
-                <div className="flex items-center mb-1">
-                  <BiRupee />
-                  <h2 className="md:text-lg 2xl:text-lg font-semibold text-gray-800">
-                    {product.price}
-                  </h2>
+                  <div className="flex items-center">
+                    <BiRupee />
+
+                    <h2 className="md:text-md 2xl:text-md font-semibold text-gray-800">
+                      {product.price}
+                    </h2>
+                  </div>
                 </div>
 
-                <div className="w-11 rounded flex gap-1 px-1 items-center bg-green-500">
-                  <p>{product.ratings}</p>
-                  <FaStar />
+                <p className="text-md truncate mb-1">{product.description}</p>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1 ">
+                    <FaStar size={12} color="orange" />
+                    <p className="text-[15px] font-bold">{product.ratings}</p>
+                  </div>
+
+                  <div className="flex items-center gap-1">
+                    <FaArrowRotateLeft size={11} />
+
+                    <h1 className="text-[13px]"> 30-day returns </h1>
+                  </div>
                 </div>
               </section>
             </div>
@@ -184,8 +197,6 @@ function Products() {
             <ProductSkeleton key={`loading-${index}`} />
           ))}
       </div>
-
-
 
       {hasMore && (
         <div

@@ -56,8 +56,6 @@ function Updateproduct() {
         return;
       }
 
-      console.log("Product:", data.product);
-
       const product = data.product;
 
       setFormdata({

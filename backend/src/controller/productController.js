@@ -224,12 +224,6 @@ export async function updateProduct(req, res) {
       });
     }
 
-    if (!mongoose.Types.ObjectId.isValid(category)) {
-      return res.status(400).json({
-        message: "Invalid category",
-      });
-    }
-
     if (!image || !image.trim()) {
       return res.status(400).json({
         message: "Enter product imageURL",
