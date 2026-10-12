@@ -140,7 +140,7 @@ function Products() {
         <h1 className="text-2xl text-gray-800 font-semibold">Products For You</h1>
       </div>
 
-      <div className="grid 2xl:grid-cols-5 md:grid-cols-4 gap-8 2xl:gap-14">
+      <div className="grid 2xl:grid-cols-5 md:grid-cols-4 gap-8 2xl:gap-15">
         {loading && products.length === 0 ?
           Array.from({ length: 15 }).map((_, index) => (
             <ProductSkeleton key={index} />

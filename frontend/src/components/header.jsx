@@ -51,7 +51,7 @@ export default function Header() {
   return (
     <div className="px-8 py-4 flex flex-col gap-6">
       <div className="flex justify-between">
-        <h1 className="text-2xl text-gray-800 font-semibold mt-1">Shopy</h1>
+        <h1 className="text-2xl text-gray-800 font-semibold mt-1">Shopsy</h1>
 
         <div className="w-[450px] flex items-center gap-2">
           <div className="relative w-full">

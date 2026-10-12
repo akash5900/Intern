@@ -5,6 +5,7 @@ import { FaStar, FaShoppingCart, FaBolt } from "react-icons/fa";
 import { FaArrowRotateLeft } from "react-icons/fa6";
 import { TbTruckDelivery } from "react-icons/tb";
 import { HiMiniShieldCheck } from "react-icons/hi2";
+import Footer from "../components/footer"
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -141,8 +142,8 @@ export default function ProductDetail() {
   const currentPrice = selectedVariant?.price ?? product.price;
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-8 md:px-10 lg:px-20">
-      <div className="mx-auto">
+    <div className="min-h-screen bg-gray-50 pt-8">
+      <div className="px-4 md:px-10 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 bg-white rounded-2xl shadow-sm p-6 md:p-10">
           <div className="flex items-center justify-center bg-gray-50 rounded-xl p-6">
             <img
@@ -261,14 +262,14 @@ export default function ProductDetail() {
 
         {
           moreProducts.length > 0 && (
-            <section className="mt-12">
+            <section className="mt-12 mb-4 ml-2">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-700">
                   More Products
                 </h2>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 gap-5 ">
+              <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 gap-16 ">
                 {moreProducts.map((item) => (
                   <div
                     key={item._id}
@@ -320,6 +321,9 @@ export default function ProductDetail() {
           )
         }
       </div >
+      <div>
+        <Footer />
+      </div>
     </div >
   );
 }
