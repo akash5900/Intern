@@ -4,7 +4,7 @@ import { FaInstagram } from "react-icons/fa6";
 import { FaFacebook } from "react-icons/fa6";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaYoutube } from "react-icons/fa6";
-import { FaShoppingBag } from "react-icons/fa";
+import { SiShopify } from "react-icons/si";
 
 export default function Footer() {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ export default function Footer() {
       <div className="flex md:gap-40 2xl:gap-120">
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-1">
-            <FaShoppingBag size={20} />
+            <SiShopify size={20} />
             <h1 className="md:text:md 2xl:text-2xl">Shopsy</h1>
           </div>
 
@@ -48,6 +48,7 @@ export default function Footer() {
               <li>
                 <Link
                   to={"/"}
+                  onClick={() => window.scrollTo(0, 0)}
                   className="cursor-pointer hover:pl-2 transition-all"
                 >
                   Home

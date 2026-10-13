@@ -4,6 +4,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { BsPersonCircle } from "react-icons/bs";
 import { IoMdCart } from "react-icons/io";
 import { IoBagHandle } from "react-icons/io5";
+import { SiShopify } from "react-icons/si";
 
 export default function Header() {
   const [, setSearchParams] = useSearchParams();
@@ -21,10 +22,10 @@ export default function Header() {
       }
 
       setSearchParams(params);
-    }, 600)
+    }, 600);
 
     return () => clearTimeout(timer);
-  }, [search])
+  }, [search]);
 
   async function applyFilter() {
     const params = {};
@@ -49,9 +50,12 @@ export default function Header() {
   }
 
   return (
-    <div className="px-8 py-4 flex flex-col gap-6">
+    <div className="px-8 py-4 flex flex-col gap-4">
       <div className="flex justify-between">
-        <h1 className="text-2xl text-gray-800 font-semibold mt-1">Shopsy</h1>
+        <div className="flex items-center gap-1">
+          <SiShopify size={25}/>
+          <h1 className="text-2xl text-gray-800 font-semibold mt-1">Shopsy</h1>
+        </div>
 
         <div className="w-[450px] flex items-center gap-2">
           <div className="relative w-full">
@@ -71,17 +75,26 @@ export default function Header() {
         </div>
 
         <section className="flex gap-15 text-gray-700 ml-2 ">
-          <Link to={"/orders"} className=" flex items-center gap-1 cursor-pointer hover:text-green-500">
+          <Link
+            to={"/orders"}
+            className=" flex items-center gap-1 cursor-pointer hover:text-green-500"
+          >
             <IoBagHandle size={25} />
             <h1 className="text-md font-semibold pt-1">Orders</h1>
           </Link>
 
-          <Link to={"/cart"} className=" flex items-center gap-1 cursor-pointer hover:text-blue-500">
+          <Link
+            to={"/cart"}
+            className=" flex items-center gap-1 cursor-pointer hover:text-blue-500"
+          >
             <IoMdCart size={25} className="mt-1" />
             <h1 className="text-md font-semibold pt-1">Cart</h1>
           </Link>
 
-          <Link to={"/profile"} className=" flex items-center gap-1 cursor-pointer hover:text-red-500 ">
+          <Link
+            to={"/profile"}
+            className=" flex items-center gap-1 cursor-pointer hover:text-red-500 "
+          >
             <BsPersonCircle size={25} />
             <h1 className="text-md font-semibold pt-1">Profile</h1>
           </Link>

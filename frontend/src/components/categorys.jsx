@@ -23,7 +23,7 @@ export default function Category() {
   }, []);
 
   return (
-    <div className="p-4 bg-gray-50 border-t border-b border-gray-100 ">
+    <div className="p-4 bg-gray-50 border-t border-b border-gray-200 ">
       <div className="flex overflow-x-auto">
         {category.map((cat) => (
           <div
