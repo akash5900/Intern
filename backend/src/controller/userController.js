@@ -125,7 +125,7 @@ export async function userLogin(req, res) {
 
     if (!isPassworValid) {
       return res.status(404).json({
-        message: "Invalid assword",
+        message: "Invalid Password",
       });
     }
 

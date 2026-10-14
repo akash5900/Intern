@@ -11,7 +11,7 @@ export async function createProduct(req, res) {
       ratings,
     } = req.body;
 
-    if (!name || !name.trim()) { 
+    if (!name || !name.trim()) {
       return res.status(400).json({
         message: "Enter the product name",
       });
@@ -189,15 +189,17 @@ export async function updateProduct(req, res) {
       req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({
-        message: "Invalid product ID",
-      });
+      return res.status(400).json({ message: "Invalid product ID" });
+    }
+
+    const product = await productModel.findById(id);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
     }
 
     if (!name || !name.trim()) {
-      return res.status(400).json({
-        message: "Enter the product name",
-      });
+      return res.status(400).json({ message: "Enter the product name" });
     }
 
     if (/^\d+$/.test(name.trim())) {
@@ -207,9 +209,7 @@ export async function updateProduct(req, res) {
     }
 
     if (price === undefined || price === null || Number(price) <= 50) {
-      return res.status(400).json({
-        message: "Enter valid price",
-      });
+      return res.status(400).json({ message: "Enter valid price" });
     }
 
     if (!description || !description.trim()) {
@@ -219,9 +219,7 @@ export async function updateProduct(req, res) {
     }
 
     if (!category) {
-      return res.status(400).json({
-        message: "Select category",
-      });
+      return res.status(400).json({ message: "Select category" });
     }
 
     if (!image || !image.trim()) {
@@ -233,33 +231,6 @@ export async function updateProduct(req, res) {
     if (ratings !== undefined && (Number(ratings) < 0 || Number(ratings) > 5)) {
       return res.status(400).json({
         message: "Rating must be between 0 and 5",
-      });
-    }
-
-    let parsedVariants = [];
-
-    if (variants !== undefined) {
-      try {
-        parsedVariants =
-          typeof variants === "string" ? JSON.parse(variants) : variants;
-
-        if (!Array.isArray(parsedVariants)) {
-          return res.status(400).json({
-            message: "Variants must be an array",
-          });
-        }
-      } catch (error) {
-        return res.status(400).json({
-          message: "Invalid variants format",
-        });
-      }
-    }
-
-    const product = await productModel.findById(id);
-
-    if (!product) {
-      return res.status(404).json({
-        message: "Product not found",
       });
     }
 
@@ -276,7 +247,31 @@ export async function updateProduct(req, res) {
     }
 
     if (variants !== undefined) {
-      updateData.variants = parsedVariants;
+      const parsedVariants =
+        typeof variants === "string" ? JSON.parse(variants) : variants;
+
+      if (!Array.isArray(parsedVariants)) {
+        return res.status(400).json({
+          message: "Variants must be an array",
+        });
+      }
+
+      updateData.variants = parsedVariants.map((variant) => {
+        if (variant._id) {
+          return variant;
+        }
+
+        const existingVariant = product.variants.find(
+          (item) => item.size === variant.size && item.color === variant.color,
+        );
+
+        return existingVariant
+          ? {
+              ...variant,
+              _id: existingVariant._id,
+            }
+          : variant;
+      });
     }
 
     const updatedProduct = await productModel
@@ -291,7 +286,7 @@ export async function updateProduct(req, res) {
       product: updatedProduct,
     });
   } catch (error) {
-    console.log("Update product error:", error);
+    console.error("Update product error:", error);
 
     return res.status(500).json({
       message: "Internal Server Error",

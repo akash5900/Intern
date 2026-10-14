@@ -16,7 +16,7 @@ export default function Cart() {
       });
 
       const data = await res.json();
-
+      console.log("Cart response:", data.cart);
       setCartItems(data.cart || []);
     } catch (error) {
       console.log(error);
@@ -29,8 +29,17 @@ export default function Cart() {
     getCart();
   }, []);
 
+  const getItemPrice = (item) =>
+    Number(
+      item.variant?.price ??
+        item.product?.variant?.price ??
+        item.price ??
+        item.product?.price ??
+        0,
+    );
+
   const subtotal = cartItems.reduce((total, item) => {
-    return total + item.product.price * item.quantity;
+    return total + getItemPrice(item) * Number(item.quantity ?? 1);
   }, 0);
 
   const total = subtotal;
@@ -115,8 +124,19 @@ export default function Cart() {
                           </h2>
 
                           <p className="mt-1 text-sm text-gray-500">
-                            ₹{item.product.price}
+                            ₹{getItemPrice(item).toFixed(2)}
                           </p>
+
+                          {item.variant && (
+                            <div className="mt-1 text-sm text-gray-500">
+                              {item.variant.size && (
+                                <p>Size: {item.variant.size}</p>
+                              )}
+                              {item.variant.color && (
+                                <p>Color: {item.variant.color}</p>
+                              )}
+                            </div>
+                          )}
                         </div>
                         <p
                           onClick={() => handleRemove(item._id)}
@@ -132,7 +152,10 @@ export default function Cart() {
                         </div>
 
                         <p className="font-semibold text-gray-900">
-                          ₹{(item.product.price * item.quantity).toFixed(2)}
+                          ₹
+                          {(
+                            getItemPrice(item) * Number(item.quantity ?? 1)
+                          ).toFixed(2)}
                         </p>
                       </div>
                     </div>
