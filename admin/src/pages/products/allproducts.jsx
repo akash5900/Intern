@@ -130,12 +130,12 @@ export default function Allproducts() {
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-25 h-18 object-cover rounded my-4 ml-2"
+                    className="md:w-20 2xl:w-25 md:h-15 2xl:h-18 object-cover rounded my-4 ml-2"
                   />
                 </td>
-                <td className="p-3 align-middle">{product.name}</td>
-                <td className="p-3 align-middle">{product.price}</td>
-                <td className="p-3 align-middle break-words">
+                <td className="p-3 align-middle md:text-sm">{product.name}</td>
+                <td className="p-3 align-middle md:text-sm">{product.price}</td>
+                <td className="p-3 align-middle break-words md:text-xs">
                   {product.description}
                 </td>
                 <td className="p-3 align-middle text-center ">
