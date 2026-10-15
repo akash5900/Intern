@@ -1,4 +1,5 @@
 import productModel from "../model/product.js";
+import mongoose from "mongoose";
 
 export async function createProduct(req, res) {
   try {

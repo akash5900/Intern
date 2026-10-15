@@ -6,7 +6,7 @@ import { FaArrowRotateLeft } from "react-icons/fa6";
 
 function ProductSkeleton() {
   return (
-    <div className="md:w-[170px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 p-4">
+    <div className="md:w-[250px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 p-4">
 
       <div className="flex justify-center">
         <div className="w-full md:h-[150px] 2xl:h-[180px] rounded bg-gray-200 shimmer" />

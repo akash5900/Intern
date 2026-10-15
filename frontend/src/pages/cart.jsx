@@ -110,8 +110,8 @@ export default function Cart() {
                   >
                     <div className="h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-gray-100">
                       <img
-                        src={item.product.image}
-                        alt={item.product.name}
+                        src={item.product?.image}
+                        alt={item.product?.name}
                         className="h-full w-full object-cover "
                       />
                     </div>
@@ -120,7 +120,7 @@ export default function Cart() {
                       <div className="flex items-start justify-between gap-4">
                         <div>
                           <h2 className="font-semibold text-gray-900">
-                            {item.product.name}
+                            {item.product?.name}
                           </h2>
 
                           <p className="mt-1 text-sm text-gray-500">

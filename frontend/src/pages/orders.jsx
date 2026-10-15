@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { BiRupee } from "react-icons/bi";
 
 export default function Order() {
-
   const navigate = useNavigate();
 
   const [orders, setOrders] = useState([]);
@@ -11,12 +10,9 @@ export default function Order() {
 
   async function getOrder() {
     try {
-      const res = await fetch(
-        `http://localhost:3000/api/order/userorder`,
-        {
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`http://localhost:3000/api/order/userorder`, {
+        credentials: "include",
+      });
 
       const data = await res.json();
 
@@ -35,22 +31,20 @@ export default function Order() {
 
   async function handleDelete(id) {
     try {
-
       const res = await fetch(`http://localhost:3000/api/order/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
       });
 
       const data = await res.json();
 
       if (!res.ok) {
         console.log(data.message);
-        return
+        return;
       }
 
-      alert(data.message)
+      alert(data.message);
 
       getOrder();
-
     } catch (error) {
       console.log(error);
     }
@@ -68,11 +62,13 @@ export default function Order() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <p className="text-gray-500 mb-4">You have not placed any orders yet.</p>
+          <p className="text-gray-500 mb-4">
+            You have not placed any orders yet.
+          </p>
 
           <button
             onClick={() => navigate("/")}
-            className="text-blue-600 font-medium hover:underline"
+            className="text-blue-600 cursor-pointer font-medium hover:underline"
           >
             Home
           </button>
@@ -112,13 +108,10 @@ export default function Order() {
               key={order._id}
               className="overflow-hidden rounded-2xl border border-gray-200 bg-white"
             >
-
               <div className="border-b border-gray-100 px-6 py-5">
                 <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                   <div>
-                    <p className="text-sm text-gray-500">
-                      Order ID
-                    </p>
+                    <p className="text-sm text-gray-500">Order ID</p>
 
                     <p className="mt-1 font-medium text-gray-900 break-all">
                       {order._id}
@@ -126,39 +119,33 @@ export default function Order() {
 
                     <p className="mt-1 text-sm text-gray-500">
                       Placed on{" "}
-                      {new Date(order.createdAt).toLocaleDateString(
-                        "en-IN",
-                        {
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        }
-                      )}
+                      {new Date(order.createdAt).toLocaleDateString("en-IN", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      })}
                     </p>
                   </div>
 
                   <span
-                    className={`w-fit rounded-full px-3 py-1.5 text-sm font-medium ${order.orderStatus === "Delivered"
-                      ? "bg-green-50 text-green-700"
-                      : order.orderStatus === "Cancelled"
-                        ? "bg-red-50 text-red-700"
-                        : order.orderStatus === "Shipped"
-                          ? "bg-blue-50 text-blue-700"
-                          : "bg-yellow-50 text-yellow-700"
-                      }`}
+                    className={`w-fit rounded-full px-3 py-1.5 text-sm font-medium ${
+                      order.orderStatus === "Delivered"
+                        ? "bg-green-50 text-green-700"
+                        : order.orderStatus === "Cancelled"
+                          ? "bg-red-50 text-red-700"
+                          : order.orderStatus === "Shipped"
+                            ? "bg-blue-50 text-blue-700"
+                            : "bg-yellow-50 text-yellow-700"
+                    }`}
                   >
                     {order.orderStatus}
                   </span>
                 </div>
               </div>
 
-
               <div className="divide-y divide-gray-100">
                 {order.products?.map((item) => (
-                  <div
-                    key={item._id}
-                    className="flex gap-4 p-6"
-                  >
+                  <div key={item._id} className="flex gap-4 p-6">
                     <div className="h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-gray-100">
                       {item.product?.image ? (
                         <img
@@ -188,33 +175,31 @@ export default function Order() {
                         <div className="flex items-center font-semibold text-gray-900">
                           <BiRupee />
 
-                          {(
-                            Number(item.price) *
-                            Number(item.quantity)
-                          ).toFixed(2)}
+                          {(Number(item.price) * Number(item.quantity)).toFixed(
+                            2,
+                          )}
                         </div>
                       </div>
 
                       <div className="flex items-start justify-between gap-4">
                         <div className="mt-4 flex items-center gap-4 text-sm text-gray-500">
-                          <span>
-                            Qty: {item.quantity}
-                          </span>
+                          <span>Qty: {item.quantity}</span>
 
                           <span>·</span>
 
                           <span className="flex items-center">
                             <BiRupee />
-
                             {Number(item.price).toFixed(2)} each
                           </span>
                         </div>
 
-                        <button onClick={() => handleDelete(order._id)} className="cursor-pointer mt-4 text-red-500 border rounded px-2">
+                        <button
+                          onClick={() => handleDelete(order._id)}
+                          className="cursor-pointer mt-4 text-red-500 border rounded px-2"
+                        >
                           Cancel Order
                         </button>
                       </div>
-
                     </div>
                   </div>
                 ))}
@@ -230,29 +215,21 @@ export default function Order() {
                     {order.address?.username}
                   </p>
 
-                  <p>
-                    {order.address?.houseaddress}
-                  </p>
+                  <p>{order.address?.houseaddress}</p>
 
                   <p>
-                    {order.address?.city},{" "}
-                    {order.address?.state} -{" "}
+                    {order.address?.city}, {order.address?.state} -{" "}
                     {order.address?.pincode}
                   </p>
 
-                  <p>
-                    {order.address?.mobilenumber}
-                  </p>
+                  <p>{order.address?.mobilenumber}</p>
                 </div>
               </div>
 
               <div className="border-t border-gray-100 bg-gray-50 px-6 py-5">
                 <div className="grid gap-5 sm:grid-cols-3">
-
                   <div>
-                    <p className="text-sm text-gray-500">
-                      Payment Method
-                    </p>
+                    <p className="text-sm text-gray-500">Payment Method</p>
 
                     <p className="mt-1 font-medium text-gray-900">
                       {order.paymentmethod}
@@ -260,26 +237,23 @@ export default function Order() {
                   </div>
 
                   <div>
-                    <p className="text-sm text-gray-500">
-                      Payment Status
-                    </p>
+                    <p className="text-sm text-gray-500">Payment Status</p>
 
                     <p
-                      className={`mt-1 font-medium ${order.paymentstatus === "Paid"
-                        ? "text-green-600"
-                        : order.paymentstatus === "Cancelled"
-                          ? "text-red-600"
-                          : "text-yellow-600"
-                        }`}
+                      className={`mt-1 font-medium ${
+                        order.paymentstatus === "Paid"
+                          ? "text-green-600"
+                          : order.paymentstatus === "Cancelled"
+                            ? "text-red-600"
+                            : "text-yellow-600"
+                      }`}
                     >
                       {order.paymentstatus}
                     </p>
                   </div>
 
                   <div>
-                    <p className="text-sm text-gray-500">
-                      Total
-                    </p>
+                    <p className="text-sm text-gray-500">Total</p>
 
                     <p className="mt-1 flex items-center text-xl font-bold text-gray-900">
                       <BiRupee />
@@ -292,7 +266,6 @@ export default function Order() {
             </div>
           ))}
         </div>
-
       </div>
     </div>
   );
