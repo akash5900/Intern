@@ -96,10 +96,10 @@ function Addproducts() {
   }
 
   return (
-    <div className="flex items-center justify-center md:mt-[50px] 2xl:mt-[100px]">
+    <div className="flex items-center justify-center">
       <div className="w-[400px] flex flex-col gap-[20px] p-5">
         <form
-          className="border border-blue-200 rounded-lg flex flex-col justify-center items-center gap-5 px-4 py-10 bg-gray-50 hover:shadow-xl"
+          className="border border-blue-200 rounded-lg flex flex-col justify-center items-center gap-5 px-4 py-8 bg-gray-50 hover:shadow-xl"
           onSubmit={handleSubmit}
         >
           <h1 className="text-xl font-semibold pb-3">Add Products</h1>

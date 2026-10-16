@@ -53,6 +53,7 @@ export default function Allusers() {
         <table className="w-full border border-gray-200 border-collapse table-fixed">
           <thead className="bg-blue-200">
             <tr className="text-lg pl-1">
+              <th className="p-2">User_Id</th>
               <th className="p-2">Name</th>
               <th className="p-2 ">Email</th>
               <th className="p-2 ">Mobile Number</th>
@@ -67,6 +68,7 @@ export default function Allusers() {
                 key={user._id}
                 className="border-b border-gray-200 font-semibold text-sm"
               >
+                <td className="p-3 text-center">#{user._id}</td>
                 <td className="p-3 text-center">{user.username}</td>
                 <td className="p-3 text-center">{user.email} </td>
                 <td className="p-3 text-center">{user.mobilenumber}</td>

@@ -86,7 +86,6 @@ export async function getSingleCategory(req, res) {
     }
 }
 
-
 export async function updateCategory(req, res) {
     try {
 

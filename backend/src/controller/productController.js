@@ -135,6 +135,19 @@ export async function getProducts(req, res) {
   }
 }
 
+export async function allProducts(req, res) {
+  try {
+    const products = await productModel.find();
+
+    return res.status(200).json({
+      message: "Products fetched",
+      products
+    })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function getProduct(req, res) {
   try {
     const { id } = req.params;
@@ -268,9 +281,9 @@ export async function updateProduct(req, res) {
 
         return existingVariant
           ? {
-              ...variant,
-              _id: existingVariant._id,
-            }
+            ...variant,
+            _id: existingVariant._id,
+          }
           : variant;
       });
     }

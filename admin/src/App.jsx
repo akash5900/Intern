@@ -5,6 +5,10 @@ import Login from "./pages/login";
 
 import Allusers from "./pages/users/allusers";
 
+import Allorders from "./pages/orders/allOrders";
+
+import Dashboard from "./pages/dashboard";
+
 import Addproducts from "./pages/products/addproduct";
 import Allproducts from "./pages/products/allproducts";
 import Updateproduct from "./pages/products/editproduct";
@@ -25,8 +29,9 @@ function App() {
                 <Route path="/admin/login" element={<Login />} />
 
                 <Route path="/admin" element={<AdminProtectedRoute> <Adminlayout /></AdminProtectedRoute>}>
+                    <Route path="dashboard" element={<Dashboard />} />
 
-                    <Route path="allusers" element={<Allusers />} />X
+                    <Route path="allusers" element={<Allusers />} />
 
                     <Route path="addproduct" element={<Addproducts />} />
                     <Route path="allproducts" element={<Allproducts />} />
@@ -35,12 +40,17 @@ function App() {
                     <Route path="addcategory" element={<Addcategory />} />
                     <Route path="allcategories" element={<Allcategories />} />
                     <Route path="updatecategory/:id" element={<Updatecategory />} />
+
+                    <Route path="allorders" element={<Allorders />} />
+
+                    <Route index element={<Navigate to="dashboard" replace />}
+                    />
                 </Route>
 
 
 
             </Routes>
-        </BrowserRouter>
+        </BrowserRouter >
     )
 }
 

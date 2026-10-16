@@ -8,7 +8,9 @@ export default function Sidebar() {
 
     const [openproduct, setOpenproduct] = useState(false);
     const [opencategory, setOpencategory] = useState(false);
-    const [openuser, setOpenUser] = useState(false)
+    const [openuser, setOpenUser] = useState(false);
+    const [openorders, setOpenOrders] = useState(false);
+    const [opendashboard, setOpenDashboard] = useState(false);
 
     function handleLogout() {
         localStorage.removeItem("AdminToken");
@@ -19,6 +21,12 @@ export default function Sidebar() {
     return <div className="p-3">
         <h1 className="text-2xl font-semibold mb-4 text-gray-900">Admin Panel</h1>
         <ul className="space-y-2 ml-2">
+
+            <li>
+                <Link to={"/admin/dashboard"} className="flex items-center gap-1 cursor-pointer text-blue-900">
+                    <h1 className="text-lg font-semibold">Dashboard</h1>
+                </Link>
+            </li>
 
             <li>
                 <div onClick={() => { setOpenUser(!openuser) }} className="flex items-center gap-1 cursor-pointer text-blue-900">
@@ -65,6 +73,20 @@ export default function Sidebar() {
                         </li>
                         <li>
                             <Link to={"/admin/allcategories"} className="cursor-pointer font-semibold">All Categories</Link>
+                        </li>
+                    </ul>
+                )}
+            </li>
+
+            <li>
+                <div onClick={() => setOpenOrders(!openorders)} className="flex items-center gap-1 cursor-pointer text-blue-900">
+                    <h1 className="text-lg font-semibold">Orders</h1>
+                    <BiSolidDownArrow size={14} />
+                </div>
+                {openorders && (
+                    <ul className="ml-4 mt-2 space-y-1 text-gray-900">
+                        <li>
+                            <Link to={"/admin/allorders"} className="cursor-pointer font-semibold">All Orders</Link>
                         </li>
                     </ul>
                 )}

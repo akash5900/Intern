@@ -7,8 +7,8 @@ import { FaArrowRotateRight } from "react-icons/fa6";
 export default function Banner() {
   return (
     <section className="w-full px-3 py-4 sm:px-6">
-      <div className="mx-auto flex max-w-[1600px] flex-col items-center overflow-hidden rounded-2xl bg-[#f8f2e8] md:min-h-[400px] md:flex-row md:gap-2">
-        <div className="flex w-full flex-col gap-4 px-5 py-8 sm:px-8 md:w-1/2 md:py-4 lg:px-12">
+      <div className="flex flex-col items-center overflow-hidden rounded-2xl bg-[#f8f2e8] md:min-h-[400px] md:flex-row md:gap-2 2xl:gap-10 ">
+        <div className="flex w-full flex-col gap-4 px-5 py-8 sm:px-8 md:w-1/2 md:py-4 lg:px-12 ml-[10px]">
           <div className="flex items-center gap-2 text-xl font-semibold text-slate-900">
             <SiShopify size={26} />
             <h1 className="text-2xl font-bold">Shopsy</h1>
@@ -68,11 +68,11 @@ export default function Banner() {
           </div>
         </div>
 
-        <div className="flex w-full items-center justify-center px-4 pb-6 md:w-1/2 md:self-stretch md:px-2 md:pr-0 md:pb-0">
+        <div className="flex w-full items-center justify-center px-4 pb-6 md:w-1/2 md:self-stretch md:px-2 md:pr-0 md:pb-0 ">
           <img
             src="/images/shopsy-products.png"
             alt="Fashion accessories, sneakers, headphones and electronics"
-            className="h-auto max-h-[420px] w-full object-contain"
+            className="h-auto max-h-[420px] w-full object-contain ml-[250px]"
           />
         </div>
       </div>

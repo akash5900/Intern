@@ -41,7 +41,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <section className="flex md:gap-18 2xl:gap-25">
+        <section className="flex md:gap-18 2xl:gap-24">
           <div className="flex flex-col gap-2 ">
             <h1 className="md:text-md 2xl:text-lg">Quick Links</h1>
             <ul className="flex flex-col items-start gap-1 ml-4 md:text-xs 2xl:text-sm">
@@ -103,7 +103,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="flex flex-col gap-2 md:w-30 2xl:w:0 ">
+          <div className="flex flex-col gap-2 md:w-30 2xl:w-35 border ">
             <h1 className="md:text-md 2xl:text-lg">Legel</h1>
             <ul className="flex flex-col items-start gap-1 ml-1 md:text-xs 2xl:text-sm">
               <li>
@@ -112,7 +112,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link className="cursor-pointer  hover:pl-2 transition-all">
+                <Link className="cursor-pointer hover:pl-2 transition-all">
                   Terms & Conditions
                 </Link>
               </li>

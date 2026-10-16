@@ -3,6 +3,7 @@ import {
   createProduct,
   getProducts,
   getProduct,
+  allProducts,
   getProductsByCategory,
   updateProduct,
   deleteProduct,
@@ -11,6 +12,7 @@ import {
 const router = express.Router();
 
 router.get("/allproducts", getProducts);
+router.get("/getproducts", allProducts);
 router.get("/category", getProductsByCategory);
 router.get("/:id", getProduct);
 router.post("/createproduct", createProduct);
