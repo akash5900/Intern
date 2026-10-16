@@ -50,6 +50,31 @@ export default function Order() {
     }
   }
 
+  async function cancelOrder(id) {
+    try {
+      const res = await fetch(`http://localhost:3000/api/order/cancel/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.log(data.message);
+      }
+
+      alert(data.message);
+
+      getOrder();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -192,13 +217,23 @@ export default function Order() {
                             {Number(item.price).toFixed(2)} each
                           </span>
                         </div>
+                        {order.orderStatus === "Placed" && (
+                          <button
+                            onClick={() => cancelOrder(order._id)}
+                            className="cursor-pointer mt-4 text-red-500 border rounded px-2"
+                          >
+                            Cancel Order
+                          </button>
+                        )}
 
-                        <button
-                          onClick={() => handleDelete(order._id)}
-                          className="cursor-pointer mt-4 text-red-500 border rounded px-2"
-                        >
-                          Cancel Order
-                        </button>
+                        {order.orderStatus === "Cancelled" && (
+                          <button
+                            onClick={() => handleDelete(order._id)}
+                            className="cursor-pointer mt-4 text-red-500 border rounded px-2"
+                          >
+                            Delete Order
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>

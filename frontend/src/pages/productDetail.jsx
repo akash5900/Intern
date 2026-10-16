@@ -149,10 +149,10 @@ export default function ProductDetail() {
   const currentPrice = selectedVariant?.price ?? product.price;
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-8">
+    <div className="min-h-screen bg-gray-50 pt-6">
       <div className="px-4 md:px-10 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 bg-white rounded-2xl shadow-sm p-6 md:p-10">
-          <div className="flex items-center justify-center bg-gray-50 rounded-xl p-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 bg-white rounded-2xl shadow-sm p-6 md:p-8 2xl:p-10">
+          <div className="flex items-center justify-center bg-gray-50 rounded-xl md:p-6 2xl:p-6">
             <img
               src={product.image}
               alt={product.name}
@@ -160,7 +160,7 @@ export default function ProductDetail() {
             />
           </div>
 
-          <section className="flex flex-col ml-15 gap-5">
+          <section className="flex flex-col ml-15 gap-4">
             <span className="w-fit bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-medium">
               {product.category?.name || "N/A"}
             </span>

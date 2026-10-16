@@ -106,7 +106,7 @@ export default function Allproducts() {
           +Add Product
         </Link>
       </div>
-      <div className="w-full overflow-x-auto">
+      <div className="w-full overflow-x-auto rounded-lg shadow-sm">
         <table className="w-full border border-gray-200 border-collapse table-fixed">
           <thead className="bg-blue-200">
             <tr className="text-lg pl-1">
