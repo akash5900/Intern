@@ -1,16 +1,17 @@
 import { BiSolidDownArrow } from "react-icons/bi";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom"
+import { RiDashboardFill } from "react-icons/ri";
+import { FaBoxOpen } from "react-icons/fa6";
+import { TbCategoryPlus } from "react-icons/tb";
+import { TiShoppingCart } from "react-icons/ti";
+import { IoPersonCircle } from "react-icons/io5";
 
 export default function Sidebar() {
 
     const navigate = useNavigate();
-
     const [openproduct, setOpenproduct] = useState(false);
     const [opencategory, setOpencategory] = useState(false);
-    const [openuser, setOpenUser] = useState(false);
-    const [openorders, setOpenOrders] = useState(false);
-    const [opendashboard, setOpenDashboard] = useState(false);
 
     function handleLogout() {
         localStorage.removeItem("AdminToken");
@@ -24,26 +25,14 @@ export default function Sidebar() {
 
             <li>
                 <Link to={"/admin/dashboard"} className="flex items-center gap-1 cursor-pointer text-blue-900">
+                    <RiDashboardFill size={22} />
                     <h1 className="text-lg font-semibold">Dashboard</h1>
                 </Link>
             </li>
 
             <li>
-                <div onClick={() => { setOpenUser(!openuser) }} className="flex items-center gap-1 cursor-pointer text-blue-900">
-                    <h1 className="text-lg font-semibold">Users</h1>
-                    <BiSolidDownArrow size={14} />
-                </div>
-                {openuser && (
-                    <ul className="ml-4 mt-2 space-y-1 text-gray-900">
-                        <li>
-                            <Link to={"/admin/allusers"} className="cursor-pointer font-semibold">All Users</Link>
-                        </li>
-                    </ul>
-                )}
-            </li>
-
-            <li>
                 <div onClick={() => setOpenproduct(!openproduct)} className="flex items-center gap-1 cursor-pointer text-blue-900">
+                    <FaBoxOpen size={22} />
                     <h1 className="text-lg font-semibold ">Products</h1>
                     <BiSolidDownArrow size={14} />
                 </div>
@@ -63,6 +52,7 @@ export default function Sidebar() {
 
             <li>
                 <div onClick={() => setOpencategory(!opencategory)} className="flex items-center gap-1 cursor-pointer text-blue-900">
+                    <TbCategoryPlus size={22} />
                     <h1 className="text-lg font-semibold">Category</h1>
                     <BiSolidDownArrow size={14} />
                 </div>
@@ -79,17 +69,17 @@ export default function Sidebar() {
             </li>
 
             <li>
-                <div onClick={() => setOpenOrders(!openorders)} className="flex items-center gap-1 cursor-pointer text-blue-900">
+                <Link to={"/admin/allorders"} className="flex items-center gap-1 cursor-pointer text-blue-900">
+                    <TiShoppingCart size={22} />
                     <h1 className="text-lg font-semibold">Orders</h1>
-                    <BiSolidDownArrow size={14} />
-                </div>
-                {openorders && (
-                    <ul className="ml-4 mt-2 space-y-1 text-gray-900">
-                        <li>
-                            <Link to={"/admin/allorders"} className="cursor-pointer font-semibold">All Orders</Link>
-                        </li>
-                    </ul>
-                )}
+                </Link>
+            </li>
+
+            <li>
+                <Link to={"/admin/allusers"} className="flex items-center gap-1 cursor-pointer text-blue-900">
+                    <IoPersonCircle size={22}/>
+                    <h1 className="text-lg font-semibold">Users</h1>
+                </Link>
             </li>
 
             <li>

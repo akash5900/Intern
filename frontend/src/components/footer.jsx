@@ -103,7 +103,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="flex flex-col gap-2 md:w-30 2xl:w-35 border ">
+          <div className="flex flex-col gap-2 md:w-30 2xl:w-35 ">
             <h1 className="md:text-md 2xl:text-lg">Legel</h1>
             <ul className="flex flex-col items-start gap-1 ml-1 md:text-xs 2xl:text-sm">
               <li>

@@ -136,6 +136,7 @@ export default function ProductDetail() {
 
       if (!res.ok) {
         alert(data.message);
+        navigate("/login")
         return;
       }
 

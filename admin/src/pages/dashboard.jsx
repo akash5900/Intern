@@ -3,9 +3,12 @@ import { HiUsers } from "react-icons/hi2";
 import { BsBoxFill } from "react-icons/bs";
 import { BiSolidCategory } from "react-icons/bi";
 import { MdLocalShipping } from "react-icons/md";
+import { useNavigate } from "react-router"
+
+
 
 export default function Dashboard() {
-
+    const navigate = useNavigate()
     const [allusers, setAllUsers] = useState(null);
     const [allproducts, setAllProducts] = useState();
     const [allorders, setAllOrders] = useState();
@@ -92,15 +95,15 @@ export default function Dashboard() {
     }
 
     useEffect(() => {
-        getAllCategory();
         getAllUsers();
         getProducts();
+        getAllCategory();
         getorders()
     }, [])
 
     return (
         <div className="min-h-screen bg-slate-50">
-            <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+            <div className="mb-8 flex items-center">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-800 md:text-2xl">
                         Dashboard
@@ -109,17 +112,10 @@ export default function Dashboard() {
                         Welcome back! Here is your store overview.
                     </p>
                 </div>
-
-                <button
-                    onClick={() => window.location.reload()}
-                    className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-blue-600 cursor-pointer"
-                >
-                    ↻ Refresh
-                </button>
             </div>
 
             <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
-                <div className="flex items-center gap-4 rounded-xl border border-slate-100 bg-white p-5 shadow-sm">
+                <div onClick={() => navigate("/admin/allusers")} className="flex items-center gap-4 rounded-xl border border-slate-100 bg-white p-5 shadow-sm cursor-pointer">
                     <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-blue-100 text-2xl">
                         <HiUsers size={26} />
                     </div>
@@ -134,7 +130,7 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-4 rounded-xl border border-slate-100 bg-white p-5 shadow-sm">
+                <div onClick={() => navigate("/admin/allproducts")} className="flex items-center gap-4 rounded-xl border border-slate-100 bg-white p-5 shadow-sm  cursor-pointer">
                     <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-emerald-100 text-2xl">
                         <BsBoxFill />
                     </div>
@@ -149,7 +145,7 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-4 rounded-xl border border-slate-100 bg-white p-5 shadow-sm">
+                <div onClick={() => navigate("/admin/allcategories")} className="flex items-center gap-4 rounded-xl border border-slate-100 bg-white p-5 shadow-sm  cursor-pointer">
                     <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-purple-100 text-2xl">
                         <BiSolidCategory size={28} />
                     </div>
@@ -164,7 +160,7 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-4 rounded-xl border border-slate-100 bg-white p-5 shadow-sm">
+                <div onClick={() => navigate("/admin/allorders")} className="flex items-center gap-4 rounded-xl border border-slate-100 bg-white p-5 shadow-sm  cursor-pointer">
                     <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-orange-100 text-2xl">
                         <MdLocalShipping size={28} />
                     </div>

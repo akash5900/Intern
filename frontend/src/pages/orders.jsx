@@ -109,7 +109,7 @@ export default function Order() {
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
-                Order Details
+                My Orders
               </h1>
 
               <p className="mt-2 text-sm text-gray-500">
@@ -153,15 +153,14 @@ export default function Order() {
                   </div>
 
                   <span
-                    className={`w-fit rounded-full px-3 py-1.5 text-sm font-medium ${
-                      order.orderStatus === "Delivered"
+                    className={`w-fit rounded-full px-3 py-1.5 text-sm font-medium ${order.orderStatus === "Delivered"
                         ? "bg-green-50 text-green-700"
                         : order.orderStatus === "Cancelled"
                           ? "bg-red-50 text-red-700"
                           : order.orderStatus === "Shipped"
                             ? "bg-blue-50 text-blue-700"
                             : "bg-yellow-50 text-yellow-700"
-                    }`}
+                      }`}
                   >
                     {order.orderStatus}
                   </span>
@@ -275,13 +274,12 @@ export default function Order() {
                     <p className="text-sm text-gray-500">Payment Status</p>
 
                     <p
-                      className={`mt-1 font-medium ${
-                        order.paymentstatus === "Paid"
+                      className={`mt-1 font-medium ${order.paymentstatus === "Paid"
                           ? "text-green-600"
                           : order.paymentstatus === "Cancelled"
                             ? "text-red-600"
                             : "text-yellow-600"
-                      }`}
+                        }`}
                     >
                       {order.paymentstatus}
                     </p>
