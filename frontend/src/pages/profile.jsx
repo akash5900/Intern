@@ -1,28 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import useAuth from "../context/useAuth";
 
 export default function Profile() {
   const navigate = useNavigate();
-
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    async function getUser() {
-      try {
-
-        const res = await fetch("http://localhost:3000/api/user/profile", {
-          credentials: "include"
-        });
-
-        const data = await res.json();
-
-        setUser(data.user);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getUser();
-  }, []);
+  const { user, logout } = useAuth();
 
   if (!user) {
     return (
@@ -52,11 +33,6 @@ export default function Profile() {
     );
   }
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    navigate("/login");
-  };
-
   return (
     <div className="flex items-center justify-center mt-[80px]">
       <div className="w-[450px] border border-blue-200 rounded-lg bg-gray-50 p-8 shadow-sm">
@@ -82,7 +58,7 @@ export default function Profile() {
 
         <div className="flex justify-center mt-7">
           <button
-            onClick={handleLogout}
+            onClick={logout}
             className="border border-gray-500 rounded-md bg-white px-8 py-2 cursor-pointer hover:bg-red-100"
           >
             Logout

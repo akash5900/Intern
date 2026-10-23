@@ -6,6 +6,8 @@ import {
   adminLogin,
   adminSignup,
   getProfie,
+  userLogout,
+  adminLogout,
 } from "../controller/userController.js";
 import AdminAuthMiddleware from "../middlewares/adminMiddleware.js";
 import Authmiddleware from "../middlewares/authMiddleware.js";
@@ -25,13 +27,16 @@ router.post("/adminsignup", adminSignup);
 
 router.post("/adminlogin", adminLogin);
 
+router.post("/logout", userLogout);
+
+router.post("/adminlogout", adminLogout);
+
 router.get("/admin/me", AdminAuthMiddleware, (req, res) => {
   return res.status(200).json({
     authenticated: true,
     user: req.user,
   });
 });
-
 
 router.delete("/:id", deleteUser);
 

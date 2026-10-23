@@ -304,7 +304,7 @@ export async function adminLogin(req, res) {
       secure: false,
       sameSite: "lax",
       maxAge: 24 * 60 * 60 * 1000,
-    })
+    });
 
     return res.status(200).json({
       statuscode: "200",
@@ -370,6 +370,46 @@ export async function deleteUser(req, res) {
       statuscode: "200",
       message: "User Deleted",
       user,
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      message: "Server error",
+    });
+  }
+}
+
+export async function userLogout(req, res) {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+    });
+
+    return res.status(200).json({
+      message: "User logged out successfully",
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      message: "Server error",
+    });
+  }
+}
+
+export async function adminLogout(req, res) {
+  try {
+    res.clearCookie("AdminToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+    });
+
+    return res.status(200).json({
+      message: "Admin logged out successfully",
     });
   } catch (error) {
     console.log(error);

@@ -3,39 +3,54 @@ import { createContext, useEffect, useState } from "react";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        async function fetchUser() {
-            try {
-                const res = await fetch("http://localhost:3000/api/user/profile", {
-                    credentials: "include"
-                });
+  async function logout() {
+    try {
+      const res = await fetch("http://localhost:3000/api/user/logout", {
+        method: "POST",
+        credentials: "include",
+      });
 
-                if (!res.ok) {
-                    setUser(null);
-                    return;
-                }
+      if (res.ok) {
+        setUser(null);
+      }
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  }
 
-                const data = await res.json();
+  async function fetchUser() {
+    try {
+      const res = await fetch("http://localhost:3000/api/user/profile", {
+        credentials: "include",
+      });
 
-                setUser(data.user)
-            } catch (error) {
-                console.error("Faild To Fetch User", error);
-            } finally {
-                setLoading(false);
-            };
-        };
+      if (!res.ok) {
+        setUser(null);
+        return;
+      }
 
-        fetchUser()
-    }, [])
+      const data = await res.json();
 
-    return (
-        <AuthContext.Provider value={{ user, setUser, loading }}>
-            {children}
-        </AuthContext.Provider>
-    );
-};
+      setUser(data.user);
+    } catch (error) {
+      console.error("Faild To Fetch User", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ user, setUser, loading, fetchUser, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
 
 export default AuthContext;

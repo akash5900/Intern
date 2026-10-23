@@ -113,7 +113,7 @@ export default function Header() {
             ) : (
               <Link
                 to="/login"
-                className="flex items-center gap-2 rounded-lg px-3 py-2 hover:text-red-500 "
+                className="flex items-center gap-2 rounded-lg px-3 py-2 hover:text-red-500 mt-1"
               >
                 <BsPersonCircle size={22} />
                 <span className="font-semibold text-sm">Login</span>

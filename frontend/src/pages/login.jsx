@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
+import useAuth from "../context/useAuth";
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const { fetchUser } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
   const [emailOrMobile, setEmailOrMobile] = useState("");
@@ -34,6 +37,7 @@ const Login = () => {
       }
 
       alert(data.message);
+      await fetchUser();
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -89,11 +93,11 @@ const Login = () => {
           </button>
           <div className="flex ml-48 gap-1">
             <h1>New User?</h1>
-            <Link to={"/signup"} className="cursor-pointer text-red-500">Signup</Link>
+            <Link to={"/signup"} className="cursor-pointer text-red-500">
+              Signup
+            </Link>
           </div>
         </form>
-
-
       </div>
     </div>
   );
