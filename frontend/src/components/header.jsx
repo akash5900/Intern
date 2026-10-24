@@ -6,9 +6,11 @@ import { IoMdCart } from "react-icons/io";
 import { IoBagHandle } from "react-icons/io5";
 import { SiShopify } from "react-icons/si";
 import useAuth from "../context/useAuth";
+import useCart from "../context/useCart";
 
 export default function Header() {
   const { user, loading } = useAuth();
+  const { totalItems } = useCart();
   const [, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState("");
   const [minprice, setMinprice] = useState("");
@@ -84,19 +86,20 @@ export default function Header() {
 
         <nav className="flex items-center gap-3 md:gap-6 text-gray-700">
           <Link
+            to="/cart"
+            className="flex items-center gap-1 hover:text-blue-600 mr-1"
+          >
+            <IoMdCart size={24} className="mt-1" />
+            <span className="font-semibold text-sm mt-1">Cart</span>
+            <span className="text-blue-800">{totalItems}</span>
+          </Link>
+
+          <Link
             to="/orders"
             className="flex items-center gap-1 hover:text-green-600"
           >
             <IoBagHandle size={25} />
             <span className="font-semibold text-sm mt-1">Orders</span>
-          </Link>
-
-          <Link
-            to="/cart"
-            className="flex items-center gap-1 hover:text-blue-600"
-          >
-            <IoMdCart size={24} className="mt-1" />
-            <span className="font-semibold text-sm mt-1">Cart</span>
           </Link>
 
           {!loading &&

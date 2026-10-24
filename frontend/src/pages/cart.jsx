@@ -2,47 +2,11 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ImCross } from "react-icons/im";
+import useCart from "../context/useCart";
 
 export default function Cart() {
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  async function getCart() {
-    try {
-      const res = await fetch("http://localhost:3000/api/cart/usercart", {
-        method: "GET",
-        credentials: "include",
-      });
-
-      const data = await res.json();
-      console.log("Cart response:", data.cart);
-      setCartItems(data.cart || []);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    getCart();
-  }, []);
-
-  const getItemPrice = (item) =>
-    Number(
-      item.variant?.price ??
-        item.product?.variant?.price ??
-        item.price ??
-        item.product?.price ??
-        0,
-    );
-
-  const subtotal = cartItems.reduce((total, item) => {
-    return total + getItemPrice(item) * Number(item.quantity ?? 1);
-  }, 0);
-
-  const total = subtotal;
+  const { cart, loading, total, handleRemove, getItemPrice, subtotal } = useCart();
 
   if (loading) {
     return (
@@ -50,22 +14,6 @@ export default function Cart() {
         <p className="text-gray-500">Loading cart...</p>
       </div>
     );
-  }
-
-  async function handleRemove(id) {
-    try {
-      const res = await fetch(`http://localhost:3000/api/cart/${id}`, {
-        method: "DELETE",
-      });
-
-      const data = await res.json();
-
-      alert(data.message);
-
-      getCart();
-    } catch (error) {
-      console.log(error);
-    }
   }
 
   return (
@@ -77,12 +25,11 @@ export default function Cart() {
           </h1>
 
           <p className="mt-2 text-sm text-gray-500">
-            {cartItems.length} {cartItems.length === 1 ? "item" : "items"} in
-            your cart
+            {cart.length} {cart.length === 1 ? "item" : "items"} in your cart
           </p>
         </div>
 
-        {cartItems.length === 0 ? (
+        {cart.length === 0 ? (
           <div className="rounded-2xl border border-gray-200 bg-white p-10 text-center">
             <h2 className="text-xl font-semibold text-gray-900">
               Your cart is empty
@@ -103,7 +50,7 @@ export default function Cart() {
           <div className="grid gap-8 lg:grid-cols-3">
             <div className="lg:col-span-2">
               <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
-                {cartItems.map((item) => (
+                {cart.map((item) => (
                   <div
                     key={item._id}
                     className="flex gap-5 border-b border-gray-100 p-5 last:border-b-0"
@@ -206,9 +153,7 @@ export default function Cart() {
                 </div>
 
                 <button
-                  onClick={() =>
-                    navigate("/checkout", { state: { cartItems } })
-                  }
+                  onClick={() => navigate("/checkout", { state: { cart } })}
                   type="button"
                   className="mt-6 w-full rounded-xl bg-black px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-800"
                 >

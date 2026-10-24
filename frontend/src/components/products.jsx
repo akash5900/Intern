@@ -146,7 +146,7 @@ function Products() {
             <ProductSkeleton key={index} />
           )) : products.map((product) => (
             <div
-              className=" md:w-[270px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl px-4 pt-4 pb-2 cursor-pointer"
+              className=" md:w-[270px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl transition px-4 pt-4 pb-2 cursor-pointer"
               key={product._id}
               onClick={() => navigate(`/productdetail/${product._id}`)}
             >

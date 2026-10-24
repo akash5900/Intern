@@ -21,8 +21,8 @@ export default function Checkout() {
 
   const checkoutState = location.state;
 
-  const checkoutProduct = Array.isArray(checkoutState?.cartItems)
-    ? checkoutState.cartItems
+  const checkoutProduct = Array.isArray(checkoutState?.cart)
+    ? checkoutState.cart
     : checkoutState?.product
       ? [
           {

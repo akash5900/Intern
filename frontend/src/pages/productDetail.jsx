@@ -6,11 +6,12 @@ import { FaArrowRotateLeft } from "react-icons/fa6";
 import { TbTruckDelivery } from "react-icons/tb";
 import { HiMiniShieldCheck } from "react-icons/hi2";
 import Footer from "../components/footer";
+import useCart from "../context/useCart";
 
 export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const { getCart } = useCart();
   const [product, setProduct] = useState(null);
   const [moreProducts, setMoreProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
@@ -136,12 +137,12 @@ export default function ProductDetail() {
 
       if (!res.ok) {
         alert(data.message);
-        navigate("/login")
+        navigate("/login");
         return;
       }
 
       alert(data.message);
-      navigate("/cart");
+      getCart();
     } catch (error) {
       console.log(error);
     }
