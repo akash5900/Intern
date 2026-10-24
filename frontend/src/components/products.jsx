@@ -135,12 +135,12 @@ function Products() {
     };
   }, [page, hasMore, loading]);
   return (
-    <div className="flex flex-col md:gap-6 2xl:gap-8 px-8 py-4 ">
+    <div className="flex flex-col md:gap-6 2xl:gap-8 md:px-4 px-8 py-4 ">
       <div className="flex justify-between">
         <h1 className="text-2xl text-gray-800 font-semibold">Products For You</h1>
       </div>
 
-      <div className="grid 2xl:grid-cols-5 md:grid-cols-4 gap-8 2xl:gap-15">
+      <div className="md:pl-2 grid md:grid-cols-4 2xl:grid-cols-5 md:gap-12 2xl:gap-15 ">
         {loading && products.length === 0 ?
           Array.from({ length: 15 }).map((_, index) => (
             <ProductSkeleton key={index} />

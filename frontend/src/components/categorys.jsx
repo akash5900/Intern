@@ -23,20 +23,20 @@ export default function Category() {
   }, []);
 
   return (
-    <div className="p-4 bg-gray-50 border-t border-b border-gray-200 ">
-      <div className="flex overflow-x-auto">
+    <div className="px-8 py-4 border-t border-gray-200 ">
+      <div className="flex overflow-x-auto ">
         {category.map((cat) => (
           <div
-            className="flex items-center mx-8 cursor-pointer text-gray-600 hover:text-black"
+            className="flex items-center cursor-pointer text-gray-600 hover:text-black"
             key={cat._id}
           >
             <div
               onClick={() => {
                 navigate(`/categoryproducts/${cat._id}`);
               }}
-              className="flex flex-col items-center  "
+              className="flex flex-col items-center "
             >
-              <h1 className="text-[15px] font-semibold">
+              <h1 className="text-[15px] font-semibold mr-15 ">
                 {cat.name}
               </h1>
             </div>

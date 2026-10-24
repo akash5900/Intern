@@ -7,9 +7,9 @@ import useAuth from "../context/useAuth";
 export default function Banner() {
   const { user } = useAuth();
   return (
-    <section className="w-full px-3 py-4 sm:px-6">
+    <section className="w-full px-3 py-4 md:px-4">
       <div className="flex flex-col items-center overflow-hidden rounded-2xl bg-[#f8f2e8] md:min-h-[400px] md:flex-row md:gap-2 2xl:gap-10 ">
-        <div className="flex w-full flex-col gap-4 px-5 py-8 sm:px-8 md:w-1/2 md:py-4 lg:px-12 2xl:ml-[10px]">
+        <div className="flex w-full flex-col gap-4 px-5 py-8 sm:px-8 md:w-1/2 md:py-4 lg:px-8 2xl:ml-[10px]">
           <div className="flex items-center gap-2 text-xl font-semibold text-slate-900">
             <h1 className="text-2xl font-bold text-gray-700">Hello {user?.username || "Guest"}</h1>
           </div>
