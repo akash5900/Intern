@@ -7,7 +7,6 @@ export default function Category() {
 
   async function getCategory() {
     try {
-
       const res = await fetch("http://localhost:3000/api/category/allcategory");
 
       const data = await res.json();
@@ -36,9 +35,7 @@ export default function Category() {
               }}
               className="flex flex-col items-center "
             >
-              <h1 className="text-[15px] font-semibold mr-15 ">
-                {cat.name}
-              </h1>
+              <h1 className="text-[15px] font-semibold mr-15 ">{cat.name}</h1>
             </div>
           </div>
         ))}

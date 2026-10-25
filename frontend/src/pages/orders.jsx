@@ -108,7 +108,7 @@ export default function Order() {
         <div className="mb-8">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-2xl font-bold text-gray-900">
                 My Orders
               </h1>
 

@@ -6,7 +6,8 @@ import useCart from "../context/useCart";
 
 export default function Cart() {
   const navigate = useNavigate();
-  const { cart, loading, total, handleRemove, getItemPrice, subtotal } = useCart();
+  const { cart, loading, total, handleRemove, getItemPrice, subtotal } =
+    useCart();
 
   if (loading) {
     return (
@@ -18,12 +19,20 @@ export default function Cart() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className=" mx-auto max-w-7xl py-4 ">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Shopping Cart
-          </h1>
-
+          <div className="flex items-center justify-between">
+            {" "}
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+              Shopping Cart
+            </h1>
+            <button
+              className="hover:text-blue-500 cursor-pointer font-semibold text-lg"
+              onClick={() => navigate("/")}
+            >
+              Home
+            </button>
+          </div>
           <p className="mt-2 text-sm text-gray-500">
             {cart.length} {cart.length === 1 ? "item" : "items"} in your cart
           </p>
@@ -47,7 +56,7 @@ export default function Cart() {
             </Link>
           </div>
         ) : (
-          <div className="grid gap-8 lg:grid-cols-3">
+          <div className="grid gap-20 lg:grid-cols-3">
             <div className="lg:col-span-2">
               <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
                 {cart.map((item) => (

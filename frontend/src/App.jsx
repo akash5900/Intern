@@ -9,10 +9,13 @@ import Cart from "./pages/cart";
 import Order from "./pages/orders";
 import Checkout from "./pages/checkout";
 import Product from "./pages/products";
+import Header from "./components/header";
+import Footer from "./components/footer";
 
 function App() {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
 
@@ -27,6 +30,7 @@ function App() {
 
         <Route path="/categoryproducts/:id" element={<Categoryproducts />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

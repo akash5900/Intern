@@ -7,7 +7,6 @@ import { FaArrowRotateLeft } from "react-icons/fa6";
 function ProductSkeleton() {
   return (
     <div className="md:w-[250px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 p-4">
-
       <div className="flex justify-center">
         <div className="w-full md:h-[150px] 2xl:h-[180px] rounded bg-gray-200 shimmer" />
       </div>
@@ -33,7 +32,7 @@ function Products() {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const [searchParams] = useSearchParams();
 
@@ -45,12 +44,11 @@ function Products() {
 
   const navigate = useNavigate();
 
-
   async function getProducts(pageNumber, reset = false) {
     if (loading && !reset) return;
 
     try {
-      setLoading(true)
+      setLoading(true);
 
       const params = new URLSearchParams();
 
@@ -68,7 +66,7 @@ function Products() {
 
       params.append("page", pageNumber);
 
-      params.append("limit", 15)
+      params.append("limit", 15);
 
       const res = await fetch(
         `http://localhost:3000/api/products/allproducts?${params.toString()}`,
@@ -79,17 +77,14 @@ function Products() {
       if (reset) {
         setProducts(data.products);
       } else {
-        setProducts((prevProducts) => [
-          ...prevProducts,
-          ...data.products,
-        ]);
+        setProducts((prevProducts) => [...prevProducts, ...data.products]);
       }
 
-      setHasMore(data.hasMore)
+      setHasMore(data.hasMore);
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -106,11 +101,7 @@ function Products() {
       (entries) => {
         const firstEntry = entries[0];
 
-        if (
-          firstEntry.isIntersecting &&
-          hasMore &&
-          !loading
-        ) {
+        if (firstEntry.isIntersecting && hasMore && !loading) {
           const nextPage = page + 1;
 
           setPage(nextPage);
@@ -119,7 +110,7 @@ function Products() {
       },
       {
         rootMargin: "300px",
-      }
+      },
     );
 
     const currentRef = loadMoreRef.current;
@@ -135,61 +126,64 @@ function Products() {
     };
   }, [page, hasMore, loading]);
   return (
-    <div className="flex flex-col md:gap-6 2xl:gap-8 md:px-4 px-8 py-4 ">
-      <div className="flex justify-between">
-        <h1 className="text-2xl text-gray-800 font-semibold">Products For You</h1>
+    <div className="flex flex-col md:gap-4 2xl:gap-8 md:px-4 px-8 py-3 ">
+      <div>
+        <h1 className="text-xl text-gray-800 font-semibold">
+          Products for you
+        </h1>
       </div>
 
-      <div className="md:pl-2 grid md:grid-cols-4 2xl:grid-cols-5 md:gap-12 2xl:gap-15 ">
-        {loading && products.length === 0 ?
-          Array.from({ length: 15 }).map((_, index) => (
-            <ProductSkeleton key={index} />
-          )) : products.map((product) => (
-            <div
-              className=" md:w-[270px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl transition px-4 pt-4 pb-2 cursor-pointer"
-              key={product._id}
-              onClick={() => navigate(`/productdetail/${product._id}`)}
-            >
-              <div className="flex justify-center">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="md:h-[150px] 2xl:h-[210px] w-full object-cover rounded "
-                />
+      <div className="grid md:grid-cols-4 2xl:grid-cols-5 md:gap-15 2xl:gap-15 ">
+        {loading && products.length === 0
+          ? Array.from({ length: 15 }).map((_, index) => (
+              <ProductSkeleton key={index} />
+            ))
+          : products.map((product) => (
+              <div
+                className=" md:w-[280px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl transition px-4 pt-4 pb-2 cursor-pointer"
+                key={product._id}
+                onClick={() => navigate(`/productdetail/${product._id}`)}
+              >
+                <div className="flex justify-center">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="md:h-[150px] 2xl:h-[210px] w-full object-cover rounded "
+                  />
+                </div>
+
+                <section className="flex flex-col gap-2 text-gray-700">
+                  <div className="flex justify-between">
+                    <h1 className="md:text-md 2xl:text-[15px] font-semibold ">
+                      {product.name}
+                    </h1>
+
+                    <div className="flex items-center">
+                      <BiRupee />
+
+                      <h2 className="md:text-md 2xl:text-md font-semibold text-gray-800">
+                        {product.price}
+                      </h2>
+                    </div>
+                  </div>
+
+                  <p className="text-md truncate mb-1">{product.description}</p>
+
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1 ">
+                      <FaStar size={12} color="orange" />
+                      <p className="text-[15px] font-bold">{product.ratings}</p>
+                    </div>
+
+                    <div className="flex items-center gap-1">
+                      <FaArrowRotateLeft size={11} />
+
+                      <h1 className="text-[13px]"> 30-day returns </h1>
+                    </div>
+                  </div>
+                </section>
               </div>
-
-              <section className="flex flex-col gap-2 text-gray-700">
-                <div className="flex justify-between">
-                  <h1 className="md:text-md 2xl:text-[15px] font-semibold ">
-                    {product.name}
-                  </h1>
-
-                  <div className="flex items-center">
-                    <BiRupee />
-
-                    <h2 className="md:text-md 2xl:text-md font-semibold text-gray-800">
-                      {product.price}
-                    </h2>
-                  </div>
-                </div>
-
-                <p className="text-md truncate mb-1">{product.description}</p>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 ">
-                    <FaStar size={12} color="orange" />
-                    <p className="text-[15px] font-bold">{product.ratings}</p>
-                  </div>
-
-                  <div className="flex items-center gap-1">
-                    <FaArrowRotateLeft size={11} />
-
-                    <h1 className="text-[13px]"> 30-day returns </h1>
-                  </div>
-                </div>
-              </section>
-            </div>
-          ))}
+            ))}
 
         {loading &&
           products.length > 0 &&
@@ -199,22 +193,13 @@ function Products() {
       </div>
 
       {hasMore && (
-        <div
-          ref={loadMoreRef}
-          className="flex justify-center mt-8 h-10"
-        >
-          {loading && (
-            <p className="text-gray-500">
-              Loading more products...
-            </p>
-          )}
+        <div ref={loadMoreRef} className="flex justify-center mt-8 h-10">
+          {loading && <p className="text-gray-500">Loading more products...</p>}
         </div>
       )}
 
       {!hasMore && products.length > 0 && (
-        <p className="text-center text-gray-500 mt-8">
-          No more products
-        </p>
+        <p className="text-center text-gray-500 mt-8">No more products</p>
       )}
     </div>
   );

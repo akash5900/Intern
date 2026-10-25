@@ -5,30 +5,40 @@ import { useSearchParams } from "react-router-dom";
 export default function ProductsFilters() {
   const [minprice, setMinprice] = useState("");
   const [maxprice, setMaxprice] = useState("");
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  async function applyFilter() {
-    const params = {};
+  function applyFilter() {
+    const params = new URLSearchParams(searchParams);
 
     if (minprice !== "") {
-      params.minPrice = minprice;
+      params.set("minPrice", minprice);
+    } else {
+      params.delete("minPrice");
     }
 
     if (maxprice !== "") {
-      params.maxPrice = maxprice;
+      params.set("maxPrice", maxprice);
+    } else {
+      params.delete("maxPrice");
     }
 
     setSearchParams(params);
   }
 
   function clearFilter() {
-    setMaxprice("");
     setMinprice("");
-    setSearchParams({});
+    setMaxprice("");
+
+    const params = new URLSearchParams(searchParams);
+    params.delete("minPrice");
+    params.delete("maxPrice");
+
+    setSearchParams(params);
   }
+  
   return (
     <div>
-      <div className="px-4 md:px-8 pb-3">
+      <div className="md:px-4 pb-3">
         <div className="flex flex-wrap items-center gap-3 border border-gray-200 rounded-xl bg-gray-50 p-3 md:px-4">
           <div className="flex items-center gap-2 mr-2">
             <FaFilter size={14} className="text-gray-600" />

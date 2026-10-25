@@ -12,18 +12,20 @@ import Category from "../components/categorys";
 export default function Header() {
   const { user, loading } = useAuth();
   const { totalItems } = useCart();
-  const [, setSearchParams] = useSearchParams();
-  const [search, setSearch] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get("search") || "");
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const params = {};
+      const params = new URLSearchParams(searchParams);
 
-      if (search.trim() !== "") {
-        params.search = search.trim();
+      if (search.trim()) {
+        params.set("search", search.trim());
+      } else {
+        params.delete("search");
       }
 
-      setSearchParams(params);
+      setSearchParams(params, { replace: true });
     }, 600);
 
     return () => clearTimeout(timer);
@@ -31,7 +33,7 @@ export default function Header() {
 
   return (
     <header>
-      <div className="shadow-xs border rounded-2xl border-gray-200 md:mx-4 md:mt-4">
+      <div className="shadow-xs border rounded-2xl border-gray-200 md:mx-4 md:mt-2">
         <div className="px-4 md:px-8 py-4 flex flex-wrap items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <SiShopify size={27} className="text-gray-900" />
@@ -53,7 +55,7 @@ export default function Header() {
             />
           </div>
 
-          <nav className="flex items-center gap-3 md:gap-6 text-gray-700">
+          <nav className="flex items-center gap-3 md:gap-6 text-gray-900">
             <Link
               to="/cart"
               className="flex items-center gap-1 hover:text-blue-600 mr-1"

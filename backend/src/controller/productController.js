@@ -141,8 +141,8 @@ export async function allProducts(req, res) {
 
     return res.status(200).json({
       message: "Products fetched",
-      products
-    })
+      products,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -174,24 +174,85 @@ export async function getProduct(req, res) {
 
 export async function getProductsByCategory(req, res) {
   try {
-    const { category } = req.query;
+    const {
+      category,
+      search,
+      minPrice,
+      maxPrice,
+      page = 1,
+      limit = 15,
+    } = req.query;
 
     if (!category) {
       return res.status(400).json({
-        message: "category not found",
+        message: "Category not found",
       });
     }
 
+    const query = { category };
+
+    if (search?.trim()) {
+      query.name = {
+        $regex: search.trim(),
+        $options: "i",
+      };
+    }
+
+    if (minPrice !== undefined && minPrice !== "") {
+      const min = Number(minPrice);
+
+      if (!Number.isFinite(min)) {
+        return res.status(400).json({
+          message: "Invalid minimum price",
+        });
+      }
+
+      query.price = {
+        ...query.price,
+        $gte: min,
+      };
+    }
+    
+    if (maxPrice !== undefined && maxPrice !== "") {
+      const max = Number(maxPrice);
+
+      if (!Number.isFinite(max)) {
+        return res.status(400).json({
+          message: "Invalid maximum price",
+        });
+      }
+
+      query.price = {
+        ...query.price,
+        $lte: max,
+      };
+    }
+
+    const pageNumber = Math.max(1, Number(page) || 1);
+    const limitNumber = Math.max(1, Number(limit) || 15);
+    const skip = (pageNumber - 1) * limitNumber;
+
     const products = await productModel
-      .find({ category: category })
-      .populate("category");
+      .find(query)
+      .populate("category")
+      .skip(skip)
+      .limit(limitNumber);
+
+    const totalProducts = await productModel.countDocuments(query);
+
+    const hasMore = skip + products.length < totalProducts;
 
     return res.status(200).json({
-      message: "Category Products",
+      message: "Category products fetched successfully",
       products,
+      hasMore,
     });
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching category products:", error);
+
+    return res.status(500).json({
+      message: "Server error",
+    });
   }
 }
 
@@ -281,9 +342,9 @@ export async function updateProduct(req, res) {
 
         return existingVariant
           ? {
-            ...variant,
-            _id: existingVariant._id,
-          }
+              ...variant,
+              _id: existingVariant._id,
+            }
           : variant;
       });
     }
