@@ -38,7 +38,7 @@ export default function ProductsFilters() {
   
   return (
     <div>
-      <div className="md:px-4 pb-3">
+      <div className="md:px-4 2xl:px-6 pb-3">
         <div className="flex flex-wrap items-center gap-3 border border-gray-200 rounded-xl bg-gray-50 p-3 md:px-4">
           <div className="flex items-center gap-2 mr-2">
             <FaFilter size={14} className="text-gray-600" />

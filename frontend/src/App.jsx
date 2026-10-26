@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/home";
 import Categoryproducts from "./pages/categoryProducts";
 import Signup from "./pages/signUp";
@@ -11,14 +12,21 @@ import Checkout from "./pages/checkout";
 import Product from "./pages/products";
 import Header from "./components/header";
 import Footer from "./components/footer";
+import EditProfile from "./pages/editProfile";
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+
+  const hideLayout =
+    location.pathname === "/login" ||
+    location.pathname === "/signup";
+
   return (
-    <BrowserRouter>
-      <Header />
+    <>
+      {!hideLayout && <Header />}
+
       <Routes>
         <Route path="/" element={<Home />} />
-
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
@@ -27,10 +35,22 @@ function App() {
         <Route path="/orders" element={<Order />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/products" element={<Product />} />
-
-        <Route path="/categoryproducts/:id" element={<Categoryproducts />} />
+        <Route
+          path="/categoryproducts/:id"
+          element={<Categoryproducts />}
+        />
+        <Route path="/edit-profile" element={<EditProfile />} />
       </Routes>
-      <Footer />
+
+      {!hideLayout && <Footer />}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
     </BrowserRouter>
   );
 }

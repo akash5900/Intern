@@ -15,7 +15,12 @@ const orderSchema = new mongoose.Schema({
             type: Number,
             default: 1
         },
-        price: Number
+        price: Number,
+        orderStatus: {
+            type: String,
+            enum: ["Placed", "Shipped", "Delivered", "Cancelled"],
+            default: "Placed",
+        },
     }],
     totalamount: {
         type: Number,

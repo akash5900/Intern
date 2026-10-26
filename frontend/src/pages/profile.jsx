@@ -50,9 +50,13 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4">
+    <div className="min-h-screen bg-gray-50 py-10 px-4 pt-30">
       <div className="max-w-md mx-auto">
-        <h1 className="text-xl font-bold text-gray-800 mb-6">My Profile</h1>
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-xl font-bold text-gray-800">My Profile</h1>
+          <button onClick={() => navigate("/")} className="cursor-pointer hover:text-blue-500">Home</button>
+        </div>
+
 
         <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
           <div className="flex items-center gap-5 p-6 sm:p-8">

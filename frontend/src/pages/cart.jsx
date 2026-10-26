@@ -19,7 +19,7 @@ export default function Cart() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className=" mx-auto max-w-7xl py-4 ">
+      <div className=" py-4 md:px-4 2xl:px-6">
         <div className="mb-8">
           <div className="flex items-center justify-between">
             {" "}
@@ -56,7 +56,7 @@ export default function Cart() {
             </Link>
           </div>
         ) : (
-          <div className="grid gap-20 lg:grid-cols-3">
+          <div className="grid gap-15 lg:grid-cols-3">
             <div className="lg:col-span-2">
               <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
                 {cart.map((item) => (

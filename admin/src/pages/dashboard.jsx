@@ -4,8 +4,8 @@ import { BsBoxFill } from "react-icons/bs";
 import { BiSolidCategory } from "react-icons/bi";
 import { MdLocalShipping } from "react-icons/md";
 import { useNavigate } from "react-router"
-
-
+import { PiUserCircleBold } from "react-icons/pi";
+import useAuth from "../context/useAuth";
 
 export default function Dashboard() {
     const navigate = useNavigate()
@@ -13,6 +13,7 @@ export default function Dashboard() {
     const [allproducts, setAllProducts] = useState();
     const [allorders, setAllOrders] = useState();
     const [allcategory, setAllCategory] = useState();
+    const { users } = useAuth();
 
     async function getAllUsers() {
         try {
@@ -103,14 +104,21 @@ export default function Dashboard() {
 
     return (
         <div className="min-h-screen bg-slate-50">
-            <div className="mb-8 flex items-center">
+            <div className="mb-8 flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-800 md:text-2xl">
+                    <h1 className="text-2xl font-bold text-slate-800">
                         Dashboard
                     </h1>
                     <p className="mt-2 text-sm text-slate-500">
                         Welcome back! Here is your store overview.
                     </p>
+                </div>
+
+                <div className="flex items-center gap-1">
+                    <PiUserCircleBold size={30} />
+                    <h1 className="font-semibold text-slate-700">
+                        {users[0]?.username || "Admin"}
+                    </h1>
                 </div>
             </div>
 

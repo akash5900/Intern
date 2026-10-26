@@ -14,6 +14,13 @@ export default function Header() {
   const { totalItems } = useCart();
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("search") || "");
+  const [suggestion, setSuggestion] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  useEffect(() => {
+    setSearch(searchParams.get("search") || "");
+  }, [searchParams]);
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -25,22 +32,70 @@ export default function Header() {
         params.delete("search");
       }
 
-      setSearchParams(params, { replace: true });
+      if (params.toString() !== searchParams.toString()) {
+        setSearchParams(params, { replace: true });
+      }
+
     }, 600);
 
     return () => clearTimeout(timer);
   }, [search]);
 
+  useEffect(() => {
+    if (!search.trim()) {
+      setSuggestion([]);
+      setShowSuggestions(false);
+      return;
+    }
+
+    let cancelled = false;
+
+    const timer = setTimeout(async () => {
+      try {
+        const params = new URLSearchParams({
+          search: search.trim(),
+          limit: "5",
+          page: "1",
+        });
+
+        const res = await fetch(
+          `http://localhost:3000/api/products/allproducts?${params.toString()}`
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || "Could not fetch suggestions");
+        }
+
+        if (!cancelled) {
+          setSuggestion(data.products || []);
+          setShowSuggestions(true);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          console.error("Search suggestions error:", error);
+          setSuggestion([]);
+        }
+      }
+    }, 300);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [search]);
+
   return (
     <header>
-      <div className="shadow-xs border rounded-2xl border-gray-200 md:mx-4 md:mt-2">
+      <div className="shadow-xs border rounded-2xl border-gray-200 md:mx-4 2xl:mx-6 md:mt-2">
         <div className="px-4 md:px-8 py-4 flex flex-wrap items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <SiShopify size={27} className="text-gray-900" />
             <h1 className="text-2xl text-gray-900 font-bold">Shopsy</h1>
           </Link>
 
-          <div className="relative order-3 md:order-none w-full md:flex-1 md:max-w-[450px] md:mx-6">
+          <div className="relative order-3 md:order-none w-full md:flex-1 md:max-w-[500px] md:mx-6">
             <FaSearch
               size={15}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
@@ -50,9 +105,53 @@ export default function Header() {
               type="text"
               placeholder="Search Product..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => { setSearch(e.target.value); setShowSuggestions(true); }}
+              onFocus={() => {
+                if (search.trim()) setShowSuggestions(true);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Escape") {
+                  setShowSuggestions(false);
+                }
+              }}
               className="w-full bg-gray-50 border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-sm outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
             />
+
+            {showSuggestions && search.trim() && (
+              <div className="absolute left-0 right-0 top-full z-50 mt-1 max-h-96 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">
+                {suggestion.length > 0 ? (
+                  suggestion.map((product) => (
+                    <Link
+                      key={product._id}
+                      to={`/productdetail/${product._id}`}
+                      onClick={() => {
+                        setShowSuggestions(false);
+                      }}
+                      className="flex items-center gap-3 border-b border-gray-100 p-3 last:border-b-0 hover:bg-gray-50"
+                    >
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="h-14 w-14 shrink-0 rounded-md object-contain"
+                      />
+
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-medium text-gray-800">
+                          {product.name}
+                        </p>
+                        <p className="mt-1 font-semibold text-blue-600">
+                          ₹{Number(product.price).toLocaleString("en-IN")}
+                        </p>
+                      </div>
+                    </Link>
+                  ))
+                ) : (
+                  <p className="p-4 text-sm text-gray-500">
+                    No matching products found.
+                  </p>
+                )}
+              </div>
+            )}
           </div>
 
           <nav className="flex items-center gap-3 md:gap-6 text-gray-900">
@@ -62,7 +161,7 @@ export default function Header() {
             >
               <IoMdCart size={24} className="mt-1" />
               <span className="font-semibold text-sm mt-1">Cart</span>
-              <span className="text-blue-800">{totalItems}</span>
+              {totalItems !== 0 ? (<span className="text-blue-800">{totalItems}</span>) : (<span></span>)}
             </Link>
 
             <Link
@@ -99,6 +198,6 @@ export default function Header() {
           <Category />
         </div>
       </div>
-    </header>
+    </header >
   );
 }

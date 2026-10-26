@@ -47,7 +47,7 @@ export default function Signup() {
   }
 
   return (
-    <div className="flex items-center justify-center md:mt-[50px] 2xl:mt-[100px]">
+    <div className="min-h-screen flex justify-center pt-[100px]">
       <div className="w-[400px] flex flex-col gap-[20px] p-5">
         <form
           onSubmit={handleSubmit}

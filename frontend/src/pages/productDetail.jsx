@@ -5,7 +5,6 @@ import { FaStar, FaShoppingCart, FaBolt } from "react-icons/fa";
 import { FaArrowRotateLeft } from "react-icons/fa6";
 import { TbTruckDelivery } from "react-icons/tb";
 import { HiMiniShieldCheck } from "react-icons/hi2";
-import Footer from "../components/footer";
 import useCart from "../context/useCart";
 
 export default function ProductDetail() {
@@ -118,8 +117,8 @@ export default function ProductDetail() {
     try {
       const matchingVariant = selectedVariant
         ? variants.find(
-            (variant) => String(variant._id) === String(selectedVariant._id),
-          )
+          (variant) => String(variant._id) === String(selectedVariant._id),
+        )
         : null;
 
       const res = await fetch("http://localhost:3000/api/cart/add", {
@@ -205,11 +204,10 @@ export default function ProductDetail() {
                     <button
                       key={variant._id}
                       onClick={() => setSelectedVariant(variant)}
-                      className={`border rounded-xl px-4 py-3 transition ${
-                        selectedVariant?._id === variant._id
-                          ? "border-blue-600 bg-blue-50"
-                          : "border-gray-300 hover:border-blue-400"
-                      }`}
+                      className={`border rounded-xl px-4 py-3 transition ${selectedVariant?._id === variant._id
+                        ? "border-blue-600 bg-blue-50"
+                        : "border-gray-300 hover:border-blue-400"
+                        }`}
                     >
                       <div className="font-medium">{variant.size}</div>
 
@@ -282,56 +280,57 @@ export default function ProductDetail() {
               {moreProducts.map((item) => (
                 <div
                   key={item._id}
-                  onClick={() => navigate(`/productdetail/${item._id}`)}
-                  className=" md:w-[270px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl px-4 pt-4 pb-2 cursor-pointer"
+                  onClick={() => {
+                    navigate(`/productdetail/${item._id}`);
+                    window.scrollTo(0, 0);
+                  }}
+
+              className=" md:w-[270px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl px-4 pt-4 pb-2 cursor-pointer"
                 >
-                  <div className="flex justify-center">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="md:h-[150px] 2xl:h-[210px] w-full object-cover rounded "
-                    />
+              <div className="flex justify-center">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="md:h-[150px] 2xl:h-[210px] w-full object-cover rounded "
+                />
+              </div>
+
+              <section className="flex flex-col gap-2 text-gray-700">
+                <div className="flex justify-between">
+                  <h1 className="md:text-md 2xl:text-[15px] font-semibold ">
+                    {item.name}
+                  </h1>
+
+                  <div className="flex items-center">
+                    <BiRupee />
+
+                    <h2 className="md:text-md 2xl:text-md font-semibold text-gray-800">
+                      {item.price}
+                    </h2>
+                  </div>
+                </div>
+
+                <p className="text-md truncate mb-1">{item.description}</p>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1 ">
+                    <FaStar size={12} color="orange" />
+                    <p className="text-[15px] font-bold">{item.ratings}</p>
                   </div>
 
-                  <section className="flex flex-col gap-2 text-gray-700">
-                    <div className="flex justify-between">
-                      <h1 className="md:text-md 2xl:text-[15px] font-semibold ">
-                        {item.name}
-                      </h1>
+                  <div className="flex items-center gap-1">
+                    <FaArrowRotateLeft size={11} />
 
-                      <div className="flex items-center">
-                        <BiRupee />
-
-                        <h2 className="md:text-md 2xl:text-md font-semibold text-gray-800">
-                          {item.price}
-                        </h2>
-                      </div>
-                    </div>
-
-                    <p className="text-md truncate mb-1">{item.description}</p>
-
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1 ">
-                        <FaStar size={12} color="orange" />
-                        <p className="text-[15px] font-bold">{item.ratings}</p>
-                      </div>
-
-                      <div className="flex items-center gap-1">
-                        <FaArrowRotateLeft size={11} />
-
-                        <h1 className="text-[13px]"> 30-day returns </h1>
-                      </div>
-                    </div>
-                  </section>
+                    <h1 className="text-[13px]"> 30-day returns </h1>
+                  </div>
                 </div>
-              ))}
+              </section>
             </div>
+              ))}
+          </div>
           </section>
         )}
-      </div>
-      <div>
-        <Footer />
-      </div>
     </div>
+    </div >
   );
 }

@@ -8,6 +8,7 @@ import {
   getProfie,
   userLogout,
   adminLogout,
+  editUser
 } from "../controller/userController.js";
 import AdminAuthMiddleware from "../middlewares/adminMiddleware.js";
 import Authmiddleware from "../middlewares/authMiddleware.js";
@@ -37,6 +38,8 @@ router.get("/admin/me", AdminAuthMiddleware, (req, res) => {
     user: req.user,
   });
 });
+
+router.patch("/profile/edit", Authmiddleware, editUser);
 
 router.delete("/:id", deleteUser);
 

@@ -13,10 +13,26 @@ export default function Sidebar() {
     const [openproduct, setOpenproduct] = useState(false);
     const [opencategory, setOpencategory] = useState(false);
 
-    function handleLogout() {
-        localStorage.removeItem("AdminToken");
-        localStorage.removeItem("user");
-        navigate("/admin/login", { replace: true })
+    async function handleLogout() {
+        try {
+            const res = await fetch("http://localhost:3000/api/user/adminlogout", {
+                method: "POST",
+                credentials: "include"
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                alert(data.message)
+            };
+
+            alert(data.message);
+
+            navigate("/admin/login", { replace: true });
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return <div className="p-3">
@@ -77,7 +93,7 @@ export default function Sidebar() {
 
             <li>
                 <Link to={"/admin/allusers"} className="flex items-center gap-1 cursor-pointer text-blue-900">
-                    <IoPersonCircle size={22}/>
+                    <IoPersonCircle size={22} />
                     <h1 className="text-lg font-semibold">Users</h1>
                 </Link>
             </li>

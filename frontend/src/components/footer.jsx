@@ -57,6 +57,7 @@ export default function Footer() {
               <li>
                 <Link
                   to={"/orders"}
+                  onClick={() => window.scrollTo(0, 0)}
                   className="cursor-pointer  hover:pl-2 transition-all"
                 >
                   Orders
@@ -65,6 +66,7 @@ export default function Footer() {
               <li>
                 <Link
                   to={"/cart"}
+                  onClick={() => window.scrollTo(0, 0)}
                   className="cursor-pointer  hover:pl-2 transition-all"
                 >
                   Cart
@@ -79,6 +81,7 @@ export default function Footer() {
               <li>
                 <Link
                   to={"/login"}
+                  onClick={() => window.scrollTo(0, 0)}
                   className="cursor-pointer  hover:pl-2 transition-all"
                 >
                   Login
@@ -87,6 +90,7 @@ export default function Footer() {
               <li>
                 <Link
                   to={"/signup"}
+                  onClick={() => window.scrollTo(0, 0)}
                   className="cursor-pointer  hover:pl-2 transition-all"
                 >
                   Signup
@@ -95,6 +99,7 @@ export default function Footer() {
               <li>
                 <Link
                   to={"/profile"}
+                  onClick={() => window.scrollTo(0, 0)}
                   className="cursor-pointer  hover:pl-2 transition-all"
                 >
                   Profile

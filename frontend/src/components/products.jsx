@@ -126,14 +126,14 @@ function Products() {
     };
   }, [page, hasMore, loading]);
   return (
-    <div className="flex flex-col md:gap-4 2xl:gap-8 md:px-4 px-8 py-3 ">
+    <div className="flex flex-col md:gap-4 2xl:gap-6 md:px-4 2xl:px-6 py-3 ">
       <div>
-        <h1 className="text-xl text-gray-800 font-semibold">
+        <h1 className="md:text-xl xl:text-2xl text-gray-800 font-semibold">
           Products for you
         </h1>
       </div>
 
-      <div className="grid md:grid-cols-4 2xl:grid-cols-5 md:gap-15 2xl:gap-15 ">
+      <div className="grid md:grid-cols-4 2xl:grid-cols-5 md:gap-15 2xl:gap-18 ">
         {loading && products.length === 0
           ? Array.from({ length: 15 }).map((_, index) => (
               <ProductSkeleton key={index} />

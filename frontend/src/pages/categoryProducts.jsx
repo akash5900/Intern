@@ -3,7 +3,6 @@ import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { BiRupee } from "react-icons/bi";
 import { FaStar } from "react-icons/fa";
 import { FaArrowRotateLeft } from "react-icons/fa6";
-import Footer from "../components/footer";
 import ProductsFilters from "../components/productsFilters";
 
 function ProductSkeleton() {
@@ -86,13 +85,13 @@ function Categoryproducts() {
   }, [id, search, minPrice, maxPrice]);
 
   return (
-    <div className="flex flex-col md:gap-3 2xl:gap-6 pt-4 ">
+    <div className="flex flex-col md:gap-3 2xl:gap-6 pt-4 pb-2">
       <div>
         <ProductsFilters />
       </div>
 
       <div className="flex items-center justify-between md:px-4 2xl:px-8">
-        <h1 className="text-xl text-gray-900 font-semibold">
+        <h1 className="md:text-xl 2xl:text-2xl  text-gray-900 font-semibold">
           {products[0]?.category?.name || "Category Products"} Products
         </h1>
         <button
@@ -103,7 +102,7 @@ function Categoryproducts() {
         </button>
       </div>
 
-      <div className="md:px-4 2xl:px-8 grid md:grid-cols-4 2xl:grid-cols-5 gap-8">
+      <div className="md:px-4 2xl:px-8 grid md:grid-cols-4 2xl:grid-cols-5 md:gap-8 2xl:gap-18">
         {loading ? (
           Array.from({ length: 15 }).map((_, index) => (
             <ProductSkeleton key={index} />
@@ -159,8 +158,6 @@ function Categoryproducts() {
           </p>
         )}
       </div>
-
-      <Footer />
     </div>
   );
 }

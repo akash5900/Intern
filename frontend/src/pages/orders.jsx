@@ -29,47 +29,43 @@ export default function Order() {
     getOrder();
   }, []);
 
-  async function handleDelete(id) {
+  async function handleDelete(orderId, productId) {
     try {
-      const res = await fetch(`http://localhost:3000/api/order/${id}`, {
+      const res = await fetch(`http://localhost:3000/api/order/${orderId}/product/${productId}`, {
         method: "DELETE",
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        console.log(data.message);
+        alert(data.message);
         return;
       }
 
       alert(data.message);
 
-      getOrder();
+      await getOrder();
     } catch (error) {
       console.log(error);
     }
   }
 
-  async function cancelOrder(id) {
+  async function cancelOrder(orderId, productId) {
     try {
-      const res = await fetch(`http://localhost:3000/api/order/cancel/${id}`, {
+      const res = await fetch(`http://localhost:3000/api/order/${orderId}/cancel/${productId}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
         credentials: "include",
-        body: JSON.stringify(),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        console.log(data.message);
+        alert(data.message);
       }
 
       alert(data.message);
 
-      getOrder();
+      await getOrder();
     } catch (error) {
       console.log(error);
     }
@@ -154,12 +150,12 @@ export default function Order() {
 
                   <span
                     className={`w-fit rounded-full px-3 py-1.5 text-sm font-medium ${order.orderStatus === "Delivered"
-                        ? "bg-green-50 text-green-700"
-                        : order.orderStatus === "Cancelled"
-                          ? "bg-red-50 text-red-700"
-                          : order.orderStatus === "Shipped"
-                            ? "bg-blue-50 text-blue-700"
-                            : "bg-yellow-50 text-yellow-700"
+                      ? "bg-green-50 text-green-700"
+                      : order.orderStatus === "Cancelled"
+                        ? "bg-red-50 text-red-700"
+                        : order.orderStatus === "Shipped"
+                          ? "bg-blue-50 text-blue-700"
+                          : "bg-yellow-50 text-yellow-700"
                       }`}
                   >
                     {order.orderStatus}
@@ -216,18 +212,18 @@ export default function Order() {
                             {Number(item.price).toFixed(2)} each
                           </span>
                         </div>
-                        {order.orderStatus === "Placed" && (
+                        {(item.orderStatus || order.orderStatus) === "Placed" && (
                           <button
-                            onClick={() => cancelOrder(order._id)}
+                            onClick={() => cancelOrder(order._id, item.product._id)}
                             className="cursor-pointer mt-4 text-red-500 border rounded px-2"
                           >
                             Cancel Order
                           </button>
                         )}
 
-                        {order.orderStatus === "Cancelled" && (
+                        {(item.orderStatus || order.orderStatus) === "Cancelled" && (
                           <button
-                            onClick={() => handleDelete(order._id)}
+                            onClick={() => handleDelete(order._id, item.product._id)}
                             className="cursor-pointer mt-4 text-red-500 border rounded px-2"
                           >
                             Delete Order
@@ -275,10 +271,10 @@ export default function Order() {
 
                     <p
                       className={`mt-1 font-medium ${order.paymentstatus === "Paid"
-                          ? "text-green-600"
-                          : order.paymentstatus === "Cancelled"
-                            ? "text-red-600"
-                            : "text-yellow-600"
+                        ? "text-green-600"
+                        : order.paymentstatus === "Cancelled"
+                          ? "text-red-600"
+                          : "text-yellow-600"
                         }`}
                     >
                       {order.paymentstatus}

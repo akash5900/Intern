@@ -1,48 +1,7 @@
-import { useState, useEffect } from "react";
+import useAuth from "../../context/useAuth";
 
 export default function Allusers() {
-  const [users, setUsers] = useState([]);
-
-  async function getUsers() {
-    try {
-      const res = await fetch("http://localhost:3000/api/user/allusers");
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        console.log(data.message);
-      }
-
-      setUsers(data.users);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    getUsers();
-  }, []);
-
-  async function deleteUser(id) {
-    try {
-      const res = await fetch(`http://localhost:3000/api/user/${id}`, {
-        method: "DELETE",
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        console.log(data.message);
-      }
-
-      alert(data.message);
-
-      getUsers();
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
+  const { users, deleteUser } = useAuth()
   return (
     <div className="space-y-4 text-gray-900">
       <div className="text-xl font-semibold">
