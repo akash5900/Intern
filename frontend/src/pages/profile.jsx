@@ -50,7 +50,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4 pt-30">
+    <div className="min-h-screen bg-gray-50 py-10 px-4 2xl:pt-30">
       <div className="max-w-md mx-auto">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-xl font-bold text-gray-800">My Profile</h1>

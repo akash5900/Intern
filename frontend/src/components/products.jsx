@@ -142,7 +142,7 @@ function Products() {
               <div
                 className=" md:w-[280px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl transition px-4 pt-4 pb-2 cursor-pointer"
                 key={product._id}
-                onClick={() => navigate(`/productdetail/${product._id}`)}
+                onClick={() => {navigate(`/productdetail/${product._id}`); window.scrollTo(0, 0);}}
               >
                 <div className="flex justify-center">
                   <img

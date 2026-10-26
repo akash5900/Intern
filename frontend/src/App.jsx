@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/home";
 import Categoryproducts from "./pages/categoryProducts";
@@ -18,12 +17,15 @@ function AppContent() {
   const location = useLocation();
 
   const hideLayout =
-    location.pathname === "/login" ||
-    location.pathname === "/signup";
+    location.pathname === "/login" || location.pathname === "/signup";
 
   return (
     <>
-      {!hideLayout && <Header />}
+      {!hideLayout && (
+        <div className="sticky top-0 z-50 bg-white ">
+          <Header />
+        </div>
+      )}
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -35,10 +37,7 @@ function AppContent() {
         <Route path="/orders" element={<Order />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/products" element={<Product />} />
-        <Route
-          path="/categoryproducts/:id"
-          element={<Categoryproducts />}
-        />
+        <Route path="/categoryproducts/:id" element={<Categoryproducts />} />
         <Route path="/edit-profile" element={<EditProfile />} />
       </Routes>
 
