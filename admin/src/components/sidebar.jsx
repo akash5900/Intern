@@ -36,25 +36,24 @@ export default function Sidebar() {
     }
 
     return <div className="p-3">
-        <h1 className="text-2xl font-semibold mb-4 text-gray-900">Admin Panel</h1>
+        <h1 className="text-xl font-semibold mb-4 text-gray-900">Admin Panel</h1>
         <ul className="space-y-2 ml-2">
-
             <li>
-                <Link to={"/admin/dashboard"} className="flex items-center gap-1 cursor-pointer text-blue-900">
+                <Link to={"/admin/dashboard"} className="flex items-center gap-1 cursor-pointer text-gray-700">
                     <RiDashboardFill size={22} />
-                    <h1 className="text-lg font-semibold">Dashboard</h1>
+                    <h1 className="text-md font-semibold">Dashboard</h1>
                 </Link>
             </li>
 
             <li>
-                <div onClick={() => setOpenproduct(!openproduct)} className="flex items-center gap-1 cursor-pointer text-blue-900">
+                <div onClick={() => setOpenproduct(!openproduct)} className="flex items-center gap-1 cursor-pointer text-gray-700">
                     <FaBoxOpen size={22} />
-                    <h1 className="text-lg font-semibold ">Products</h1>
+                    <h1 className="text-md font-semibold ">Products</h1>
                     <BiSolidDownArrow size={14} />
                 </div>
 
                 {openproduct && (
-                    <ul className="ml-4 mt-2 space-y-1 text-gray-900">
+                    <ul className="ml-4 mt-2 space-y-1 text-gray-700">
                         <li>
                             <Link to={"/admin/addproduct"} className="cursor-pointer font-semibold">Add Product</Link>
                         </li>
@@ -67,13 +66,13 @@ export default function Sidebar() {
             </li>
 
             <li>
-                <div onClick={() => setOpencategory(!opencategory)} className="flex items-center gap-1 cursor-pointer text-blue-900">
+                <div onClick={() => setOpencategory(!opencategory)} className="flex items-center gap-1 cursor-pointer text-gray-700">
                     <TbCategoryPlus size={22} />
-                    <h1 className="text-lg font-semibold">Category</h1>
+                    <h1 className="text-md font-semibold">Category</h1>
                     <BiSolidDownArrow size={14} />
                 </div>
                 {opencategory && (
-                    <ul className="ml-4 mt-2 space-y-1 text-gray-900">
+                    <ul className="ml-4 mt-2 space-y-1 text-gray-700">
                         <li>
                             <Link to={"/admin/addcategory"} className="cursor-pointer font-semibold">Add Category</Link>
                         </li>
@@ -85,21 +84,21 @@ export default function Sidebar() {
             </li>
 
             <li>
-                <Link to={"/admin/allorders"} className="flex items-center gap-1 cursor-pointer text-blue-900">
+                <Link to={"/admin/allorders"} className="flex items-center gap-1 cursor-pointer text-gray-700">
                     <TiShoppingCart size={22} />
-                    <h1 className="text-lg font-semibold">Orders</h1>
+                    <h1 className="text-md font-semibold">Orders</h1>
                 </Link>
             </li>
 
             <li>
-                <Link to={"/admin/allusers"} className="flex items-center gap-1 cursor-pointer text-blue-900">
+                <Link to={"/admin/allusers"} className="flex items-center gap-1 cursor-pointer text-gray-700">
                     <IoPersonCircle size={22} />
-                    <h1 className="text-lg font-semibold">Users</h1>
+                    <h1 className="text-md font-semibold">Users</h1>
                 </Link>
             </li>
 
             <li>
-                <button onClick={handleLogout} className=" border px-2 m-2 rounded hover:bg-gray-400 cursor-pointer text-blue-900 text-lg font-semibold">Logout</button>
+                <button onClick={handleLogout} className=" border px-2 m-2 rounded hover:bg-gray-200 cursor-pointer text-gray-900 text-lg font-semibold">Logout</button>
             </li>
         </ul>
     </div>

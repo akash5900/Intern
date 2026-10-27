@@ -34,7 +34,7 @@ export default function Allusers() {
                 <td className="p-3 text-center">{user.role || "User"}</td>
                 <td className="p-3 text-center">
                   <button
-                    className="border border-gray-800 px-2 rounded hover:bg-red-500 cursor-pointer"
+                    className="border border-gray-800 px-2 rounded hover:bg-red-400 cursor-pointer"
                     onClick={() => deleteUser(user._id)}
                   >
                     Delete

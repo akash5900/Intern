@@ -85,7 +85,7 @@ function Categoryproducts() {
   }, [id, search, minPrice, maxPrice]);
 
   return (
-    <div className="flex flex-col md:gap-3 2xl:gap-6 pt-4 pb-2">
+    <div className="flex flex-col md:gap-3 2xl:gap-6 pt-4 pb-17">
       <div>
         <ProductsFilters />
       </div>

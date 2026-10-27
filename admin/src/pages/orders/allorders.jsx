@@ -164,7 +164,7 @@ export default function Allorders() {
               <tr>
                 <td
                   colSpan="7"
-                  className="px-5 py-10 text-center text-gray-500"
+                  className="px-5 py-10 text-center text-gray-500 bg-gray-50"
                 >
                   No orders found.
                 </td>

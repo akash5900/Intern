@@ -157,6 +157,7 @@ export default function Header() {
           <nav className="flex items-center gap-3 md:gap-6 text-gray-900">
             <Link
               to="/cart"
+              onClick={window.scroll(0, 0)}
               className="flex items-center gap-1 hover:text-blue-600 mr-1"
             >
               <IoMdCart size={24} className="mt-1" />
@@ -166,6 +167,7 @@ export default function Header() {
 
             <Link
               to="/orders"
+              onClick={window.scroll(0, 0)}
               className="flex items-center gap-1 hover:text-green-600"
             >
               <IoBagHandle size={25} />
@@ -176,6 +178,7 @@ export default function Header() {
               (user ? (
                 <Link
                   to="/profile"
+                  onClick={window.scroll(0, 0)}
                   className="flex items-center gap-2 rounded-lg px-3 py-2 hover:text-red-500 "
                 >
                   <BsPersonCircle size={23} className="mt-1" />

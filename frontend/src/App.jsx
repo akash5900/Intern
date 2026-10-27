@@ -12,12 +12,13 @@ import Product from "./pages/products";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import EditProfile from "./pages/editProfile";
+import Auth from "./pages/auth";
 
 function AppContent() {
   const location = useLocation();
 
   const hideLayout =
-    location.pathname === "/login" || location.pathname === "/signup";
+    location.pathname === "/login" || location.pathname === "/signup" || location.pathname === "/auth";
 
   return (
     <>
@@ -39,9 +40,13 @@ function AppContent() {
         <Route path="/products" element={<Product />} />
         <Route path="/categoryproducts/:id" element={<Categoryproducts />} />
         <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/auth" element={<Auth />} />
       </Routes>
 
-      {!hideLayout && <Footer />}
+      {!hideLayout &&
+        <div>
+          <Footer className="fixed bottom-0 z-50 bg-white" />
+        </div>}
     </>
   );
 }
