@@ -25,7 +25,7 @@ export default function Allusers() {
             {users.map((user) => (
               <tr
                 key={user._id}
-                className="border-b border-gray-200 font-semibold text-sm"
+                className="border-b border-gray-200 font-semibold md:text-[13px] 2xl:text-sm"
               >
                 <td className="p-3 text-center">#{user._id}</td>
                 <td className="p-3 text-center">{user.username}</td>

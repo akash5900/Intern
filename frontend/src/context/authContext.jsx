@@ -16,6 +16,7 @@ export function AuthProvider({ children }) {
       if (res.ok) {
         setUser(null);
       }
+
     } catch (error) {
       console.error("Logout failed:", error);
     }
