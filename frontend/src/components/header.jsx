@@ -91,8 +91,8 @@ export default function Header() {
       <div className="shadow-xs border rounded-2xl border-gray-200 md:mx-4 2xl:mx-6 ">
         <div className="px-4 md:px-8 py-4 flex flex-wrap items-center justify-between gap-4 ">
           <Link to="/" className="flex items-center gap-2 shrink-0">
-            <SiShopify size={27} className="text-gray-900" />
-            <h1 className="text-2xl text-gray-900 font-bold">Shopsy</h1>
+            <SiShopify className="text-gray-900 text-sm md:text-3xl" />
+            <h1 className="text-xs md:text-2xl text-gray-900 font-bold">Shopsy</h1>
           </Link>
 
           <div className="relative order-3 md:order-none w-full md:flex-1 md:max-w-[500px] md:mx-6">
