@@ -22,7 +22,7 @@ export default function Category() {
   }, []);
 
   return (
-    <div className="px-8 py-4 border-t border-gray-200 ">
+    <div className="p-2 md:px-8 md:py-4 border-t border-gray-200 ">
       <div className="flex overflow-x-auto ">
         {category.map((cat) => (
           <div
@@ -35,7 +35,7 @@ export default function Category() {
               }}
               className="flex flex-col items-center "
             >
-              <h1 className="text-[15px] font-semibold mr-15 ">{cat.name}</h1>
+              <h1 className="text-xs md:text-base font-semibold mr-8 md:mr-15 ">{cat.name}</h1>
             </div>
           </div>
         ))}

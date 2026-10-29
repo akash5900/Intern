@@ -9,42 +9,42 @@ import { SiShopify } from "react-icons/si";
 export default function Footer() {
   const navigate = useNavigate();
   return (
-    <div className="bg-gray-800 text-yellow-50 md:px-5 2xl:px-8 py-6">
-      <div className="flex justify-between">
-        <div className="flex flex-col gap-4">
+    <div className="bg-gray-800 text-yellow-50 px-2 py-4 md:px-5 2xl:px-8 md:py-6">
+      <div className="flex flex-col md:flex-row justify-between">
+        <div className="flex flex-col gap-1 md:gap-4">
           <div className="flex items-center gap-1">
-            <SiShopify size={20} />
-            <h1 className="md:text:md 2xl:text-2xl">Shopsy</h1>
+            <SiShopify className="text-xs md:text-2xl" />
+            <h1 className="text-xs md:text:md 2xl:text-2xl">Shopsy</h1>
           </div>
 
-          <p>
+          <p className="text-[11px] md:text-base">
             Your one-stop destination for quality products at great prices.{" "}
             <br /> Shop smarter, live better.
           </p>
 
           <div className="flex gap-1 items-center">
-            <h1>Connect with us - </h1>
-            <div className="flex flex-row gap-3 h-5">
+            <h1 className="text-xs md:text-base">Connect with us - </h1>
+            <div className="flex flex-row gap-2 md:gap-3 h-5">
               <button className="cursor-pointer hover:pt-1 transition-all">
-                <FaInstagram size={20} color="pink" />
+                <FaInstagram className="text-xs md:text-xl" color="pink" />
               </button>
               <button className="cursor-pointer hover:pt-1 transition-all">
-                <FaFacebook size={20} color="blue" />
+                <FaFacebook className="text-xs md:text-xl" color="blue" />
               </button>
               <button className="cursor-pointer hover:pt-1 transition-all">
-                <FaXTwitter size={20} color="skyblue" />
+                <FaXTwitter className="text-xs md:text-xl" color="skyblue" />
               </button>
               <button className="cursor-pointer hover:pt-1 transition-all">
-                <FaYoutube size={20} color="red" />
+                <FaYoutube className="text-xs md:text-xl" color="red" />
               </button>
             </div>
           </div>
         </div>
 
-        <section className="flex md:gap-18 2xl:gap-24">
-          <div className="flex flex-col gap-2 ">
-            <h1 className="md:text-md 2xl:text-lg">Quick Links</h1>
-            <ul className="flex flex-col items-start gap-1.5 ml-4 md:text-xs 2xl:text-sm">
+        <section className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-18 2xl:gap-18 py-3 md:py-0">
+          <div className="flex flex-col gap-1 md:gap-2 ">
+            <h1 className="text-xs md:text-base 2xl:text-lg">Quick Links</h1>
+            <ul className="flex flex-col items-start gap-1 md:gap-1.5 ml-4 text-[10px] md:text-xs 2xl:text-sm">
               <li>
                 <Link
                   to={"/"}
@@ -75,9 +75,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="flex flex-col gap-2 ">
-            <h1 className="md:text-md 2xl:text-lg">My Account</h1>
-            <ul className="flex flex-col items-start gap-1.5 ml-4 md:text-xs 2xl:text-sm">
+          <div className="flex flex-col gap-1 md:gap-2 ">
+            <h1 className="text-xs md:text-base 2xl:text-lg">My Account</h1>
+            <ul className="flex flex-col items-start  gap-1 md:gap-1.5 ml-4 text-[10px] md:text-xs 2xl:text-sm">
               <li>
                 <Link
                   to={"/login"}
@@ -108,9 +108,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="flex flex-col gap-2 md:w-30 2xl:w-35 ">
-            <h1 className="md:text-md 2xl:text-lg">Legel</h1>
-            <ul className="flex flex-col items-start gap-1.5 ml-1 md:text-xs 2xl:text-sm">
+          <div className="flex flex-col gap-1 md:gap-2 md:w-30 2xl:w-35 ">
+            <h1 className="text-xs md:text-base 2xl:text-lg">Legel</h1>
+            <ul className="flex flex-col items-start gap-1 md:gap-1.5 ml-4 md:ml-2 text-[10px] md:text-xs 2xl:text-sm">
               <li>
                 <Link className="cursor-pointer  hover:pl-2 transition-all">
                   Privacy Policy
@@ -129,9 +129,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="flex flex-col gap-2">
-            <h1 className="md:text-md 2xl:text-lg">Customer Service</h1>
-            <ul className="flex flex-col items-start gap-1.5 ml-4 md:text-xs 2xl:text-sm">
+          <div className="flex flex-col gap-1 md:gap-2">
+            <h1 className="text-xs md:text-base 2xl:text-lg">Customer Service</h1>
+            <ul className="flex flex-col items-start gap-1 md:gap-1.5 ml-4 text-[10px] md:text-xs 2xl:text-sm">
               <li>
                 <Link className="cursor-pointer  hover:pl-2 transition-all">
                   FAQs
@@ -158,7 +158,7 @@ export default function Footer() {
         </section>
       </div>
 
-      <div className="border-t mt-4">
+      <div className="border-t md:mt-4 text-xs md:text-base">
         <p>Developed By Akashdeep Singh</p>
       </div>
     </div>

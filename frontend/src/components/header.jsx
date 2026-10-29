@@ -88,14 +88,14 @@ export default function Header() {
 
   return (
     <header className="pt-2">
-      <div className="shadow-xs border rounded-2xl border-gray-200 md:mx-4 2xl:mx-6 ">
-        <div className="px-4 md:px-8 py-4 flex flex-wrap items-center justify-between gap-4 ">
-          <Link to="/" className="flex items-center gap-2 shrink-0">
+      <div className="shadow-xs border rounded-2xl border-gray-200 mx-2 md:mx-4 2xl:mx-6 ">
+        <div className="px-2 pb-2 md:px-8 md:py-4 flex flex-wrap items-center justify-between gap-1 md:gap-4 ">
+          <Link to="/" className="flex items-center gap-0.5 md:gap-2 shrink-0">
             <SiShopify className="text-gray-900 text-sm md:text-3xl" />
             <h1 className="text-xs md:text-2xl text-gray-900 font-bold">Shopsy</h1>
           </Link>
 
-          <div className="relative order-3 md:order-none w-full md:flex-1 md:max-w-[500px] md:mx-6">
+          <div className="relative order-3 md:order-none w-full md:flex-1 w-[100px] md:max-w-[500px] md:mx-6">
             <FaSearch
               size={15}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
@@ -114,7 +114,7 @@ export default function Header() {
                   setShowSuggestions(false);
                 }
               }}
-              className="w-full bg-gray-50 border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-sm outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
+              className="w-full bg-gray-50 border border-gray-300 rounded-lg py-1 md:py-2.5 pl-9 pr-3 text-xs md:text-sm outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
             />
 
             {showSuggestions && search.trim() && (
@@ -154,14 +154,14 @@ export default function Header() {
             )}
           </div>
 
-          <nav className="flex items-center gap-3 md:gap-6 text-gray-900">
+          <nav className="flex items-center gap-1 md:gap-6 text-gray-900">
             <Link
               to="/cart"
               onClick={window.scroll(0, 0)}
               className="flex items-center gap-1 hover:text-blue-600 mr-1"
             >
-              <IoMdCart size={24} className="mt-1" />
-              <span className="font-semibold text-sm mt-1">Cart</span>
+              <IoMdCart className="mt-1 text-sm md:text-2xl" />
+              <span className="font-semibold text-sm mt-1 hidden md:block">Cart</span>
               {totalItems !== 0 ? (<span className="text-blue-800">{totalItems}</span>) : (<span></span>)}
             </Link>
 
@@ -170,8 +170,8 @@ export default function Header() {
               onClick={window.scroll(0, 0)}
               className="flex items-center gap-1 hover:text-green-600"
             >
-              <IoBagHandle size={25} />
-              <span className="font-semibold text-sm mt-1">Orders</span>
+              <IoBagHandle className="text-sm md:text-2xl" />
+              <span className="font-semibold text-sm mt-1 hidden md:block">Orders</span>
             </Link>
 
             {!loading &&
@@ -181,7 +181,7 @@ export default function Header() {
                   onClick={window.scroll(0, 0)}
                   className="flex items-center gap-2 rounded-lg px-3 py-2 hover:text-red-500 "
                 >
-                  <BsPersonCircle size={23} className="mt-1" />
+                  <BsPersonCircle className="text-sm md:text-2xl" />
                   <span className="font-semibold text-sm mt-1">
                     {user.username}
                   </span>
@@ -191,7 +191,7 @@ export default function Header() {
                   to="/login"
                   className="flex items-center gap-2 rounded-lg px-3 py-2 hover:text-red-500 mt-1"
                 >
-                  <BsPersonCircle size={22} />
+                  <BsPersonCircle className="text-sm md:text-2xl" />
                   <span className="font-semibold text-sm">Login</span>
                 </Link>
               ))}

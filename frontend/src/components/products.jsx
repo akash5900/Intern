@@ -126,64 +126,64 @@ function Products() {
     };
   }, [page, hasMore, loading]);
   return (
-    <div className="flex flex-col md:gap-4 2xl:gap-6 md:px-4 2xl:px-6 py-3 ">
+    <div className="flex flex-col gap-2 md:gap-4 2xl:gap-6 px-2 md:px-4 2xl:px-6 py-3 ">
       <div>
-        <h1 className="md:text-xl xl:text-2xl text-gray-800 font-semibold">
+        <h1 className="text-base md:text-xl xl:text-2xl text-gray-800 font-semibold">
           Products for you
         </h1>
       </div>
 
-      <div className="grid md:grid-cols-4 2xl:grid-cols-5 md:gap-15 2xl:gap-18 ">
+      <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 gap-10 lg:gap-15 2xl:gap-18 ">
         {loading && products.length === 0
           ? Array.from({ length: 15 }).map((_, index) => (
-              <ProductSkeleton key={index} />
-            ))
+            <ProductSkeleton key={index} />
+          ))
           : products.map((product) => (
-              <div
-                className=" md:w-[280px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl transition px-4 pt-4 pb-2 cursor-pointer"
-                key={product._id}
-                onClick={() => {navigate(`/productdetail/${product._id}`); window.scrollTo(0, 0);}}
-              >
-                <div className="flex justify-center">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="md:h-[150px] 2xl:h-[210px] w-full object-cover rounded "
-                  />
+            <div
+              className="w-[150px] md:w-[280px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl transition px-2 pt-2 pb-1 md:px-4 md:pt-4 md:pb-2 cursor-pointer"
+              key={product._id}
+              onClick={() => { navigate(`/productdetail/${product._id}`); window.scrollTo(0, 0); }}
+            >
+              <div className="flex justify-center">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="h-[70px] md:h-[150px] 2xl:h-[210px] w-full object-cover rounded "
+                />
+              </div>
+
+              <section className="flex flex-col gap-2 text-gray-700">
+                <div className="flex justify-between">
+                  <h1 className="text-[9px] md:text-md 2xl:text-[15px] font-semibold ">
+                    {product.name}
+                  </h1>
+
+                  <div className="flex items-center">
+                    <BiRupee className="text-[9px]" />
+
+                    <h2 className="text-[9px] md:text-md 2xl:text-md font-semibold text-gray-800">
+                      {product.price}
+                    </h2>
+                  </div>
                 </div>
 
-                <section className="flex flex-col gap-2 text-gray-700">
-                  <div className="flex justify-between">
-                    <h1 className="md:text-md 2xl:text-[15px] font-semibold ">
-                      {product.name}
-                    </h1>
+                <p className="text-xs md:text-md truncate mb-1">{product.description}</p>
 
-                    <div className="flex items-center">
-                      <BiRupee />
-
-                      <h2 className="md:text-md 2xl:text-md font-semibold text-gray-800">
-                        {product.price}
-                      </h2>
-                    </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1 ">
+                    <FaStar color="orange" className="text-[9px] md:text-base" />
+                    <p className="text-[9px] md:text-[15px] font-bold">{product.ratings}</p>
                   </div>
 
-                  <p className="text-md truncate mb-1">{product.description}</p>
+                  <div className="flex items-center gap-1">
+                    <FaArrowRotateLeft size={11} />
 
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1 ">
-                      <FaStar size={12} color="orange" />
-                      <p className="text-[15px] font-bold">{product.ratings}</p>
-                    </div>
-
-                    <div className="flex items-center gap-1">
-                      <FaArrowRotateLeft size={11} />
-
-                      <h1 className="text-[13px]"> 30-day returns </h1>
-                    </div>
+                    <h1 className="text-[9px] md:text-[13px]"> 30-day returns </h1>
                   </div>
-                </section>
-              </div>
-            ))}
+                </div>
+              </section>
+            </div>
+          ))}
 
         {loading &&
           products.length > 0 &&
