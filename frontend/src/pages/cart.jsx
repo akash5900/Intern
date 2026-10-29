@@ -19,15 +19,14 @@ export default function Cart() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="py-4 md:px-4 2xl:px-6">
+      <div className="px-3 py-4 sm:px-4 md:px-4 2xl:px-6">
         <div className="mb-8">
-          <div className="flex items-center justify-between">
-            {" "}
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+          <div className="flex items-center justify-between gap-3">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
               Shopping Cart
             </h1>
             <button
-              className="hover:text-blue-500 cursor-pointer font-semibold text-lg"
+              className="cursor-pointer text-base sm:text-lg font-semibold hover:text-blue-500"
               onClick={() => navigate("/")}
             >
               Home
@@ -39,7 +38,7 @@ export default function Cart() {
         </div>
 
         {cart.length === 0 ? (
-          <div className="rounded-2xl border border-gray-200 bg-white p-10 text-center">
+          <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-10 text-center">
             <h2 className="text-xl font-semibold text-gray-900">
               Your cart is empty
             </h2>
@@ -56,26 +55,26 @@ export default function Cart() {
             </Link>
           </div>
         ) : (
-          <div className="grid gap-15 lg:grid-cols-3">
-            <div className="lg:col-span-2">
+          <div className="grid gap-6 lg:gap-15 lg:grid-cols-3">
+            <div className="min-w-0 lg:col-span-2">
               <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
                 {cart.map((item) => (
                   <div
                     key={item._id}
-                    className="flex gap-5 border-b border-gray-100 p-5 last:border-b-0"
+                    className="flex gap-3 sm:gap-5 border-b border-gray-100 p-3 sm:p-5 last:border-b-0"
                   >
-                    <div className="h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-gray-100">
+                    <div className="h-20 w-20 sm:h-28 sm:w-28 shrink-0 overflow-hidden rounded-xl bg-gray-100">
                       <img
                         src={item.product?.image}
                         alt={item.product?.name}
-                        className="h-full w-full object-cover "
+                        className="h-full w-full object-cover"
                       />
                     </div>
 
                     <div className="flex min-w-0 flex-1 flex-col">
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
-                          <h2 className="font-semibold text-gray-900">
+                      <div className="flex items-start justify-between gap-2 sm:gap-4">
+                        <div className="min-w-0">
+                          <h2 className="break-words text-sm sm:text-base font-semibold text-gray-900">
                             {item.product?.name}
                           </h2>
 
@@ -94,20 +93,24 @@ export default function Cart() {
                             </div>
                           )}
                         </div>
-                        <p
+                        <button
+                          type="button"
+                          aria-label="Remove item from cart"
                           onClick={() => handleRemove(item._id)}
-                          className="text-red-500 cursor-pointer mt-2"
+                          className="mt-1 shrink-0 cursor-pointer text-red-500"
                         >
                           <ImCross size={15} />
-                        </p>
+                        </button>
                       </div>
 
-                      <div className="mt-auto flex items-end justify-between pt-5">
+                      <div className="mt-auto flex flex-wrap items-end justify-between gap-2 pt-4 sm:pt-5">
                         <div className="flex items-center rounded-lg border border-gray-200 p-2">
-                          <p>Quantity: {item.quantity}</p>
+                          <p className="text-xs sm:text-sm">
+                            Quantity: {item.quantity}
+                          </p>
                         </div>
 
-                        <p className="font-semibold text-gray-900">
+                        <p className="text-sm sm:text-base font-semibold text-gray-900">
                           ₹
                           {(
                             getItemPrice(item) * Number(item.quantity ?? 1)
@@ -127,14 +130,14 @@ export default function Cart() {
               </Link>
             </div>
 
-            <div>
-              <div className="rounded-2xl border border-gray-200 bg-white p-6">
+            <div className="min-w-0">
+              <div className="rounded-2xl border border-gray-200 bg-white p-4 sm:p-6">
                 <h2 className="text-lg font-semibold text-gray-900">
                   Order Summary
                 </h2>
 
                 <div className="mt-6 space-y-4">
-                  <div className="flex justify-between text-sm">
+                  <div className="flex justify-between gap-3 text-sm">
                     <span className="text-gray-500">Subtotal</span>
 
                     <span className="font-medium text-gray-900">
@@ -142,7 +145,7 @@ export default function Cart() {
                     </span>
                   </div>
 
-                  <div className="flex justify-between text-sm">
+                  <div className="flex justify-between gap-3 text-sm">
                     <span className="text-gray-500">Shipping</span>
 
                     <span className="font-medium text-green-600">Free</span>
@@ -150,12 +153,12 @@ export default function Cart() {
                 </div>
 
                 <div className="mt-6 border-t border-gray-100 pt-5">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between gap-3">
                     <span className="text-base font-semibold text-gray-900">
                       Total
                     </span>
 
-                    <span className="text-2xl font-bold text-gray-900">
+                    <span className="text-xl sm:text-2xl font-bold text-gray-900">
                       ₹{total.toFixed(2)}
                     </span>
                   </div>
@@ -164,7 +167,7 @@ export default function Cart() {
                 <button
                   onClick={() => navigate("/checkout", { state: { cart } })}
                   type="button"
-                  className="mt-6 w-full rounded-xl bg-black px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-800"
+                  className="mt-6 w-full rounded-xl bg-black px-4 sm:px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-800"
                 >
                   Proceed to Checkout
                 </button>

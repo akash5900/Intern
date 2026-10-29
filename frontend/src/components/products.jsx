@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { BiRupee } from "react-icons/bi";
@@ -6,9 +7,9 @@ import { FaArrowRotateLeft } from "react-icons/fa6";
 
 function ProductSkeleton() {
   return (
-    <div className="md:w-[250px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 p-4">
+    <div className="w-full md:w-[250px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 p-2 md:p-4">
       <div className="flex justify-center">
-        <div className="w-full md:h-[150px] 2xl:h-[180px] rounded bg-gray-200 shimmer" />
+        <div className="w-full h-[110px] sm:h-[130px] md:h-[150px] 2xl:h-[180px] rounded bg-gray-200 shimmer" />
       </div>
 
       <section className="flex flex-col gap-4">
@@ -125,65 +126,78 @@ function Products() {
       }
     };
   }, [page, hasMore, loading]);
+
   return (
-    <div className="flex flex-col gap-2 md:gap-4 2xl:gap-6 px-2 md:px-4 2xl:px-6 py-3 ">
+    <div className="flex flex-col gap-2 md:gap-4 2xl:gap-6 px-2 md:px-4 2xl:px-6 py-3">
       <div>
         <h1 className="text-base md:text-xl xl:text-2xl text-gray-800 font-semibold">
           Products for you
         </h1>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 gap-10 lg:gap-15 2xl:gap-18 ">
+      <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-0 lg:gap-15 2xl:gap-18">
         {loading && products.length === 0
           ? Array.from({ length: 15 }).map((_, index) => (
-            <ProductSkeleton key={index} />
-          ))
+              <ProductSkeleton key={index} />
+            ))
           : products.map((product) => (
-            <div
-              className="w-[150px] md:w-[280px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl transition px-2 pt-2 pb-1 md:px-4 md:pt-4 md:pb-2 cursor-pointer"
-              key={product._id}
-              onClick={() => { navigate(`/productdetail/${product._id}`); window.scrollTo(0, 0); }}
-            >
-              <div className="flex justify-center">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="h-[70px] md:h-[150px] 2xl:h-[210px] w-full object-cover rounded "
-                />
+              <div
+                className="w-full min-w-0 md:w-[280px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl transition px-2 pt-2 pb-1 md:px-4 md:pt-4 md:pb-2 cursor-pointer"
+                key={product._id}
+                onClick={() => {
+                  navigate(`/productdetail/${product._id}`);
+                  window.scrollTo(0, 0);
+                }}
+              >
+                <div className="flex justify-center">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="h-[110px] sm:h-[130px] md:h-[150px] 2xl:h-[210px] w-full object-cover rounded"
+                  />
+                </div>
+
+                <section className="flex flex-col gap-2 text-gray-700">
+                  <div className="flex justify-between gap-1">
+                    <h1 className="text-[9px] md:text-[14px] 2xl:text-[15px] font-semibold min-w-0">
+                      {product.name}
+                    </h1>
+
+                    <div className="flex items-center shrink-0">
+                      <BiRupee className="text-[9px] md:text-[14px] 2xl:text-[15px]" />
+
+                      <h2 className="text-[9px] md:text-[14px] 2xl:text-[15px] font-semibold text-gray-800">
+                        {product.price}
+                      </h2>
+                    </div>
+                  </div>
+
+                  <p className="text-[10px] sm:text-xs md:text-[13px] 2xl:text-[14px] truncate mb-1">
+                    {product.description}
+                  </p>
+
+                  <div className="flex items-center justify-between gap-1">
+                    <div className="flex items-center gap-1">
+                      <FaStar
+                        color="orange"
+                        className="text-[9px] md:text-sm"
+                      />
+                      <p className="text-[9px] md:text-[15px] font-bold">
+                        {product.ratings}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-1">
+                      <FaArrowRotateLeft size={11} />
+
+                      <h1 className="text-[9px] md:text-[13px] whitespace-nowrap">
+                        30-day returns
+                      </h1>
+                    </div>
+                  </div>
+                </section>
               </div>
-
-              <section className="flex flex-col gap-2 text-gray-700">
-                <div className="flex justify-between">
-                  <h1 className="text-[9px] md:text-md 2xl:text-[15px] font-semibold ">
-                    {product.name}
-                  </h1>
-
-                  <div className="flex items-center">
-                    <BiRupee className="text-[9px]" />
-
-                    <h2 className="text-[9px] md:text-md 2xl:text-md font-semibold text-gray-800">
-                      {product.price}
-                    </h2>
-                  </div>
-                </div>
-
-                <p className="text-xs md:text-md truncate mb-1">{product.description}</p>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 ">
-                    <FaStar color="orange" className="text-[9px] md:text-base" />
-                    <p className="text-[9px] md:text-[15px] font-bold">{product.ratings}</p>
-                  </div>
-
-                  <div className="flex items-center gap-1">
-                    <FaArrowRotateLeft size={11} />
-
-                    <h1 className="text-[9px] md:text-[13px]"> 30-day returns </h1>
-                  </div>
-                </div>
-              </section>
-            </div>
-          ))}
+            ))}
 
         {loading &&
           products.length > 0 &&
@@ -194,7 +208,9 @@ function Products() {
 
       {hasMore && (
         <div ref={loadMoreRef} className="flex justify-center mt-8 h-10">
-          {loading && <p className="text-gray-500">Loading more products...</p>}
+          {loading && (
+            <p className="text-gray-500">Loading more products...</p>
+          )}
         </div>
       )}
 

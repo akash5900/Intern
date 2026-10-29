@@ -30,7 +30,6 @@ export default function Signup() {
       }
 
       alert(data.message);
-
       navigate("/login");
     } catch (error) {
       console.log(error);
@@ -47,11 +46,11 @@ export default function Signup() {
   }
 
   return (
-    <div className="min-h-screen flex justify-center pt-[100px]">
-      <div className="w-[400px] flex flex-col gap-[20px] p-5">
+    <div className="min-h-screen flex justify-center pt-10 sm:pt-[100px] px-3 sm:px-4">
+      <div className="w-full max-w-[400px] flex flex-col gap-[20px] p-2 sm:p-5">
         <form
           onSubmit={handleSubmit}
-          className="border border-blue-200 rounded-lg flex flex-col justify-center items-center gap-5 px-4 pt-10 bg-gray-50 hover:shadow-xl"
+          className="border border-blue-200 rounded-lg flex flex-col justify-center items-center gap-5 px-4 sm:px-4 pt-8 sm:pt-10 pb-5 bg-gray-50 hover:shadow-xl"
         >
           <h1 className="text-xl font-semibold pb-3">Create Account</h1>
 
@@ -107,13 +106,16 @@ export default function Signup() {
 
           <button
             type="submit"
-            className="border border-gray-500 rounded-md bg-white p-2 cursor-pointer hover:bg-blue-100 w-[200px]"
+            className="border border-gray-500 rounded-md bg-white p-2 cursor-pointer hover:bg-blue-100 w-full max-w-[200px]"
           >
             Sign Up
           </button>
-          <div className="flex ml-40 gap-1">
+
+          <div className="flex flex-wrap justify-center gap-1 text-sm sm:text-base">
             <h1>Have Account?</h1>
-            <Link to={"/login"} className="cursor-pointer text-red-500">Login</Link>
+            <Link to={"/login"} className="cursor-pointer text-red-500">
+              Login
+            </Link>
           </div>
         </form>
       </div>

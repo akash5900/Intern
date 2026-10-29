@@ -63,19 +63,21 @@ export default function ProductsFilters() {
             className="border border-gray-300 rounded-lg p-2 w-32 md:w-[140px] bg-white text-sm outline-none focus:border-blue-400"
           />
 
-          <button
-            onClick={applyFilter}
-            className="bg-blue-600 text-white rounded-lg px-4 py-2 text-sm hover:bg-blue-700"
-          >
-            Apply Filter
-          </button>
+          <div className="flex w-full sm:w-auto gap-2">
+            <button
+              onClick={applyFilter}
+              className="bg-blue-600 text-white rounded-lg px-3 md:px-4 py-2 text-sm hover:bg-blue-700 flex-1 sm:flex-none"
+            >
+              Apply Filter
+            </button>
 
-          <button
-            onClick={clearFilter}
-            className="border border-gray-300 bg-white rounded-lg px-4 py-2 text-sm hover:bg-gray-100"
-          >
-            Clear
-          </button>
+            <button
+              onClick={clearFilter}
+              className="border border-gray-300 bg-white rounded-lg px-4 py-2 text-sm hover:bg-gray-100 flex-1 sm:flex-none"
+            >
+              Clear
+            </button>
+          </div>
         </div>
       </div>
     </div>

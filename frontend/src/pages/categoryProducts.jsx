@@ -7,9 +7,9 @@ import ProductsFilters from "../components/productsFilters";
 
 function ProductSkeleton() {
   return (
-    <div className="md:w-[250px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 p-4">
+    <div className="w-full md:w-[250px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 p-2 md:p-4">
       <div className="flex justify-center">
-        <div className="w-full md:h-[150px] 2xl:h-[180px] rounded bg-gray-200 shimmer" />
+        <div className="w-full h-[110px] sm:h-[130px] md:h-[150px] 2xl:h-[180px] rounded bg-gray-200 shimmer" />
       </div>
 
       <section className="flex flex-col gap-4">
@@ -85,24 +85,25 @@ function Categoryproducts() {
   }, [id, search, minPrice, maxPrice]);
 
   return (
-    <div className="flex flex-col md:gap-3 2xl:gap-6 pt-4 pb-17">
+    <div className="flex flex-col gap-3 md:gap-3 2xl:gap-6 pt-3 md:pt-4 pb-17">
       <div>
         <ProductsFilters />
       </div>
 
-      <div className="flex items-center justify-between md:px-4 2xl:px-8">
-        <h1 className="md:text-xl 2xl:text-2xl  text-gray-900 font-semibold">
+      <div className="flex items-center justify-between gap-2 px-3 md:px-4 2xl:px-8">
+        <h1 className="text-base sm:text-lg md:text-xl 2xl:text-2xl text-gray-900 font-semibold min-w-0">
           {products[0]?.category?.name || "Category Products"} Products
         </h1>
+
         <button
-          className="text-lg hover:text-blue-600 cursor-pointer"
+          className="text-sm sm:text-base md:text-lg hover:text-blue-600 cursor-pointer shrink-0"
           onClick={() => navigate("/")}
         >
           Home
         </button>
       </div>
 
-      <div className="md:px-4 2xl:px-8 grid md:grid-cols-4 2xl:grid-cols-5 md:gap-8 2xl:gap-18">
+      <div className="px-3 md:px-4 2xl:px-8 grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-8 2xl:gap-18">
         {loading ? (
           Array.from({ length: 15 }).map((_, index) => (
             <ProductSkeleton key={index} />
@@ -110,7 +111,7 @@ function Categoryproducts() {
         ) : products.length > 0 ? (
           products.map((product) => (
             <div
-              className="w-[300px] cursor-pointer border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl p-4"
+              className="w-full min-w-0 md:w-[280px] 2xl:w-[300px] cursor-pointer border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl p-2 md:p-4"
               key={product._id}
               onClick={() => navigate(`/productdetail/${product._id}`)}
             >
@@ -118,42 +119,49 @@ function Categoryproducts() {
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="md:h-[150px] 2xl:h-[210px] w-full object-cover rounded"
+                  className="h-[110px] sm:h-[130px] md:h-[150px] 2xl:h-[210px] w-full object-cover rounded"
                 />
               </div>
 
-              <section className="flex flex-col gap-2 text-gray-700">
-                <div className="flex justify-between">
-                  <h2 className="md:text-md 2xl:text-[15px] font-semibold">
+              <section className="flex flex-col gap-2 text-gray-700 min-w-0">
+                <div className="flex justify-between gap-1">
+                  <h2 className="text-xs sm:text-sm md:text-md 2xl:text-[15px] font-semibold min-w-0">
                     {product.name}
                   </h2>
 
-                  <div className="flex items-center">
-                    <BiRupee />
-                    <h3 className="md:text-md 2xl:text-md font-semibold text-gray-800">
+                  <div className="flex items-center shrink-0">
+                    <BiRupee className="text-xs sm:text-sm md:text-base" />
+
+                    <h3 className="text-xs sm:text-sm md:text-md 2xl:text-md font-semibold text-gray-800">
                       {product.price}
                     </h3>
                   </div>
                 </div>
 
-                <p className="text-md truncate mb-1">{product.description}</p>
+                <p className="text-[10px] sm:text-xs md:text-md truncate mb-1">
+                  {product.description}
+                </p>
 
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-1">
                   <div className="flex items-center gap-1">
                     <FaStar size={12} color="orange" />
-                    <p className="text-[15px] font-bold">{product.ratings}</p>
+                    <p className="text-xs md:text-[15px] font-bold">
+                      {product.ratings}
+                    </p>
                   </div>
 
                   <div className="flex items-center gap-1">
                     <FaArrowRotateLeft size={11} />
-                    <p className="text-[13px]">30-day returns</p>
+                    <p className="text-[9px] sm:text-[11px] md:text-[13px] whitespace-nowrap">
+                      30-day returns
+                    </p>
                   </div>
                 </div>
               </section>
             </div>
           ))
         ) : (
-          <p className="col-span-full text-gray-600 py-8">
+          <p className="col-span-full text-gray-600 py-8 text-sm md:text-base">
             No products found matching your filters.
           </p>
         )}

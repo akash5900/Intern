@@ -220,7 +220,9 @@ export default function Checkout() {
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-6 md:px-4 lg:px-6">
-      <h1 className="md:text-xl 2xl:text-2xl font-bold text-gray-900 mb-6">Checkout</h1>
+      <h1 className="md:text-xl 2xl:text-2xl font-bold text-gray-900 mb-6">
+        Checkout
+      </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
@@ -278,7 +280,7 @@ export default function Checkout() {
                       <div className="flex items-center mt-3">
                         <BiRupee />
 
-                        <span className="text-xl font-bold">
+                        <span className="text-lg font-bold sm:text-xl">
                           {price.toFixed(2)}
                         </span>
                       </div>
@@ -298,7 +300,7 @@ export default function Checkout() {
           </div>
 
           <div className="bg-white rounded-xl shadow-sm p-6">
-            <div className="flex justify-between items-center mb-5">
+            <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
               <h2 className="text-xl font-semibold">Delivery Address</h2>
 
               <button
@@ -313,7 +315,7 @@ export default function Checkout() {
               <div className="mt-6 border-t border-gray-200 pt-6">
                 <h3 className="text-lg font-semibold mb-5">Add New Address</h3>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2">
                   <div>
                     <label className="block text-sm font-medium mb-2">
                       Name
@@ -431,7 +433,7 @@ export default function Checkout() {
 
                 <button
                   onClick={saveAddress}
-                  className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg"
+                  className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg mb-2"
                 >
                   Save Address
                 </button>
@@ -463,7 +465,7 @@ export default function Checkout() {
                         onChange={() => setSelectedAddress(address)}
                       />
 
-                      <div className="flex items-start justify-between gap-6 w-full">
+                      <div className="flex w-full min-w-0 items-start justify-between gap-3 sm:gap-6">
                         <div>
                           <p className="font-semibold">{address.username}</p>
 
@@ -514,8 +516,8 @@ export default function Checkout() {
           </div>
         </div>
 
-        <div>
-          <div className="bg-white rounded-xl shadow-sm p-6 sticky top-6">
+        <div className="min-w-0">
+          <div className="sticky top-6 rounded-xl bg-white p-4 shadow-sm sm:p-6">
             <h2 className="text-xl font-semibold mb-6">Order Summary</h2>
 
             <div className="space-y-4">

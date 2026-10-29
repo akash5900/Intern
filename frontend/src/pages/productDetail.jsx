@@ -96,8 +96,8 @@ export default function ProductDetail() {
 
   if (!product) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-500 text-lg">Loading...</p>
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-lg text-gray-500">Loading...</p>
       </div>
     );
   }
@@ -117,8 +117,8 @@ export default function ProductDetail() {
     try {
       const matchingVariant = selectedVariant
         ? variants.find(
-          (variant) => String(variant._id) === String(selectedVariant._id),
-        )
+            (variant) => String(variant._id) === String(selectedVariant._id),
+          )
         : null;
 
       const res = await fetch("http://localhost:3000/api/cart/add", {
@@ -150,28 +150,28 @@ export default function ProductDetail() {
   const currentPrice = selectedVariant?.price ?? product.price;
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-6">
-      <div className="px-4 md:px-10 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 bg-white rounded-2xl shadow-sm p-6 md:p-8 2xl:p-10">
-          <div className="flex items-center justify-center bg-gray-50 rounded-xl md:p-6 2xl:p-6">
+    <div className="min-h-screen bg-gray-50 pt-3 sm:pt-6">
+      <div className="px-3 sm:px-4 md:px-10 lg:px-8">
+        <div className="grid grid-cols-1 gap-5 rounded-2xl bg-white p-3 shadow-sm sm:gap-8 sm:p-6 md:p-8 lg:grid-cols-2 2xl:gap-10 2xl:p-10">
+          <div className="flex items-center justify-center rounded-xl bg-gray-50 p-3 sm:p-6">
             <img
               src={product.image}
               alt={product.name}
-              className="w-full max-w-lg h-[450px] object-contain rounded-lg"
+              className="h-[260px] w-full max-w-lg rounded-lg object-contain sm:h-[350px] md:h-[450px]"
             />
           </div>
 
-          <section className="flex flex-col ml-15 gap-4">
-            <span className="w-fit bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-medium">
+          <section className="flex min-w-0 flex-col gap-4 lg:ml-15">
+            <span className="w-fit rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-600">
               {product.category?.name || "N/A"}
             </span>
 
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+            <h1 className="break-words text-2xl font-bold text-gray-900 md:text-4xl">
               {product.name}
             </h1>
 
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1 bg-green-600 text-white px-2 py-1 rounded-md">
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="flex items-center gap-1 rounded-md bg-green-600 px-2 py-1 text-white">
                 <span className="text-sm font-medium">
                   {product.ratings || 0}
                 </span>
@@ -179,7 +179,7 @@ export default function ProductDetail() {
                 <FaStar className="text-xs" />
               </div>
 
-              <span className="text-gray-500 text-sm">Customer Rating</span>
+              <span className="text-sm text-gray-500">Customer Rating</span>
             </div>
 
             <div className="flex items-center gap-1">
@@ -191,23 +191,27 @@ export default function ProductDetail() {
             </div>
 
             <div className="border-t border-gray-200" />
+
             <div>
-              <p className="text-gray-600 leading-7">{product.description}</p>
+              <p className="break-words leading-7 text-gray-600">
+                {product.description}
+              </p>
             </div>
 
             {variants.length > 0 && (
               <div>
-                <h2 className="text-lg font-semibold mb-3">Select Variant</h2>
+                <h2 className="mb-3 text-lg font-semibold">Select Variant</h2>
 
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-3 sm:gap-4">
                   {variants.map((variant) => (
                     <button
                       key={variant._id}
                       onClick={() => setSelectedVariant(variant)}
-                      className={`border rounded-xl px-4 py-3 transition ${selectedVariant?._id === variant._id
-                        ? "border-blue-600 bg-blue-50"
-                        : "border-gray-300 hover:border-blue-400"
-                        }`}
+                      className={`rounded-xl border px-3 py-3 transition sm:px-4 ${
+                        selectedVariant?._id === variant._id
+                          ? "border-blue-600 bg-blue-50"
+                          : "border-gray-300 hover:border-blue-400"
+                      }`}
                     >
                       <div className="font-medium">{variant.size}</div>
 
@@ -228,7 +232,7 @@ export default function ProductDetail() {
               </div>
             )}
 
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-x-4 gap-y-3">
               <div className="flex items-center gap-1">
                 <TbTruckDelivery color="green" />
 
@@ -244,14 +248,14 @@ export default function ProductDetail() {
               <div className="flex items-center gap-1">
                 <FaArrowRotateLeft size={11} color="red" />
 
-                <h1 className="text-[13px]"> 30-day returns </h1>
+                <h1 className="text-[13px]">30-day returns</h1>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 pt-3">
+            <div className="flex flex-col gap-3 pt-3 sm:flex-row sm:gap-4">
               <button
                 onClick={buyNow}
-                className="flex items-center justify-center gap-2 cursor-pointer bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-lg px-6 py-3 transition"
+                className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-yellow-500 px-6 py-3 font-semibold text-white transition hover:bg-yellow-600"
               >
                 <FaBolt />
                 Buy Now
@@ -259,7 +263,7 @@ export default function ProductDetail() {
 
               <button
                 onClick={addToCart}
-                className="flex items-center justify-center gap-2 cursor-pointer bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg px-6 py-3 transition"
+                className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-orange-500 px-6 py-3 font-semibold text-white transition hover:bg-orange-600"
               >
                 <FaShoppingCart />
                 Add To Cart
@@ -269,14 +273,14 @@ export default function ProductDetail() {
         </div>
 
         {moreProducts.length > 0 && (
-          <section className="mt-12 mb-4 ml-2">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-700">
+          <section className="mb-4 mt-8 sm:mt-12 sm:ml-2">
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-gray-700 md:text-3xl">
                 More Products
               </h2>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 gap-16 ">
+            <div className="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-4 2xl:grid-cols-5 2xl:gap-16">
               {moreProducts.map((item) => (
                 <div
                   key={item._id}
@@ -284,53 +288,56 @@ export default function ProductDetail() {
                     navigate(`/productdetail/${item._id}`);
                     window.scrollTo(0, 0);
                   }}
-
-              className=" md:w-[270px] 2xl:w-[300px] border border-gray-200 flex flex-col gap-2 hover:bg-gray-100 hover:shadow-xl px-4 pt-4 pb-2 cursor-pointer"
+                  className="flex min-w-0 cursor-pointer flex-col gap-2 border border-gray-200 px-2 pb-2 pt-3 hover:bg-gray-100 hover:shadow-xl sm:px-4 sm:pt-4 md:w-[270px] 2xl:w-[300px]"
                 >
-              <div className="flex justify-center">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="md:h-[150px] 2xl:h-[210px] w-full object-cover rounded "
-                />
-              </div>
-
-              <section className="flex flex-col gap-2 text-gray-700">
-                <div className="flex justify-between">
-                  <h1 className="md:text-md 2xl:text-[15px] font-semibold ">
-                    {item.name}
-                  </h1>
-
-                  <div className="flex items-center">
-                    <BiRupee />
-
-                    <h2 className="md:text-md 2xl:text-md font-semibold text-gray-800">
-                      {item.price}
-                    </h2>
+                  <div className="flex justify-center">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="h-[100px] w-full rounded object-cover sm:h-[130px] md:h-[150px] 2xl:h-[210px]"
+                    />
                   </div>
+
+                  <section className="flex min-w-0 flex-col gap-2 text-gray-700">
+                    <div className="flex min-w-0 items-start justify-between gap-1">
+                      <h1 className="min-w-0 break-words text-sm font-semibold md:text-md 2xl:text-[15px]">
+                        {item.name}
+                      </h1>
+
+                      <div className="flex shrink-0 items-center">
+                        <BiRupee />
+
+                        <h2 className="font-semibold text-gray-800 md:text-md 2xl:text-md">
+                          {item.price}
+                        </h2>
+                      </div>
+                    </div>
+
+                    <p className="mb-1 truncate text-sm md:text-md">
+                      {item.description}
+                    </p>
+
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex items-center gap-1">
+                        <FaStar size={12} color="orange" />
+                        <p className="text-[15px] font-bold">{item.ratings}</p>
+                      </div>
+
+                      <div className="flex items-center gap-1">
+                        <FaArrowRotateLeft size={11} />
+
+                        <h1 className="text-[11px] sm:text-[13px]">
+                          30-day returns
+                        </h1>
+                      </div>
+                    </div>
+                  </section>
                 </div>
-
-                <p className="text-md truncate mb-1">{item.description}</p>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 ">
-                    <FaStar size={12} color="orange" />
-                    <p className="text-[15px] font-bold">{item.ratings}</p>
-                  </div>
-
-                  <div className="flex items-center gap-1">
-                    <FaArrowRotateLeft size={11} />
-
-                    <h1 className="text-[13px]"> 30-day returns </h1>
-                  </div>
-                </div>
-              </section>
-            </div>
               ))}
-          </div>
+            </div>
           </section>
         )}
+      </div>
     </div>
-    </div >
   );
 }
