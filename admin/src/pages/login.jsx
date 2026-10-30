@@ -36,7 +36,7 @@ const Login = () => {
   }
 
   return (
-    <div className="flex items-center justify-center md:mt-[50px] 2xl:mt-[100px]">
+    <div className="flex items-center justify-center mt-30 md:mt-[50px] 2xl:mt-[100px]">
       <div className="w-[400px] flex flex-col gap-[20px] p-5">
         <form
           onSubmit={userLogin}

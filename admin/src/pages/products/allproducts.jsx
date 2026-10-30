@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 
@@ -100,22 +101,27 @@ export default function Allproducts() {
 
   return (
     <div className="space-y-4 text-gray-900">
-      <div className="flex justify-between text-xl font-semibold">
+      <div className="flex flex-wrap justify-between items-center gap-3 text-lg sm:text-xl font-semibold">
         <h1>All Products</h1>
-        <Link to={"/admin/addproduct"} className="cursor-pointer">
+
+        <Link
+          to={"/admin/addproduct"}
+          className="cursor-pointer text-blue-600 hover:text-blue-800 text-base sm:text-lg"
+        >
           +Add Product
         </Link>
       </div>
+
       <div className="w-full overflow-x-auto rounded-lg shadow-sm">
-        <table className="w-full border border-gray-200 border-collapse table-fixed">
+        <table className="w-full min-w-[750px] border border-gray-200 border-collapse table-fixed">
           <thead className="bg-blue-200">
-            <tr className="text-lg pl-1">
+            <tr className="text-base sm:text-lg pl-1">
               <th className="p-2 text-left">Image</th>
               <th className="p-2 text-left">Name</th>
               <th className="p-2 text-left">Price</th>
               <th className="p-2 md:text-left">Description</th>
-              <th className="p-2">Edit</th>
-              <th className="p-2">Delete</th>
+              <th className="p-2 text-center">Edit</th>
+              <th className="p-2 text-center">Delete</th>
             </tr>
           </thead>
 
@@ -126,19 +132,26 @@ export default function Allproducts() {
                 className="border-b border-gray-200 font-semibold"
               >
                 <td>
-                  {" "}
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="md:w-20 2xl:w-25 md:h-15 2xl:h-18 object-cover rounded my-4 ml-2"
+                    className="w-16 h-14 md:w-20 2xl:w-25 md:h-15 2xl:h-18 object-cover rounded my-4 ml-2"
                   />
                 </td>
-                <td className="p-3 align-middle md:text-sm 2xl:text-md">{product.name}</td>
-                <td className="p-3 align-middle md:text-sm  2xl:text-md">{product.price}</td>
-                <td className="p-3 align-middle break-words md:text-xs 2xl:text-sm">
+
+                <td className="p-3 align-middle text-sm md:text-sm 2xl:text-md">
+                  {product.name}
+                </td>
+
+                <td className="p-3 align-middle text-sm md:text-sm 2xl:text-md">
+                  {product.price}
+                </td>
+
+                <td className="p-3 align-middle break-words text-xs md:text-xs 2xl:text-sm">
                   {product.description}
                 </td>
-                <td className="p-3 align-middle text-center ">
+
+                <td className="p-3 align-middle text-center">
                   <Link
                     to={`/admin/updateproduct/${product._id}`}
                     className="border border-gray-800 px-2 rounded hover:bg-blue-300 cursor-pointer"
@@ -146,7 +159,8 @@ export default function Allproducts() {
                     Edit
                   </Link>
                 </td>
-                <td className="p-3 align-middle text-center ">
+
+                <td className="p-3 align-middle text-center">
                   <button
                     onClick={() => dltProduct(product._id)}
                     className="border border-gray-800 px-2 rounded hover:bg-red-500 cursor-pointer"
@@ -159,14 +173,21 @@ export default function Allproducts() {
           </tbody>
         </table>
       </div>
+
       {hasMore && (
         <div ref={loadMoreRef} className="flex justify-center mt-8 h-10">
-          {loading && <p className="text-gray-500">Loading more products...</p>}
+          {loading && (
+            <p className="text-gray-500 text-sm sm:text-base">
+              Loading more products...
+            </p>
+          )}
         </div>
       )}
 
       {!hasMore && products.length > 0 && (
-        <p className="text-center text-gray-500 mt-6">No more products</p>
+        <p className="text-center text-gray-500 mt-6">
+          No more products
+        </p>
       )}
     </div>
   );

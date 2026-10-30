@@ -48,20 +48,20 @@ export default function Banner() {
 
           <div className="flex flex-wrap items-center gap-x-1 gap-y-3 md:pt-2 text-[7px] font-medium text-slate-700 md:gap-x-5 md:text-sm">
             <div className="flex items-center gap-0.5 md:gap-2">
-              <TbTruckDelivery className="text-[10px] md:text-xl" />
+              <TbTruckDelivery className="text-[10px] md:text-2xl" />
               <span className="">Fast Delivery</span>
             </div>
 
             <div className="hidden h-7 border-l border-slate-300 sm:block" />
 
-            <div className="flex items-center gap-0.5  md:gap-2">
-              <RiSecurePaymentFill className="text-[10px] md:text-xl" />
+            <div className="flex items-center gap-0.5 md:gap-2">
+              <RiSecurePaymentFill className="text-[10px] md:text-2xl" />
               <span>Secure Payments</span>
             </div>
 
             <div className="hidden h-7 border-l border-slate-300 sm:block" />
 
-            <div className="flex items-center gap-0.5  md:gap-2 hidden md:block">
+            <div className="md:flex items-center gap-0.5 md:gap-2 hidden md:block">
               <FaArrowRotateRight className="text-[10px] md:text-xl" />
               <span>Easy Returns</span>
             </div>

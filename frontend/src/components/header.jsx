@@ -170,7 +170,7 @@ export default function Header() {
               onClick={window.scroll(0, 0)}
               className="flex items-center gap-1 hover:text-green-600"
             >
-              <IoBagHandle className="text-sm md:text-2xl" />
+              <IoBagHandle className="text-sm md:text-2xl mt-0.5 md:mt-0" />
               <span className="font-semibold text-sm mt-1 hidden md:block">Orders</span>
             </Link>
 
@@ -179,9 +179,9 @@ export default function Header() {
                 <Link
                   to="/profile"
                   onClick={window.scroll(0, 0)}
-                  className="flex items-center gap-2 rounded-lg px-3 py-2 hover:text-red-500 "
+                  className="flex items-center gap-1 md:gap-2 rounded-lg px-3 py-2 hover:text-red-500 "
                 >
-                  <BsPersonCircle className="text-sm md:text-2xl" />
+                  <BsPersonCircle className="text-sm md:text-2xl mt-1 md:mt-0" />
                   <span className="font-semibold text-sm mt-1">
                     {user.username}
                   </span>

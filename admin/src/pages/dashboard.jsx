@@ -1,14 +1,15 @@
+
 import { useState, useEffect } from "react";
 import { HiUsers } from "react-icons/hi2";
 import { BsBoxFill } from "react-icons/bs";
 import { BiSolidCategory } from "react-icons/bi";
 import { MdLocalShipping } from "react-icons/md";
-import { useNavigate } from "react-router"
+import { useNavigate } from "react-router";
 import { PiUserCircleBold } from "react-icons/pi";
 import useAuth from "../context/useAuth";
 
 export default function Dashboard() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [allusers, setAllUsers] = useState(null);
     const [allproducts, setAllProducts] = useState();
     const [allorders, setAllOrders] = useState();
@@ -17,24 +18,21 @@ export default function Dashboard() {
 
     async function getAllUsers() {
         try {
-
             const res = await fetch("http://localhost:3000/api/user/allusers");
-
             const data = await res.json();
 
             if (!res.ok) {
                 console.log(data.message);
-                return
+                return;
             }
-            setAllUsers(data.users)
-        } catch (error) {
 
+            setAllUsers(data.users);
+        } catch (error) {
         }
-    };
+    }
 
     async function getProducts() {
         try {
-
             const res = await fetch(
                 "http://localhost:3000/api/products/getproducts",
             );
@@ -46,7 +44,6 @@ export default function Dashboard() {
             }
 
             setAllProducts(data.products);
-
         } catch (error) {
             console.log(error);
         }
@@ -66,11 +63,10 @@ export default function Dashboard() {
 
             if (!res.ok) {
                 console.log(data.message);
-                return
+                return;
             }
 
             setAllOrders(data.orders);
-
         } catch (error) {
             console.log(error);
         }
@@ -89,7 +85,6 @@ export default function Dashboard() {
             }
 
             setAllCategory(data.categorys);
-
         } catch (error) {
             console.log(error);
         }
@@ -99,37 +94,44 @@ export default function Dashboard() {
         getAllUsers();
         getProducts();
         getAllCategory();
-        getorders()
-    }, [])
+        getorders();
+    }, []);
 
     return (
         <div className="min-h-screen bg-slate-50">
-            <div className="mb-8 flex items-center justify-between">
+            {/* Dashboard Header */}
+            <div className="mb-6 sm:mb-8 flex flex-wrap items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-800">
+                    <h1 className="text-xl sm:text-2xl font-bold text-slate-800">
                         Dashboard
                     </h1>
-                    <p className="mt-2 text-sm text-slate-500">
+                    <p className="mt-2 text-xs sm:text-sm text-slate-500">
                         Welcome back! Here is your store overview.
                     </p>
                 </div>
 
                 <div className="flex items-center gap-1">
                     <PiUserCircleBold size={30} />
-                    <h1 className="font-semibold text-slate-700">
+                    <h1 className="font-semibold text-sm sm:text-base text-slate-700">
                         {users[0]?.username || "Admin"}
                     </h1>
                 </div>
             </div>
 
-            <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
-                <div onClick={() => navigate("/admin/allusers")} className="flex items-center gap-4 rounded-xl border border-slate-100 bg-white p-5 shadow-sm cursor-pointer">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-blue-100 text-2xl">
+            {/* Statistics Cards */}
+            <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+                <div
+                    onClick={() => navigate("/admin/allusers")}
+                    className="flex items-center gap-4 rounded-xl border border-slate-100 bg-white p-4 sm:p-5 shadow-sm cursor-pointer"
+                >
+                    <div className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-2xl">
                         <HiUsers size={26} />
                     </div>
+
                     <div>
                         <p className="text-sm text-slate-500">Total Users</p>
-                        <h2 className="mt-1 text-3xl font-bold text-slate-800">
+                        <h2 className="mt-1 text-2xl sm:text-3xl font-bold text-slate-800">
                             {allusers?.length ?? 0}
                         </h2>
                         <p className="mt-1 text-xs text-slate-400">
@@ -138,13 +140,17 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <div onClick={() => navigate("/admin/allproducts")} className="flex items-center gap-4 rounded-xl border border-slate-100 bg-white p-5 shadow-sm  cursor-pointer">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-emerald-100 text-2xl">
+                <div
+                    onClick={() => navigate("/admin/allproducts")}
+                    className="flex items-center gap-4 rounded-xl border border-slate-100 bg-white p-4 sm:p-5 shadow-sm cursor-pointer"
+                >
+                    <div className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-2xl">
                         <BsBoxFill />
                     </div>
+
                     <div>
                         <p className="text-sm text-slate-500">Total Products</p>
-                        <h2 className="mt-1 text-3xl font-bold text-slate-800">
+                        <h2 className="mt-1 text-2xl sm:text-3xl font-bold text-slate-800">
                             {allproducts?.length ?? 0}
                         </h2>
                         <p className="mt-1 text-xs text-slate-400">
@@ -153,13 +159,17 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <div onClick={() => navigate("/admin/allcategories")} className="flex items-center gap-4 rounded-xl border border-slate-100 bg-white p-5 shadow-sm  cursor-pointer">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-purple-100 text-2xl">
+                <div
+                    onClick={() => navigate("/admin/allcategories")}
+                    className="flex items-center gap-4 rounded-xl border border-slate-100 bg-white p-4 sm:p-5 shadow-sm cursor-pointer"
+                >
+                    <div className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-xl bg-purple-100 text-2xl">
                         <BiSolidCategory size={28} />
                     </div>
+
                     <div>
                         <p className="text-sm text-slate-500">Categories</p>
-                        <h2 className="mt-1 text-3xl font-bold text-slate-800">
+                        <h2 className="mt-1 text-2xl sm:text-3xl font-bold text-slate-800">
                             {allcategory?.length ?? 0}
                         </h2>
                         <p className="mt-1 text-xs text-slate-400">
@@ -168,13 +178,17 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <div onClick={() => navigate("/admin/allorders")} className="flex items-center gap-4 rounded-xl border border-slate-100 bg-white p-5 shadow-sm  cursor-pointer">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-orange-100 text-2xl">
+                <div
+                    onClick={() => navigate("/admin/allorders")}
+                    className="flex items-center gap-4 rounded-xl border border-slate-100 bg-white p-4 sm:p-5 shadow-sm cursor-pointer"
+                >
+                    <div className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-xl bg-orange-100 text-2xl">
                         <MdLocalShipping size={28} />
                     </div>
+
                     <div>
                         <p className="text-sm text-slate-500">Total Orders</p>
-                        <h2 className="mt-1 text-3xl font-bold text-slate-800">
+                        <h2 className="mt-1 text-2xl sm:text-3xl font-bold text-slate-800">
                             {allorders?.length ?? 0}
                         </h2>
                         <p className="mt-1 text-xs text-slate-400">
@@ -184,8 +198,10 @@ export default function Dashboard() {
                 </div>
             </div>
 
-            <div className="mb-8 grid grid-cols-1 gap-6 xl:grid-cols-3">
-                <div className="rounded-xl border border-slate-100 bg-white p-5 shadow-sm xl:col-span-2 md:p-6">
+            {/* Recent Products and Store Overview */}
+            <div className="mb-8 grid grid-cols-1 gap-5 xl:grid-cols-3">
+
+                <div className="rounded-xl border border-slate-100 bg-white p-4 sm:p-5 shadow-sm xl:col-span-2 md:p-6">
                     <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
                         <div>
                             <h2 className="text-lg font-bold text-slate-800">
@@ -208,7 +224,7 @@ export default function Dashboard() {
                                     key={product._id || index}
                                     className="flex items-center gap-3 py-4"
                                 >
-                                    <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-slate-100">
+                                    <div className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-slate-100">
                                         {product.image ? (
                                             <img
                                                 src={product.image}
@@ -229,7 +245,7 @@ export default function Dashboard() {
                                         </p>
                                     </div>
 
-                                    <p className="shrink-0 text-sm font-bold text-slate-800">
+                                    <p className="shrink-0 text-xs sm:text-sm font-bold text-slate-800">
                                         ₹{Number(product.price || 0).toLocaleString("en-IN")}
                                     </p>
                                 </div>
@@ -242,7 +258,8 @@ export default function Dashboard() {
                     )}
                 </div>
 
-                <div className="rounded-xl border border-slate-100 bg-white p-5 shadow-sm md:p-6">
+                {/* Store Overview */}
+                <div className="rounded-xl border border-slate-100 bg-white p-4 sm:p-5 shadow-sm md:p-6">
                     <h2 className="text-lg font-bold text-slate-800">
                         Store Overview
                     </h2>
@@ -253,7 +270,7 @@ export default function Dashboard() {
                     <div className="mt-5 space-y-5">
                         <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                             <div className="flex items-center gap-3">
-                                <span className="h-3 w-3 rounded-full bg-blue-500" />
+                                <span className="h-3 w-3 shrink-0 rounded-full bg-blue-500" />
                                 <span className="text-sm text-slate-600">
                                     Registered Users
                                 </span>
@@ -265,7 +282,7 @@ export default function Dashboard() {
 
                         <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                             <div className="flex items-center gap-3">
-                                <span className="h-3 w-3 rounded-full bg-emerald-500" />
+                                <span className="h-3 w-3 shrink-0 rounded-full bg-emerald-500" />
                                 <span className="text-sm text-slate-600">
                                     Products
                                 </span>
@@ -277,7 +294,7 @@ export default function Dashboard() {
 
                         <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                             <div className="flex items-center gap-3">
-                                <span className="h-3 w-3 rounded-full bg-purple-500" />
+                                <span className="h-3 w-3 shrink-0 rounded-full bg-purple-500" />
                                 <span className="text-sm text-slate-600">
                                     Categories
                                 </span>
@@ -289,7 +306,7 @@ export default function Dashboard() {
 
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                <span className="h-3 w-3 rounded-full bg-orange-500" />
+                                <span className="h-3 w-3 shrink-0 rounded-full bg-orange-500" />
                                 <span className="text-sm text-slate-600">
                                     Orders
                                 </span>
@@ -301,14 +318,15 @@ export default function Dashboard() {
                     </div>
 
                     <div className="mt-7 flex items-center gap-2 rounded-lg bg-emerald-50 p-3 text-sm text-emerald-700">
-                        <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                        <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-500" />
                         Store overview
                     </div>
                 </div>
             </div>
 
+            {/* Recent Orders */}
             <div className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm">
-                <div className="flex flex-wrap items-center justify-between gap-3 p-5 md:p-6">
+                <div className="flex flex-wrap items-center justify-between gap-3 p-4 sm:p-5 md:p-6">
                     <div>
                         <h2 className="text-lg font-bold text-slate-800">
                             Recent Orders
@@ -328,10 +346,10 @@ export default function Dashboard() {
                         <table className="w-full min-w-[600px] text-left">
                             <thead className="bg-slate-50 text-xs uppercase text-gray-700">
                                 <tr>
-                                    <th className="px-6 py-4 font-semibold">Order ID</th>
-                                    <th className="px-6 py-4 font-semibold">Customer</th>
-                                    <th className="px-6 py-4 font-semibold">Amount</th>
-                                    <th className="px-6 py-4 font-semibold">Status</th>
+                                    <th className="px-4 sm:px-6 py-4 font-semibold">Order ID</th>
+                                    <th className="px-4 sm:px-6 py-4 font-semibold">Customer</th>
+                                    <th className="px-4 sm:px-6 py-4 font-semibold">Amount</th>
+                                    <th className="px-4 sm:px-6 py-4 font-semibold">Status</th>
                                 </tr>
                             </thead>
 
@@ -341,18 +359,18 @@ export default function Dashboard() {
                                         key={order._id || index}
                                         className="transition hover:bg-slate-50"
                                     >
-                                        <td className="px-6 py-4 text-sm font-semibold text-slate-700">
+                                        <td className="px-4 sm:px-6 py-4 text-sm font-semibold text-slate-700">
                                             #{order._id || index + 1}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-slate-600">
+                                        <td className="px-4 sm:px-6 py-4 text-sm text-slate-600">
                                             {order.user?.username || "Customer"}
                                         </td>
-                                        <td className="px-6 py-4 text-sm font-semibold text-slate-800">
+                                        <td className="px-4 sm:px-6 py-4 text-sm font-semibold text-slate-800">
                                             ₹{Number(
                                                 order.totalamount ?? 0
                                             ).toLocaleString("en-IN")}
                                         </td>
-                                        <td className="px-6 py-4">
+                                        <td className="px-4 sm:px-6 py-4">
                                             <span className="inline-flex rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700">
                                                 {order.status || "Pending"}
                                             </span>
@@ -370,4 +388,4 @@ export default function Dashboard() {
             </div>
         </div>
     );
-};
+}
