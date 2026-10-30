@@ -23,7 +23,7 @@ export default function Category() {
 
   return (
     <div className="p-2 md:px-8 md:py-4 border-t border-gray-200 ">
-      <div className="flex overflow-x-auto ">
+      <div className="flex overflow-x-auto scrollbar-none">
         {category.map((cat) => (
           <div
             className="flex items-center cursor-pointer text-gray-600 hover:text-black"

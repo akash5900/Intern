@@ -106,9 +106,9 @@ export default function Order() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-5xl px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
-        <div className="mb-8">
-          <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end sm:gap-4">
+      <div className="mx-auto max-w-5xl px-3 py-3 sm:px-6 sm:py-10 lg:px-8">
+        <div className="mb-6 md:mb-8">
+          <div className="flex flex-row justify-between gap-3 sm:flex-row sm:items-end sm:gap-4">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">My Orders</h1>
 
@@ -127,7 +127,7 @@ export default function Order() {
           </div>
         </div>
 
-        <div className="space-y-5 sm:space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {orders.map((order) => (
             <div
               key={order._id}

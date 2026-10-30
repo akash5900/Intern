@@ -219,8 +219,8 @@ export default function Checkout() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-6 md:px-4 lg:px-6">
-      <h1 className="md:text-xl 2xl:text-2xl font-bold text-gray-900 mb-6">
+    <div className="min-h-screen bg-gray-50 px-3 py-3 md:py-6 md:px-4 lg:px-6">
+      <h1 className="md:text-xl 2xl:text-2xl font-bold text-gray-900 mb-3 md:mb-6">
         Checkout
       </h1>
 
